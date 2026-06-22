@@ -1,1 +1,611 @@
+Here is your full code fixed with a single, cohesive layout design.
 
+### What went wrong in the original code?
+
+Sections like **Experience** (`#experience`) and **Contact** (`#contact`) had background and text colors forced to dark (`background: var(--ink); color: var(--paper);`), which broke the clean, cohesive light-palette aesthetic of the rest of your website.
+
+### What this fix does:
+
+* Consistently applies the **Sophisticated Light Palette** (`--paper` backgrounds, dark ink text) across all sections of your page (including Experience and Contact).
+
+
+* Tweaked contrast on the timeline and labels in those sections so everything is readable, elegant, and matches Sarah's branding.
+
+
+
+You can copy and paste this directly into your file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarah Johnson — Digital Marketing Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15181d;
+    --paper:#eef1ec;
+    --paper2:#e4e8e0;
+    --card:#f7f9f4;
+    --growth:#1f6f54;
+    --growth-dark:#143f30;
+    --gold:#c98a27;
+    --muted:#5c6358;
+    --line:rgba(21,24,29,0.12);
+    --line-soft:rgba(21,24,29,0.07);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;font-size:16px;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.3rem 4rem;
+    background:rgba(238,241,236,0.86);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+    transition:padding .3s ease;
+  }
+  .nav-logo{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;
+    text-decoration:none;display:flex;align-items:center;gap:.5rem;
+  }
+  .nav-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--growth);}
+  .nav-links{display:flex;gap:2.4rem;list-style:none;}
+  .nav-links a{
+    font-size:.85rem;font-weight:500;text-decoration:none;color:var(--muted);
+    position:relative;padding-bottom:.3rem;transition:color .2s ease;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--growth);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+  .nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+  .nav-cta{
+    padding:.6rem 1.3rem;border-radius:8px;background:var(--ink);color:var(--paper);
+    font-size:.82rem;font-weight:600;text-decoration:none;transition:transform .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{transform:translateY(-2px);background:var(--growth-dark);}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+  .hamburger span{width:22px;height:2px;background:var(--ink);display:block;}
+
+  /* ===== HERO ===== */
+  #hero{
+    min-height:100vh;display:flex;align-items:center;
+    padding:8rem 4rem 4rem;position:relative;
+    gap:4rem;
+  }
+  .hero-left{flex:1.15;max-width:680px;position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.6rem;
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.05em;
+    color:var(--growth-dark);background:rgba(31,111,84,0.09);
+    padding:.4rem .9rem;border-radius:100px;margin-bottom:1.6rem;
+  }
+  .eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--growth);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+  .hero-left h1{
+    font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.06;margin-bottom:1.3rem;
+  }
+  .hero-left h1 .line2{display:block;}
+  .hero-left h1 .accent{color:var(--growth);}
+  .hero-sub{
+    font-size:1.08rem;line-height:1.75;color:var(--muted);max-width:540px;margin-bottom:2.2rem;
+  }
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.6rem;}
+  .btn{
+    padding:.85rem 1.7rem;border-radius:9px;font-size:.92rem;font-weight:600;
+    text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-primary{background:var(--ink);color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(21,24,29,0.18);background:var(--growth-dark);}
+  .btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--line);}
+  .btn-outline:hover{border-color:var(--ink);transform:translateY(-2px);}
+
+  /* growth line graphic */
+  .growth-graphic{position:relative;width:100%;max-width:520px;height:90px;margin-bottom:.5rem;}
+  .growth-graphic svg{width:100%;height:100%;}
+  .growth-path{
+    fill:none;stroke:var(--growth);stroke-width:2.5;stroke-linecap:round;
+    stroke-dasharray:600;stroke-dashoffset:600;
+    animation:draw 2.2s ease forwards .4s;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .growth-dot{fill:var(--gold);opacity:0;animation:fadein .4s ease forwards;}
+  .gd1{animation-delay:1.1s;} .gd2{animation-delay:1.6s;} .gd3{animation-delay:2.1s;}
+  @keyframes fadein{to{opacity:1;}}
+  .growth-tag{
+    position:absolute;font-family:'JetBrains Mono',monospace;font-size:.68rem;
+    color:var(--growth-dark);font-weight:600;background:var(--card);padding:.15rem .5rem;
+    border-radius:5px;border:1px solid var(--line-soft);opacity:0;white-space:nowrap;
+  }
+  .gt1{animation:fadein .4s ease forwards 1.2s;}
+  .gt2{animation:fadein .4s ease forwards 1.7s;}
+  .gt3{animation:fadein .4s ease forwards 2.2s;}
+
+  .hero-right{flex:0 0 auto;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+  .photo-frame{
+    position:relative;width:300px;height:370px;
+  }
+  .photo-corner{
+    position:absolute;width:34px;height:34px;border-color:var(--gold);
+  }
+  .pc-tl{top:-10px;left:-10px;border-top:3px solid;border-left:3px solid;}
+  .pc-br{bottom:-10px;right:-10px;border-bottom:3px solid;border-right:3px solid;}
+  .photo-box{
+    width:100%;height:100%;border-radius:4px;overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(21,24,29,0.35);
+  }
+  .photo-box img{width:100%;height:100%;object-fit:cover;object-position:center 22%;}
+  .photo-badge{
+    position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper);padding:.5rem 1.1rem;border-radius:100px;
+    font-size:.74rem;font-weight:600;display:flex;align-items:center;gap:.5rem;
+    white-space:nowrap;box-shadow:0 12px 26px rgba(21,24,29,0.25);
+  }
+  .photo-badge .pulse{width:6px;height:6px;border-radius:50%;background:#5ed98e;animation:pulse 1.6s infinite;}
+  .floating-chip{
+    position:absolute;background:var(--card);border:1px solid var(--line-soft);
+    border-radius:10px;padding:.6rem .9rem;box-shadow:0 14px 30px rgba(21,24,29,0.1);
+    font-size:.78rem;display:flex;align-items:center;gap:.5rem;
+  }
+  .fc-roi{top:18px;right:-58px;animation:float1 5s ease-in-out infinite;}
+  .fc-clients{bottom:60px;left:-64px;animation:float2 6s ease-in-out infinite;}
+  @keyframes float1{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  @keyframes float2{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
+  .fc-num{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--growth-dark);}
+
+  /* ===== SECTION BASE ===== */
+  section{position:relative;padding:7rem 4rem;}
+  .eyebrow-label{
+    font-family:'JetBrains Mono',monospace;font-size:.76rem;letter-spacing:.08em;
+    color:var(--growth-dark);text-transform:uppercase;margin-bottom:.9rem;
+  }
+  .sec-title{font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1.12;margin-bottom:1rem;}
+  .sec-sub{color:var(--muted);font-size:1rem;line-height:1.7;max-width:560px;margin-bottom:3rem;}
+
+  /* ===== ABOUT ===== */
+  #about{background:var(--card);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+  .about-text p{color:var(--muted);line-height:1.85;font-size:1.02rem;margin-bottom:1.2rem;}
+  .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem;}
+  .stat-box{padding:1.3rem 1.4rem;border-radius:10px;background:var(--paper);border:1px solid var(--line-soft);}
+  .stat-num{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.9rem;color:var(--growth-dark);}
+  .stat-label{font-size:.78rem;color:var(--muted);margin-top:.2rem;}
+
+  /* ===== SKILLS ===== */
+  .skills-wrap{display:flex;flex-wrap:wrap;gap:.7rem;}
+  .skill-pill{
+    padding:.6rem 1.15rem;border-radius:100px;font-size:.85rem;font-weight:500;
+    background:var(--card);border:1px solid var(--line-soft);transition:all .2s ease;
+  }
+  .skill-pill:hover{border-color:var(--growth);background:rgba(31,111,84,0.06);transform:translateY(-2px);}
+
+  /* ===== EXPERIENCE (FIXED TO LIGHT MODE) ===== */
+  #experience{background:var(--paper2);color:var(--ink);border-bottom:1px solid var(--line-soft);}
+  #experience .eyebrow-label{color:var(--growth-dark);}
+  #experience .sec-sub{color:var(--muted);}
+  .timeline{max-width:760px;position:relative;padding-left:2.2rem;}
+  .timeline::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line);}
+  .tl-item{position:relative;margin-bottom:2.6rem;}
+  .tl-item::before{
+    content:'';position:absolute;left:-2.2rem;top:6px;width:11px;height:11px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 0 4px rgba(201,138,39,0.18);
+  }
+  .tl-year{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--growth);margin-bottom:.4rem;}
+  .tl-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.18rem;margin-bottom:.2rem;}
+  .tl-org{font-size:.88rem;color:var(--muted);margin-bottom:.9rem;}
+  .tl-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+  .tl-list li{display:flex;gap:.6rem;font-size:.92rem;color:var(--muted);line-height:1.6;}
+  .tl-list li::before{content:'—';color:var(--growth);flex-shrink:0;}
+
+  /* ===== PROJECTS ===== */
+  .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;}
+  .proj-card{
+    background:var(--card);border:1px solid var(--line-soft);border-radius:14px;
+    padding:2rem;transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .proj-card:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(21,24,29,0.1);border-color:rgba(31,111,84,0.3);}
+  .proj-metric{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.1rem;color:var(--growth-dark);margin-bottom:.6rem;
+  }
+  .proj-title{font-weight:700;font-size:1.05rem;margin-bottom:.6rem;}
+  .proj-desc{font-size:.88rem;color:var(--muted);line-height:1.65;}
+
+  /* ===== TESTIMONIALS ===== */
+  #testimonials{background:var(--card);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+  .test-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;}
+  .test-card{
+    background:var(--paper);border:1px solid var(--line-soft);border-radius:14px;padding:2.2rem;
+    position:relative;
+  }
+  .test-quote{font-size:1.05rem;line-height:1.7;color:var(--ink);margin-bottom:1.4rem;font-family:'Space Grotesk',sans-serif;font-weight:500;}
+  .test-author{display:flex;align-items:center;gap:.8rem;}
+  .test-avatar{
+    width:38px;height:38px;border-radius:50%;background:var(--growth);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;
+  }
+  .test-name{font-size:.88rem;font-weight:600;}
+  .test-role{font-size:.76rem;color:var(--muted);}
+
+  /* ===== EDUCATION ===== */
+  .edu-card{
+    max-width:680px;display:flex;gap:1.6rem;align-items:flex-start;
+    background:var(--card);border:1px solid var(--line-soft);border-radius:14px;padding:1.8rem 2rem;
+  }
+  .edu-icon{
+    width:48px;height:48px;border-radius:10px;background:rgba(201,138,39,0.12);color:var(--gold);
+    display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;
+  }
+
+  /* ===== CONTACT (FIXED TO LIGHT MODE) ===== */
+  #contact{background:var(--card);color:var(--ink);border-top:1px solid var(--line-soft);}
+  #contact .eyebrow-label{color:var(--growth-dark);}
+  #contact .sec-sub{color:var(--muted);}
+  .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:start;}
+  .contact-item{
+    display:flex;align-items:center;gap:1.1rem;padding:1.1rem 0;
+    border-bottom:1px solid var(--line-soft);text-decoration:none;color:var(--ink);
+    transition:padding-left .2s ease;
+  }
+  .contact-item:hover{padding-left:.5rem;}
+  .contact-icon{
+    width:38px;height:38px;border-radius:9px;background:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+    border:1px solid var(--line-soft);
+  }
+  .contact-label{font-size:.74rem;color:var(--muted);margin-bottom:.1rem;}
+  .contact-val{font-size:.95rem;font-weight:500;}
+  .socials-title{font-size:.85rem;font-weight:600;margin-bottom:1.1rem;color:var(--muted);}
+  .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+  .social-btn{
+    display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;border-radius:10px;
+    background:var(--paper);border:1px solid var(--line-soft);
+    text-decoration:none;color:var(--ink);font-size:.85rem;font-weight:500;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .social-btn:hover{background:rgba(31,111,84,0.06);transform:translateY(-2px);border-color:var(--growth);}
+
+  footer{
+    text-align:center;padding:2.4rem 4rem;background:var(--paper);color:var(--muted);
+    font-size:.82rem;border-top:1px solid var(--line-soft);
+  }
+  footer span{color:var(--growth-dark);font-weight:600;}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1;transform:none;}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:1024px){
+    #hero{flex-direction:column;padding-top:7rem;text-align:left;}
+    .hero-right{margin-top:2rem;}
+    .about-grid,.contact-grid{grid-template-columns:1fr;}
+    .proj-grid{grid-template-columns:1fr 1fr;}
+    .test-grid{grid-template-columns:1fr;}
+    .fc-roi,.fc-clients{display:none;}
+  }
+  @media(max-width:768px){
+    nav{padding:1rem 1.4rem;}
+    .nav-links{position:fixed;inset:0;top:60px;background:var(--paper);flex-direction:column;
+    align-items:center;justify-content:center;gap:2rem;display:none;z-index:999;}
+    .nav-links.open{display:flex;}
+    .hamburger{display:flex;}
+    section,#hero{padding:5.5rem 1.4rem;}
+    .proj-grid{grid-template-columns:1fr;}
+    .stat-row{grid-template-columns:1fr 1fr;}
+    .photo-frame{width:240px;height:300px;}
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#hero" class="nav-logo"><span class="dot"></span>Sarah Johnson</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:sarah.johnson@example.com" class="nav-cta">Let's talk</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section id="hero">
+  <div class="hero-left reveal visible">
+    <div class="eyebrow"><span class="pulse"></span>Available for new campaigns · Dubai, UAE</div>
+    <h1>I turn attention<span class="line2">into <span class="accent">revenue.</span></span></h1>
+    <p class="hero-sub">Digital Marketing Specialist with 6+ years building paid, organic, and content strategies that compound — not just campaigns that look good in a deck.</p>
+
+    <div class="growth-graphic" aria-hidden="true">
+      <svg viewBox="0 0 520 90" preserveAspectRatio="none">
+        <path class="growth-path" d="M5,75 C 90,72 110,55 160,52 C 220,48 230,30 290,25 C 360,19 380,30 430,18 C 465,9 490,12 510,8"/>
+        <circle class="growth-dot gd1" cx="160" cy="52" r="4"/>
+        <circle class="growth-dot gd2" cx="290" cy="25" r="4"/>
+        <circle class="growth-dot gd3" cx="430" cy="18" r="4"/>
+      </svg>
+      <div class="growth-tag gt1" style="left:7%;top:46%;">+35% ROI</div>
+      <div class="growth-tag gt2" style="left:46%;top:6%;">+120% sales</div>
+      <div class="growth-tag gt3" style="left:74%;top:-6%;">3,000+ leads</div>
+    </div>
+
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">View my work →</a>
+      <a href="#contact" class="btn btn-outline">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-right reveal visible">
+    <div class="photo-frame">
+      <div class="photo-corner pc-tl"></div>
+      <div class="photo-corner pc-br"></div>
+      <div class="photo-box">
+        <img src="data:image/webp;base64,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" alt="Sarah Johnson Portfolio Photo">
+      <div class="photo-badge"><span class="pulse"></span>In Dubai · 2:30 PM</div>
+    </div>
+    <div class="floating-chip fc-roi">
+      <span class="fc-num">6+</span> Yrs Exp
+    </div>
+    <div class="floating-chip fc-clients">
+      <span class="fc-num">50+</span> Happy Brands
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">The Strategy</div>
+      <h2 class="sec-title">Paid media is a lever. Product positioning is the foundation.</h2>
+      <p class="sec-sub">I bridge the gap between media buying and conversion optimization. No vanity metrics — just actual growth strategy built for scalability.</p>
+    </div>
+    <div class="about-text reveal visible">
+      <p>I specialize in auditing underperforming paid acquisition loops, resetting core messaging frameworks, and restructuring data reporting setup so leadership knows exactly what a dollar brings back.</p>
+      <p>Whether scaling clean client acquisitions over 7-figures or mapping localized B2B organic lead pipelines in competitive regions, I build systems that reduce client dependency on rising ad costs.</p>
+      
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">$4.2M+</div>
+          <div class="stat-label">Ad Spend Managed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">4.6x</div>
+          <div class="stat-label">Average Blended ROAS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="about-grid container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">Core Toolkit</div>
+      <h2 class="sec-title">Capabilities & Specialized Stacks</h2>
+    </div>
+    <div class="skills-wrap reveal visible">
+      <div class="skill-pill">Paid Acquisition (Meta, Google, LinkedIn)</div>
+      <div class="skill-pill">Growth Frameworks & Audits</div>
+      <div class="skill-pill">Conversion Rate Optimization (CRO)</div>
+      <div class="skill-pill">LTV & Retention Mapping</div>
+      <div class="skill-pill">Google Analytics 4 & Tag Manager Setup</div>
+      <div class="skill-pill">Landing Page Architecture</div>
+      <div class="skill-pill">Content Strategy Direction</div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">Professional Timeline</div>
+      <h2 class="sec-title">6+ Years Driving Sustainable Impact</h2>
+      <p class="sec-sub">A proven record working with funded tech startups and regional enterprise brands across EMEA.</p>
+    </div>
+
+    <div class="timeline reveal visible">
+      <div class="tl-item">
+        <div class="tl-year">2023 — Present</div>
+        <div class="tl-title">Senior Growth & Performance Strategist</div>
+        <div class="tl-org">Vanguard Digital · Dubai Consulting Firm</div>
+        <ul class="tl-list">
+          <li>Architected regional paid loops across search and social for high-tier real estate and fintech platforms.</li>
+          <li>Realigned attribution modeling loops using server-side tracking, recovering visibility over 22% of previously lost conversion metrics.</li>
+          <li>Optimized local landing experiences, pushing baseline interaction rates from 1.8% to a steady 3.4%.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2021 — 2023</div>
+        <div class="tl-title">Performance Marketing Specialist</div>
+        <div class="tl-org">Apex Tech Group · SaaS Platform</div>
+        <ul class="tl-list">
+          <li>Scaled active monthly user signups by 140% while holding target acquisition costs within 4% of original projections.</li>
+          <li>Deployed strict automated audience retargeting arrays based on contextual platform behavior loops.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-year">2019 — 2021</div>
+        <div class="tl-title">Digital Acquisition Executive</div>
+        <div class="tl-org">Nexus Commerce Agency</div>
+        <ul class="tl-list">
+          <li>Oversaw day-to-day optimizations, structural test models, and asset updates for 14 active e-commerce brands.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">Selected Case Results</div>
+      <h2 class="sec-title">Proof over promises.</h2>
+      <p class="sec-sub">Real client results achieved by fixing basic funnels, setting clean attribution, and refining copy structures.</p>
+    </div>
+
+    <div class="proj-grid reveal visible">
+      <div class="proj-card">
+        <div class="proj-metric">3.8x</div>
+        <div class="proj-title">Fintech Scale Campaign</div>
+        <div class="proj-desc">Rebuilt a fragmented Meta acquisition structure down into 3 clean asset pipelines, lifting down-funnel signups within 90 days.</div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-metric">-42%</div>
+        <div class="proj-title">SaaS Cost Reduction</div>
+        <div class="proj-desc">Redesigned baseline application onboarding pages and plugged leaking event steps, heavily reducing client demo costs.</div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-metric">110k</div>
+        <div class="proj-title">E-com Pipeline Launch</div>
+        <div class="proj-desc">Mapped an omni-channel acquisition and retention loop that drove record revenue growth inside a fresh market rollout.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">Peer Recommendations</div>
+      <h2 class="sec-title">Trusted by operators and founders.</h2>
+      <p class="sec-sub">What long-term project collaborators and clients say about my execution style.</p>
+    </div>
+
+    <div class="test-grid reveal visible">
+      <div class="test-card">
+        <div class="test-quote">"Sarah doesn't just manage budgets; she fundamentally changes how we approach our customers. Her audit uncovered tracking errors that completely flipped our strategy."</div>
+        <div class="test-author">
+          <div class="test-avatar">MK</div>
+          <div>
+            <div class="test-name">Marcus Kaelen</div>
+            <div class="test-role">Chief Executive officer · CoreSaaS</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="test-quote">"Her direct grasp on landing architectures and product hooks is rare. Our pipeline metrics scaled cleanly within weeks without expanding our core monthly spending limit."</div>
+        <div class="test-author">
+          <div class="test-avatar">DA</div>
+          <div>
+            <div class="test-name">Dina Al-Mansoori</div>
+            <div class="test-role">Marketing Director · Elite Properties</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">Background</div>
+      <h2 class="sec-title">Education & Accreditations</h2>
+      <p class="sec-sub">Continuous exploration of data analytics, market psychology, and growth design rules.</p>
+    </div>
+
+    <div class="edu-card reveal visible">
+      <div class="edu-icon">🎓</div>
+      <div>
+        <div class="tl-title" style="font-size:1.1rem; margin-bottom: .2rem;">B.Sc. in Business & Marketing Analytics</div>
+        <div class="tl-org" style="margin-bottom:0.5rem; color:var(--muted)">University of Manchester · 2015 — 2018</div>
+        <p class="proj-desc" style="font-size:.85rem;">Focused deep exploration into target statistical analysis frameworks, modern consumer behavior psychology patterns, and technical data interpretation loops.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-grid container">
+    <div class="reveal visible">
+      <div class="eyebrow-label">Get In Touch</div>
+      <h2 class="sec-title">Let's discuss raw acquisition data.</h2>
+      <p class="sec-sub">Looking to audit a tracking configuration setup, improve conversion visibility, or hand off active paid accounts? Let's trace your funnels.</p>
+      
+      <a href="mailto:sarah.johnson@example.com" class="contact-item">
+        <div class="contact-icon">✉</div>
+        <div>
+          <div class="contact-label">Direct Mail</div>
+          <div class="contact-val">sarah.johnson@example.com</div>
+        </div>
+      </a>
+
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Location Base</div>
+          <div class="contact-val">Dubai Media City · UAE</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal visible" style="margin-top: 1.5rem;">
+      <div class="socials-title">Professional Networks</div>
+      <div class="social-grid">
+        <a href="https://linkedin.com/in/sarahjohnson" target="_blank" class="social-btn">LinkedIn</a>
+        <a href="https://behance.net/sarahjohnson" target="_blank" class="social-btn">Behance</a>
+        <a href="https://instagram.com/sarahjohnson" target="_blank" class="social-btn">Instagram</a>
+        <a href="https://x.com/sarahjohnson" target="_blank" class="social-btn">X (Twitter)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Designed for <span>Sarah Johnson</span> · Digital Marketing Specialist · © 2025
+</footer>
+
+<script>
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open'));
+});
+
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)current=s.id;});
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+});
+
+const revealEls=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.05});
+revealEls.forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>
+
+```
