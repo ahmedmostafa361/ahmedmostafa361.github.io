@@ -76,8 +76,8 @@
   .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
   .hamburger span{display:block;width:22px;height:2px;background:var(--text);}
 
-  section{position:relative;
-    padding:7rem 4rem;}
+  /* REDUCED SPACING BETWEEN SECTIONS */
+  section{position:relative; padding:4.5rem 4rem;}
   .eyebrow{
     font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
     color:var(--teal); margin-bottom:1rem; display:flex; align-items:center; gap:.6rem;
@@ -88,16 +88,15 @@
     line-height:1.15; margin-bottom:1rem; letter-spacing:-.01em;
   }
   .sub{color:var(--muted); font-size:1rem; line-height:1.75;
-    max-width:600px; margin-bottom:3rem;}
+    max-width:600px; margin-bottom:2rem;}
 
   /* ── HERO ── */
   #hero{
-    min-height:100vh; display:flex; align-items:center; padding:7rem 4rem 3rem;
+    min-height:90vh; display:flex; align-items:center; padding:7rem 4rem 3rem;
     gap:4rem;
   }
   .hero-left{flex:1.1; max-width:600px;}
   
-  /* ADDED: Hero Avatar Styles */
   .hero-avatar {
     width: 100px;
     height: 100px;
@@ -153,7 +152,6 @@
     transform:translateY(-2px);}
   @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
 
-  /* signature: animated line chart */
   .hero-right{flex:1; display:flex; align-items:center; justify-content:center;
     min-width:0;}
   .chart-card{
@@ -180,15 +178,36 @@
   .chart-foot{display:flex;
     justify-content:space-between; margin-top:.6rem; font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--muted);}
 
-  /* ── STATS STRIP ── */
-  .stats-strip{
-    display:grid;
-    grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  /* ── STATS STRIP (AUTO-SCROLL MARQUEE) ── */
+  .stats-strip {
+    width: 100vw;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(15, 20, 25, 0.4);
+    backdrop-filter: blur(5px);
   }
-  .stat-cell{
-    padding:2.2rem 2rem; text-align:left; border-right:1px solid var(--line); position:relative;
+  .stats-track {
+    display: flex;
+    width: max-content;
+    animation: scrollStats 25s linear infinite;
   }
-  .stat-cell:last-child{border-right:none;}
+  .stats-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes scrollStats {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .stat-cell {
+    flex: 0 0 auto;
+    min-width: 320px; /* Adjusted for horizontal layout */
+    padding: 2.2rem 3rem;
+    text-align: left;
+    border-right: 1px solid var(--line);
+    transition: background 0.3s ease;
+  }
+  .stat-cell:hover { background: rgba(47,217,196,0.03); }
   .stat-num{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2.2rem; color:var(--text); line-height:1;}
   .stat-num .unit{color:var(--teal);}
   .stat-label{font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:var(--muted); margin-top:.5rem;
@@ -330,22 +349,16 @@
     nav, section{padding-left:2rem; padding-right:2rem;}
     .skills-cols, .projects-grid{grid-template-columns:1fr 1fr;}
     .edu-grid, .contact-wrap, .testi-grid{grid-template-columns:1fr;}
-    .stats-strip{grid-template-columns:repeat(2,1fr);}
-    .stat-cell:nth-child(2){border-right:none;}
-    #hero{flex-direction:column;
-    padding-top:8rem;}
+    #hero{flex-direction:column; padding-top:8rem;}
     .hero-right{width:100%;}
   }
   @media(max-width:768px){
     .nav-links{display:none; position:fixed; inset:0; top:60px; background:var(--bg); flex-direction:column;
-      align-items:center; justify-content:center;
-    gap:2rem; z-index:999;}
+      align-items:center; justify-content:center; gap:2rem; z-index:999;}
     .nav-links.open{display:flex;}
     .hamburger{display:flex;}
-    section{padding:4.5rem 1.4rem;}
-    .skills-cols, .projects-grid, .stats-strip{grid-template-columns:1fr;}
-    .stat-cell{border-right:none;
-    border-bottom:1px solid var(--line);}
+    section{padding:3.5rem 1.4rem;}
+    .skills-cols, .projects-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -364,6 +377,7 @@
   <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-left">
     <img src="OIP.webp" alt="Profile" class="hero-avatar">
@@ -407,23 +421,34 @@
   </div>
 </section>
 
+<!-- STATS AUTO-SCROLL MARQUEE -->
 <div class="stats-strip reveal">
-  <div class="stat-cell"><div class="stat-num">4<span class="unit">+</span></div><div class="stat-label">YEARS EXPERIENCE</div></div>
-  <div class="stat-cell"><div class="stat-num">18<span class="unit">+</span></div><div class="stat-label">COMPLETED PROJECTS</div></div>
-  <div class="stat-cell"><div class="stat-num">12<span class="unit">+</span></div><div class="stat-label">DASHBOARDS BUILT</div></div>
-  <div class="stat-cell"><div class="stat-num">97<span class="unit">%</span></div><div class="stat-label">CLIENT SATISFACTION</div></div>
+  <div class="stats-track">
+    <!-- Set 1 -->
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="4">0</span><span class="unit">+</span></div><div class="stat-label">YEARS EXPERIENCE</div></div>
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="18">0</span><span class="unit">+</span></div><div class="stat-label">COMPLETED PROJECTS</div></div>
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="12">0</span><span class="unit">+</span></div><div class="stat-label">DASHBOARDS BUILT</div></div>
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="97">0</span><span class="unit">%</span></div><div class="stat-label">CLIENT SATISFACTION</div></div>
+    <!-- Set 2 (Duplicated for seamless scrolling loop) -->
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="4">0</span><span class="unit">+</span></div><div class="stat-label">YEARS EXPERIENCE</div></div>
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="18">0</span><span class="unit">+</span></div><div class="stat-label">COMPLETED PROJECTS</div></div>
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="12">0</span><span class="unit">+</span></div><div class="stat-label">DASHBOARDS BUILT</div></div>
+    <div class="stat-cell"><div class="stat-num"><span class="count-up" data-val="97">0</span><span class="unit">%</span></div><div class="stat-label">CLIENT SATISFACTION</div></div>
+  </div>
 </div>
 
+<!-- ABOUT -->
 <section id="about">
   <div class="reveal">
     <p class="eyebrow">About</p>
     <h2 class="title">Data-driven, dashboard-obsessed.</h2>
-    <p class="sub">Data Analyst with 4+ years of experience transforming raw data into actionable business insights. Skilled in SQL, Python, Power BI, and dashboard development — passionate about helping businesses make smarter decisions through data-driven strategies.</p>
+    <p class="sub" style="margin-bottom:0;">Data Analyst with 4+ years of experience transforming raw data into actionable business insights. Skilled in SQL, Python, Power BI, and dashboard development — passionate about helping businesses make smarter decisions through data-driven strategies.</p>
   </div>
 </section>
 
-<section id="skills">
-  <div class="reveal" style="margin-bottom:3rem;">
+<!-- SKILLS -->
+<section id="skills" style="background:var(--bg2);">
+  <div class="reveal" style="margin-bottom:2rem;">
     <p class="eyebrow">Skill set</p>
     <h2 class="title">What I work with</h2>
   </div>
@@ -452,8 +477,9 @@
   </div>
 </section>
 
-<section id="experience" style="background:var(--bg2);">
-  <div class="reveal" style="margin-bottom:3rem;">
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal" style="margin-bottom:2rem;">
     <p class="eyebrow">Experience</p>
     <h2 class="title">Where I've worked</h2>
   </div>
@@ -481,13 +507,14 @@
   </div>
 </section>
 
-<section id="projects">
-  <div class="reveal" style="margin-bottom:3rem;">
+<!-- PROJECTS -->
+<section id="projects" style="background:var(--bg2);">
+  <div class="reveal" style="margin-bottom:2rem;">
     <p class="eyebrow">Selected work</p>
     <h2 class="title">Projects</h2>
     <p class="sub" style="margin-bottom:0;">Dashboards and analyses built to answer a specific business question — and move a number that mattered.</p>
   </div>
-  <div class="projects-grid" style="margin-top:3rem;">
+  <div class="projects-grid" style="margin-top:2rem;">
     <div class="proj-card reveal">
       <div class="proj-tools">POWER BI · SQL</div>
       <div class="proj-title">Retail Sales Dashboard</div>
@@ -509,8 +536,9 @@
   </div>
 </section>
 
-<section id="education" style="background:var(--bg2);">
-  <div class="reveal" style="margin-bottom:3rem;">
+<!-- EDUCATION & CERTS -->
+<section id="education">
+  <div class="reveal" style="margin-bottom:2rem;">
     <p class="eyebrow">Background</p>
     <h2 class="title">Education & certifications</h2>
   </div>
@@ -532,8 +560,9 @@
   </div>
 </section>
 
-<section id="testimonials">
-  <div class="reveal" style="margin-bottom:3rem;">
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="background:var(--bg2);">
+  <div class="reveal" style="margin-bottom:2rem;">
     <p class="eyebrow">Feedback</p>
     <h2 class="title">What people say</h2>
   </div>
@@ -551,15 +580,16 @@
   </div>
 </section>
 
-<section id="contact" style="background:var(--bg2);">
-  <div class="reveal" style="margin-bottom:3rem;">
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal" style="margin-bottom:2rem;">
     <p class="eyebrow">Get in touch</p>
     <h2 class="title">Let's talk data.</h2>
     <p class="sub" style="margin-bottom:0;">Have a reporting problem, a messy dataset, or a dashboard idea? My inbox is open.</p>
   </div>
   <div class="contact-wrap">
     <div class="reveal">
-      <div class="contact-rows">
+      <div class="contact-rows" style="margin-bottom:1.5rem;">
         <div class="contact-row"><div><div class="k mono">LOCATION</div><div class="v">Toronto, Canada</div></div></div>
         <a href="tel:+16475552187" class="contact-row"><div><div class="k mono">PHONE</div><div class="v">+1 (647) 555-2187</div></div><button class="copy-btn" onclick="copyToClipboard(event,'+1 (647) 555-2187')">copy</button></a>
         <a href="mailto:michael.carter.analytics@gmail.com" class="contact-row"><div><div class="k mono">EMAIL</div><div class="v">michael.carter.analytics@gmail.com</div></div><button class="copy-btn" onclick="copyToClipboard(event,'michael.carter.analytics@gmail.com')">copy</button></a>
@@ -597,11 +627,44 @@ window.addEventListener('scroll',()=>{
   navA.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
 });
 
-const revealEls=document.querySelectorAll('.reveal');
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-},{threshold:.12});
-revealEls.forEach(el=>obs.observe(el));
+// Animate numbers and reveal sections on scroll
+const counters = document.querySelectorAll('.count-up');
+const revealEls = document.querySelectorAll('.reveal');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      // Handle fade up reveals
+      if (e.target.classList.contains('reveal')) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+      
+      // Handle number counter animation
+      if (e.target.classList.contains('count-up')) {
+        const target = +e.target.getAttribute('data-val');
+        let count = 0;
+        const duration = 2000; // 2 seconds animation
+        const increment = target / (duration / 16); 
+        
+        const updateCount = () => {
+          count += increment;
+          if (count < target) {
+            e.target.innerText = Math.ceil(count);
+            requestAnimationFrame(updateCount);
+          } else {
+            e.target.innerText = target;
+          }
+        };
+        updateCount();
+        obs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.12 });
+
+revealEls.forEach(el => obs.observe(el));
+counters.forEach(c => obs.observe(c));
 
 function copyToClipboard(e,text){
   e.preventDefault();e.stopPropagation();
