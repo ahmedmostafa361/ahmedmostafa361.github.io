@@ -3774,3 +3774,193 @@ address {
     break-inside: avoid;
   }
 }
+
+/* ================================================================
+   26. JS-FIX SUPPORT STYLES + SENIOR UI/UX REVIEW PASS
+   ================================================================ */
+
+/* --- FAQ: class-based open state (replaces [hidden] toggling) --- */
+.faq__answer {
+  overflow: hidden;
+  max-height: 0;
+  padding-bottom: 0;
+  transition: max-height var(--dur-slow) var(--ease-out),
+              padding var(--dur-slow) var(--ease-out);
+}
+.faq__answer--open {
+  max-height: 300px;
+  padding-bottom: var(--space-5);
+}
+
+/* --- Form field error state (was inline style.borderColor) --- */
+.form-input.field--error,
+.form-select.field--error,
+.footer__newsletter-input.field--error {
+  border-color: rgba(255,77,109,0.6) !important;
+  box-shadow: 0 0 0 3px rgba(255,77,109,0.08);
+}
+
+/* --- Contact submit button loading state (was [hidden] on loader) --- */
+.contact-form__btn-loader {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.contact-form__submit.is-loading .contact-form__btn-text { visibility: hidden; }
+.contact-form__submit.is-loading .contact-form__btn-loader {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -10px 0 0 -10px;
+}
+.contact-form__submit.is-loading { cursor: wait; }
+
+/* --- Success box visibility (was [hidden] toggling) --- */
+.contact-form__success { display: none; }
+.contact-form__success.is-visible {
+  display: flex;
+  animation: slideUpFade var(--dur-slow) var(--ease-out);
+}
+
+/* --- Back-to-top: opacity/visibility class (no reflow) --- */
+.back-to-top {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  animation: fadeIn var(--dur-slow) var(--ease-out);
+}
+
+/* --- Newsletter success state --- */
+.footer__newsletter-btn.is-success {
+  background: linear-gradient(135deg, #39FF6A, #00C2FF) !important;
+  color: var(--color-text-inverse) !important;
+}
+
+/* --- Scroll progress bar (injected by JS) --- */
+#fz-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--gradient-blue-green);
+  z-index: 1100;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(0,194,255,0.4);
+}
+
+/* --- Sticky mobile CTA bar (injected by JS) --- */
+.fz-sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  padding: var(--space-3) var(--space-4);
+  padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  background: rgba(8,11,15,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(0,194,255,0.2);
+  transform: translateY(110%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.fz-sticky-cta.is-visible { transform: translateY(0); }
+.fz-sticky-cta__btn {
+  font-size: var(--fs-sm) !important;
+  height: 50px !important;
+}
+@media (max-width: 768px) {
+  body:has(.fz-sticky-cta.is-visible) .whatsapp-float { bottom: 80px; }
+  body:has(.fz-sticky-cta.is-visible) .back-to-top { bottom: calc(80px + 50px + var(--space-2)); }
+}
+
+
+/* ================================================================
+   27. SENIOR REVIEW — HIGH-IMPACT VISUAL/UX FIXES
+   ================================================================ */
+
+/* FIX 1 — Hero headline is set in `rem` at --fs-hero: 6.5rem (104px).
+   On large desktops this wraps awkwardly and the line-height 0.95
+   crowds the accent line. Tighten clamp so it scales with viewport
+   instead of being a fixed giant size that breaks layout on 1280–1440px
+   screens (a very common laptop width this design will be viewed at). */
+.hero__headline {
+  font-size: clamp(2.75rem, 7vw, var(--fs-hero));
+}
+
+/* FIX 2 — Pricing "Most Popular" card uses scale(1.04) which causes
+   the card to visually collide with its neighbors at tablet/smaller
+   desktop widths (no extra gap added for the scale). Add breathing
+   room so the featured card doesn't overlap its grid siblings. */
+@media (min-width: 1025px) {
+  .pricing__grid { gap: var(--space-8); }
+}
+
+/* FIX 3 — CTA buttons in the hero rely on a 3 s infinite pulse
+   animation indefinitely, which becomes visual noise the longer a
+   visitor stays on the page and competes with the WhatsApp pulse
+   button at the same time. Limit to a few pulses, then settle. */
+.hero__cta-primary {
+  animation: ctaPulse 3s ease-in-out 1.5s 4;
+}
+.navbar__cta {
+  animation: ctaPulse 3s ease-in-out 4;
+}
+
+/* FIX 4 — Testimonial / service / trainer card text color contrast:
+   --color-text-secondary (#9AAABB) on --color-bg-card (#111820) is
+   ~4.1:1 — borderline for body text per WCAG AA (4.5:1 target).
+   Nudge secondary text brighter for real readability, not just
+   "passes an automated check". */
+:root {
+  --color-text-secondary: #A7B6C6;
+}
+
+/* FIX 5 — Section label dash + dot combo reads slightly cramped at
+   the default gap. A touch more letter/space rhythm reads more
+   premium / editorial. */
+.section-label {
+  gap: var(--space-3);
+}
+
+/* FIX 6 — Pricing card CTA buttons currently all look visually
+   "equal weight" except color; the Basic plan's outline CTA on a
+   dark card with a dark outline border reads as the lowest-priority
+   action, which is correct — but its hover state has no fill change
+   distinct enough from Standard's. Strengthen outline hover state
+   specifically inside pricing cards for clearer affordance. */
+.pricing-card .btn--outline:hover {
+  background: rgba(0,194,255,0.06);
+}
+
+/* FIX 7 — Service card / trainer card focus-visible states currently
+   only show the global outline on the *card* itself (tabindex=0),
+   but interactive children (links/buttons) inside don't get a
+   distinct focus treatment when tabbed to directly, which matters
+   since these cards contain real links. Add explicit treatment. */
+.service-card__link:focus-visible,
+.trainer-card__book:focus-visible,
+.trainer-card__social-link:focus-visible {
+  outline: 2px solid var(--color-electric-blue);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* FIX 8 — Mobile: with the new sticky CTA bar at the bottom, the
+   footer's bottom padding and floating buttons need clearance so
+   nothing sits underneath the bar permanently (not just while it's
+   visible) on small screens where it's structurally always present. */
+@media (max-width: 768px) {
+  body { padding-bottom: 74px; }
+}
