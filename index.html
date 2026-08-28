@@ -118,6 +118,49 @@
     }
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+  /* ── AMBIENT BACKGROUND — deep-space atmosphere, CSS-driven, no rAF loop ──
+     Structure: (1) a fixed base layer with a vertical tonal gradient plus
+     three very faint, asymmetrically-placed accent-tinted glow fields, so the
+     page has depth even with animation fully disabled; (2) a sparse star
+     field of small elements (generated once at load, not per-frame) whose
+     opacity is animated purely by CSS keyframes so the browser compositor
+     handles it independently of any JavaScript. No connection lines, no
+     mouse interaction, no per-frame cost. */
+  #bg-ambient{
+    position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+    background:
+      radial-gradient(ellipse 900px 700px at 12% -8%, rgba(79,142,255,0.055), transparent 60%),
+      radial-gradient(ellipse 800px 900px at 108% 28%, rgba(79,142,255,0.035), transparent 55%),
+      radial-gradient(ellipse 700px 650px at 45% 118%, rgba(79,142,255,0.03), transparent 60%),
+      linear-gradient(180deg, #060709 0%, #08080c 40%, #06070a 75%, #050506 100%);
+  }
+  #star-field{
+    position:absolute;inset:-5% -5% -5% -5%;
+    animation:bg-drift 150s ease-in-out infinite alternate;
+  }
+  body.bg-paused #star-field,
+  body.bg-paused .star{animation-play-state:paused;}
+  @keyframes bg-drift{
+    from{transform:translate(0,0);}
+    to{transform:translate(-14px,10px);}
+  }
+  .star{
+    position:absolute;border-radius:50%;background:#fff;
+    animation-name:star-twinkle-mid;animation-timing-function:ease-in-out;animation-iteration-count:infinite;
+  }
+  .star-dust{width:1px;height:1px;opacity:.14;animation-name:star-twinkle-dust;}
+  .star-mid{width:1.5px;height:1.5px;opacity:.26;animation-name:star-twinkle-mid;}
+  .star-bright{width:2px;height:2px;opacity:.42;box-shadow:0 0 3px rgba(255,255,255,0.35);animation-name:star-twinkle-bright;}
+  @keyframes star-twinkle-dust{0%,100%{opacity:.06;}50%{opacity:.22;}}
+  @keyframes star-twinkle-mid{0%,100%{opacity:.12;}50%{opacity:.4;}}
+  @keyframes star-twinkle-bright{0%,100%{opacity:.2;}50%{opacity:.65;}}
+  /* Mobile: fewer stars are generated in JS; animation is fully disabled here
+     to save battery — the static field alone still reads as atmospheric. */
+  @media (max-width:600px){
+    #star-field, .star{animation:none !important;}
+  }
+
   html{
     scroll-behavior:smooth;font-size:16px;
     background:var(--bg-base);
@@ -930,6 +973,11 @@
 </style>
 </head>
 <body>
+
+<!-- AMBIENT BACKGROUND — deep-space atmosphere (see #bg-ambient in <style>) -->
+<div id="bg-ambient" aria-hidden="true">
+  <div id="star-field"></div>
+</div>
 
 <!-- LOADER -->
 <a href="#hero" class="skip-link" style="position:fixed;top:-100px;left:1rem;z-index:99999;padding:.5rem 1rem;background:var(--accent);color:var(--text-on-accent);border-radius:var(--radius-sm);font-weight:600;transition:top .2s ease;text-decoration:none;" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Skip to content</a>
@@ -1844,6 +1892,37 @@
 </button>
 
 <script>
+// ── AMBIENT BACKGROUND: star field ──
+// Generates the star positions ONCE at load — not per-frame. All motion after
+// this (twinkle + slow drift) is handled entirely by CSS keyframes, which the
+// browser compositor runs independently of JS and pauses automatically when
+// off-screen. No requestAnimationFrame loop, no O(n²) work, no mouse listener.
+(function initStarfield(){
+  const field = document.getElementById('star-field');
+  if(!field) return;
+  const small = window.matchMedia('(max-width:600px)').matches;
+  const tiers = [
+    {cls:'star-dust',   n: small ? 26 : 52},
+    {cls:'star-mid',    n: small ? 11 : 22},
+    {cls:'star-bright', n: small ? 4  : 8}
+  ];
+  let html='';
+  tiers.forEach(({cls,n})=>{
+    for(let i=0;i<n;i++){
+      const left=(Math.random()*100).toFixed(2);
+      const top=(Math.random()*100).toFixed(2);
+      const dur=(6+Math.random()*9).toFixed(2);
+      const delay=(-(Math.random()*10)).toFixed(2);
+      html+=`<span class="star ${cls}" style="left:${left}%;top:${top}%;animation-duration:${dur}s;animation-delay:${delay}s;"></span>`;
+    }
+  });
+  field.innerHTML = html;
+})();
+// Pause all background animation while the tab isn't visible.
+document.addEventListener('visibilitychange', ()=>{
+  document.body.classList.toggle('bg-paused', document.hidden);
+});
+
 // ── LOADER ──
 window.addEventListener('load',()=>{
   setTimeout(()=>{document.getElementById('loader').classList.add('hide');},2200);
