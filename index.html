@@ -471,21 +471,27 @@
     transition:width 1.2s var(--ease-standard);
   }
 
-  /* ── PROJECTS ── */
-  /* ── PROJECTS: FEATURED (flagship case-studies) ── */
-  .projects-featured{
-    display:flex;flex-direction:column;gap:var(--space-6);
-    margin-bottom:var(--space-12);
-  }
-  .project-flagship{
-    padding:2.4rem;border-radius:var(--radius-lg);
+  /* ── PROJECTS ── (single unified 2-column grid; "featured" is a visual
+     modifier within the grid, not a separate full-width section) */
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+  .project-card{
+    padding:1.6rem;border-radius:var(--radius-md);
     background:var(--surface-card);border:1px solid var(--border-01);
+    transition:border-color var(--duration-base) var(--ease-standard),
+      transform var(--duration-base) var(--ease-standard);
+    position:relative;
+  }
+  .project-card:hover{border-color:var(--accent-border);transform:translateY(-3px);}
+  .project-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.5rem;}
+
+  /* Featured modifier — same grid cell, more presence: larger padding,
+     bigger radius, a real shadow, an accent top-edge, a stronger header. */
+  .project-card.project-featured{
+    padding:2.2rem;border-radius:var(--radius-lg);
     border-top:3px solid var(--accent);
     box-shadow:var(--shadow-card);
-    position:relative;
-    transition:box-shadow var(--duration-base) var(--ease-standard);
   }
-  .project-flagship:hover{box-shadow:var(--shadow-card-hover);}
+  .project-card.project-featured:hover{box-shadow:var(--shadow-card-hover);}
   .flagship-eyebrow{
     font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
     color:var(--accent);margin-bottom:.5rem;
@@ -495,9 +501,9 @@
     margin-bottom:.6rem;
   }
   .flagship-title{font-family:var(--font-display);font-weight:600;font-size:var(--text-xl);color:var(--text-primary);}
-  .flagship-summary{color:var(--text-secondary);font-size:var(--text-base);line-height:1.65;max-width:680px;margin-bottom:1.6rem;}
+  .flagship-summary{color:var(--text-secondary);font-size:var(--text-base);line-height:1.65;margin-bottom:1.6rem;}
   .flagship-meta{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+    display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;
     padding:1.4rem 0;margin-bottom:1.4rem;
     border-top:1px solid var(--border-01);border-bottom:1px solid var(--border-01);
   }
@@ -531,27 +537,13 @@
   .video-facade:hover .video-facade-play{transform:translate(-50%,-50%) scale(1.08);}
   .video-facade:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
-  /* ── PROJECTS: SECONDARY (compact, supporting-evidence tier) ── */
-  .projects-secondary-head{margin-bottom:1.4rem;}
-  .projects-secondary-title{font-family:var(--font-display);font-weight:600;font-size:var(--text-lg);color:var(--text-primary);}
-  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;}
-  .project-card{
-    padding:1.6rem;border-radius:var(--radius-md);
-    background:var(--surface-card);border:1px solid var(--border-01);
-    transition:border-color var(--duration-base) var(--ease-standard),
-      transform var(--duration-base) var(--ease-standard);
-    position:relative;
-  }
-  .project-card:hover{border-color:var(--accent-border);transform:translateY(-3px);}
-  .project-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.5rem;}
-
   /* ── VIDEO PREVIEW (secondary, compact) — a small but clearly visible
      thumbnail + play button + label, so a demo video is obvious at a glance
      without reading a heading. Reuses .video-facade's existing click/Enter/
      Space handling — only sizing differs from the flagship treatment, so it
      stays visually lighter than the case studies while remaining unmistakably
      "click to watch." ── */
-  .project-video-compact{margin-top:1rem;}
+  .project-video.project-video-compact{margin-top:1rem;aspect-ratio:2/1;}
   .video-facade-compact .video-facade-play{width:38px;height:38px;}
   .video-facade-compact .video-facade-play svg{width:14px;height:14px;}
   .video-facade-label{
@@ -850,7 +842,6 @@
     #experience .timeline{padding-left:1.5rem;}
     #about .container{grid-template-columns:1fr;}
     .skills-grid{grid-template-columns:1fr 1fr;}
-    .flagship-meta{grid-template-columns:repeat(2,1fr);}
     .projects-grid{grid-template-columns:1fr;}
     .content-grid{grid-template-columns:1fr;}
     .contact-grid{grid-template-columns:1fr;}
@@ -868,7 +859,7 @@
     .hero-btns{justify-content:center;}
     .hero-utility{justify-content:center;}
     .avatar-wrap{width:260px;height:288px;}
-    .project-flagship{padding:1.6rem;}
+    .project-card.project-featured{padding:1.6rem;}
     .flagship-meta{grid-template-columns:1fr;gap:1.1rem;}
     .flagship-header{justify-content:flex-start;}
     .skills-grid{grid-template-columns:1fr;}
@@ -1321,18 +1312,18 @@
   <div class="container">
   <div class="reveal fade-up" style="margin-bottom:3.5rem;">
     <p class="section-label">// portfolio</p>
-    <h2 class="section-title">Featured Projects</h2>
+    <h2 class="section-title">Selected Projects</h2>
     <div class="divider"></div>
-    <p class="section-sub">Three projects told as short case studies, plus five more that round out the range — from a live production app to internship deliverables.</p>
+    <p class="section-sub">Eight projects spanning a live production app, internship deliverables, and personal builds — three shown with the full picture, the rest just as real.</p>
   </div>
 
-  <div class="projects-featured">
+  <div class="projects-grid">
 
-    <!-- FLAGSHIP 01 — Siratic (live, published, real users) -->
-    <div class="project-flagship reveal fade-up">
+    <!-- 01 — Siratic (live, published, real users) -->
+    <div class="project-card project-featured reveal fade-up">
       <div class="flagship-header">
         <div class="flagship-heading">
-          <p class="flagship-eyebrow">Case Study 01</p>
+          <p class="flagship-eyebrow">Featured</p>
         </div>
         <span class="badge-status badge-live">● LIVE ON PLAY STORE</span>
       </div>
@@ -1383,11 +1374,11 @@
       </div>
     </div>
 
-    <!-- FLAGSHIP 02 — Restaurant App (deepest technical/testing proof) -->
-    <div class="project-flagship reveal fade-up" style="transition-delay:.1s">
+    <!-- 02 — Restaurant App (deepest technical/testing proof) -->
+    <div class="project-card project-featured reveal fade-up" style="transition-delay:.1s">
       <div class="flagship-header">
         <div class="flagship-heading">
-          <p class="flagship-eyebrow">Case Study 02</p>
+          <p class="flagship-eyebrow">Featured</p>
         </div>
       </div>
       <h3 class="flagship-title">Restaurant App</h3>
@@ -1434,11 +1425,11 @@
       </div>
     </div>
 
-    <!-- FLAGSHIP 03 — E-Commerce App (real REST integration, CV-led project) -->
-    <div class="project-flagship reveal fade-up" style="transition-delay:.2s">
+    <!-- 03 — E-Commerce App (real REST integration, CV-led project) -->
+    <div class="project-card project-featured reveal fade-up" style="transition-delay:.2s">
       <div class="flagship-header">
         <div class="flagship-heading">
-          <p class="flagship-eyebrow">Case Study 03</p>
+          <p class="flagship-eyebrow">Featured</p>
         </div>
       </div>
       <h3 class="flagship-title">E-Commerce App</h3>
@@ -1485,14 +1476,6 @@
       </div>
     </div>
 
-  </div>
-
-  <div class="projects-secondary-head reveal fade-up">
-    <p class="section-label">// more projects</p>
-    <h3 class="projects-secondary-title">Additional Projects</h3>
-  </div>
-  <div class="projects-grid">
-
     <!-- 04 — Evently -->
     <div class="project-card reveal fade-up">
       <div class="project-card-head">
@@ -1516,25 +1499,7 @@
       </div>
     </div>
 
-    <!-- 05 — Movies App (Team) -->
-    <div class="project-card reveal fade-up" style="transition-delay:.1s">
-      <div class="project-card-head">
-        <h3 class="project-title">Movies App</h3>
-        <span class="badge-status badge-neutral">TEAM · 4 DEVS</span>
-      </div>
-      <p class="project-desc">Movie discovery app built collaborating in a 4-person developer team using Git feature branches and pull requests — resolved merge conflicts across shared modules through code review.</p>
-      <div class="project-tags">
-        <span class="tag">REST API</span><span class="tag">Dio</span><span class="tag">Git Branches</span><span class="tag">Team Collab</span>
-      </div>
-      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
-        <a href="https://github.com/ahmedsukkary52-cmd/movies_app/tree/developer/lib" target="_blank" rel="noopener noreferrer" class="project-link">
-          View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-        </a>
-        <!-- No YouTube demo has been provided for this project -->
-      </div>
-    </div>
-
-    <!-- 06 — AI To-Do App (Internship) -->
+    <!-- 05 — AI To-Do App (Internship) -->
     <div class="project-card reveal fade-up" style="transition-delay:.2s;border-color:rgba(161,127,224,0.22);">
       <div class="project-card-head">
         <h3 class="project-title">AI To-Do App</h3>
@@ -1558,7 +1523,7 @@
       </div>
     </div>
 
-    <!-- 07 — News App -->
+    <!-- 06 — News App -->
     <div class="project-card reveal fade-up" style="transition-delay:.3s">
       <div class="project-card-head">
         <h3 class="project-title">News App</h3>
@@ -1581,7 +1546,7 @@
       </div>
     </div>
 
-    <!-- 08 — QuizMaster (Internship) -->
+    <!-- 07 — QuizMaster (Internship) -->
     <div class="project-card reveal fade-up" style="transition-delay:.1s;border-color:rgba(161,127,224,0.22);">
       <div class="project-card-head">
         <h3 class="project-title">QuizMaster</h3>
@@ -1602,6 +1567,24 @@
           <span class="video-facade-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
           <span class="video-facade-label" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Watch Demo</span>
         </div>
+      </div>
+    </div>
+
+    <!-- 08 — Movies App (Team) -->
+    <div class="project-card reveal fade-up" style="transition-delay:.2s">
+      <div class="project-card-head">
+        <h3 class="project-title">Movies App</h3>
+        <span class="badge-status badge-neutral">TEAM · 4 DEVS</span>
+      </div>
+      <p class="project-desc">Movie discovery app built collaborating in a 4-person developer team using Git feature branches and pull requests — resolved merge conflicts across shared modules through code review.</p>
+      <div class="project-tags">
+        <span class="tag">REST API</span><span class="tag">Dio</span><span class="tag">Git Branches</span><span class="tag">Team Collab</span>
+      </div>
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
+        <a href="https://github.com/ahmedsukkary52-cmd/movies_app/tree/developer/lib" target="_blank" rel="noopener noreferrer" class="project-link">
+          View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <!-- No YouTube demo has been provided for this project -->
       </div>
     </div>
 
