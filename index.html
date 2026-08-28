@@ -119,46 +119,71 @@
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-  /* ── AMBIENT BACKGROUND — deep-space atmosphere, CSS-driven, no rAF loop ──
-     Structure: (1) a fixed base layer with a vertical tonal gradient plus
-     three very faint, asymmetrically-placed accent-tinted glow fields, so the
-     page has depth even with animation fully disabled; (2) a sparse star
-     field of small elements (generated once at load, not per-frame) whose
-     opacity is animated purely by CSS keyframes so the browser compositor
-     handles it independently of any JavaScript. No connection lines, no
-     mouse interaction, no per-frame cost. */
+  /* ── AMBIENT BACKGROUND — interactive deep-space atmosphere ──
+     Structure: (1) a fixed base layer with a richer navy/charcoal tonal
+     gradient plus three clearly-perceptible, asymmetrically-placed
+     accent-tinted glow fields, so the page has real depth even with
+     animation fully disabled; (2) a sparse 3-tier star field (far/mid/near)
+     whose twinkle is pure CSS and whose subtle parallax offset is driven by
+     two CSS custom properties (--px/--py); (3) a soft pointer-follow glow,
+     also driven by CSS custom properties. Only 2–4 custom properties are
+     written per animation frame — no DOM elements are touched per frame,
+     no O(n²) work, no connection lines, no per-star JS. */
   #bg-ambient{
     position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
     background:
-      radial-gradient(ellipse 900px 700px at 12% -8%, rgba(79,142,255,0.055), transparent 60%),
-      radial-gradient(ellipse 800px 900px at 108% 28%, rgba(79,142,255,0.035), transparent 55%),
-      radial-gradient(ellipse 700px 650px at 45% 118%, rgba(79,142,255,0.03), transparent 60%),
-      linear-gradient(180deg, #060709 0%, #08080c 40%, #06070a 75%, #050506 100%);
+      radial-gradient(ellipse 1000px 800px at 12% -8%, rgba(79,142,255,0.16), transparent 62%),
+      radial-gradient(ellipse 900px 1000px at 106% 26%, rgba(79,142,255,0.11), transparent 58%),
+      radial-gradient(ellipse 800px 750px at 45% 116%, rgba(79,142,255,0.09), transparent 62%),
+      linear-gradient(180deg, #0b0f18 0%, #0f1424 38%, #0b0f1a 72%, #080a11 100%);
   }
+  /* Soft light that eases toward the pointer. Position is set via --mx/--my
+     (viewport px) written by a self-terminating rAF loop that stops the
+     instant the glow catches up to the cursor — it does not run forever. */
+  #pointer-glow{
+    position:fixed;top:0;left:0;width:820px;height:820px;
+    margin-left:-410px;margin-top:-410px;border-radius:50%;
+    background:radial-gradient(circle, rgba(79,142,255,0.15) 0%, rgba(79,142,255,0.06) 38%, transparent 68%);
+    transform:translate3d(var(--mx,50vw),var(--my,50vh),0);
+    opacity:0;transition:opacity .9s ease;
+    will-change:transform;
+  }
+  body.pointer-active #pointer-glow{opacity:1;}
+  body.bg-paused #pointer-glow{transition:none;opacity:0;}
+  @media (hover:none), (pointer:coarse){
+    #pointer-glow{display:none;}
+  }
+
   #star-field{
-    position:absolute;inset:-5% -5% -5% -5%;
-    animation:bg-drift 150s ease-in-out infinite alternate;
+    position:absolute;inset:-6%;
+    animation:bg-drift 90s ease-in-out infinite alternate;
   }
+  .star-layer{position:absolute;inset:0;}
+  #star-layer-far{transform:translate(calc(var(--px,0) * 3px), calc(var(--py,0) * 2px));}
+  #star-layer-mid{transform:translate(calc(var(--px,0) * 7px), calc(var(--py,0) * 5px));}
+  #star-layer-near{transform:translate(calc(var(--px,0) * 15px), calc(var(--py,0) * 11px));}
   body.bg-paused #star-field,
   body.bg-paused .star{animation-play-state:paused;}
   @keyframes bg-drift{
     from{transform:translate(0,0);}
-    to{transform:translate(-14px,10px);}
+    to{transform:translate(-20px,14px);}
   }
   .star{
     position:absolute;border-radius:50%;background:#fff;
     animation-name:star-twinkle-mid;animation-timing-function:ease-in-out;animation-iteration-count:infinite;
   }
-  .star-dust{width:1px;height:1px;opacity:.14;animation-name:star-twinkle-dust;}
-  .star-mid{width:1.5px;height:1.5px;opacity:.26;animation-name:star-twinkle-mid;}
-  .star-bright{width:2px;height:2px;opacity:.42;box-shadow:0 0 3px rgba(255,255,255,0.35);animation-name:star-twinkle-bright;}
-  @keyframes star-twinkle-dust{0%,100%{opacity:.06;}50%{opacity:.22;}}
-  @keyframes star-twinkle-mid{0%,100%{opacity:.12;}50%{opacity:.4;}}
-  @keyframes star-twinkle-bright{0%,100%{opacity:.2;}50%{opacity:.65;}}
+  .star-dust{width:1px;height:1px;opacity:.2;animation-name:star-twinkle-dust;}
+  .star-mid{width:1.5px;height:1.5px;opacity:.34;animation-name:star-twinkle-mid;}
+  .star-bright{width:2px;height:2px;opacity:.52;box-shadow:0 0 4px rgba(255,255,255,0.45);animation-name:star-twinkle-bright;}
+  @keyframes star-twinkle-dust{0%,100%{opacity:.1;}50%{opacity:.3;}}
+  @keyframes star-twinkle-mid{0%,100%{opacity:.18;}50%{opacity:.48;}}
+  @keyframes star-twinkle-bright{0%,100%{opacity:.28;}50%{opacity:.75;}}
   /* Mobile: fewer stars are generated in JS; animation is fully disabled here
      to save battery — the static field alone still reads as atmospheric. */
   @media (max-width:600px){
     #star-field, .star{animation:none !important;}
+    #pointer-glow{display:none;}
+    #star-layer-far, #star-layer-mid, #star-layer-near{transform:none !important;}
   }
 
   html{
@@ -976,7 +1001,12 @@
 
 <!-- AMBIENT BACKGROUND — deep-space atmosphere (see #bg-ambient in <style>) -->
 <div id="bg-ambient" aria-hidden="true">
-  <div id="star-field"></div>
+  <div id="pointer-glow"></div>
+  <div id="star-field">
+    <div class="star-layer" id="star-layer-far"></div>
+    <div class="star-layer" id="star-layer-mid"></div>
+    <div class="star-layer" id="star-layer-near"></div>
+  </div>
 </div>
 
 <!-- LOADER -->
@@ -1894,20 +1924,23 @@
 <script>
 // ── AMBIENT BACKGROUND: star field ──
 // Generates the star positions ONCE at load — not per-frame. All motion after
-// this (twinkle + slow drift) is handled entirely by CSS keyframes, which the
-// browser compositor runs independently of JS and pauses automatically when
-// off-screen. No requestAnimationFrame loop, no O(n²) work, no mouse listener.
+// this (twinkle + slow drift + parallax) is handled entirely by CSS, which the
+// browser compositor runs independently of JS. No O(n²) work, no per-star JS.
 (function initStarfield(){
-  const field = document.getElementById('star-field');
-  if(!field) return;
+  const layers = {
+    'star-dust':   document.getElementById('star-layer-far'),
+    'star-mid':    document.getElementById('star-layer-mid'),
+    'star-bright': document.getElementById('star-layer-near')
+  };
+  if(!layers['star-dust']) return;
   const small = window.matchMedia('(max-width:600px)').matches;
   const tiers = [
     {cls:'star-dust',   n: small ? 26 : 52},
     {cls:'star-mid',    n: small ? 11 : 22},
     {cls:'star-bright', n: small ? 4  : 8}
   ];
-  let html='';
   tiers.forEach(({cls,n})=>{
+    let html='';
     for(let i=0;i<n;i++){
       const left=(Math.random()*100).toFixed(2);
       const top=(Math.random()*100).toFixed(2);
@@ -1915,13 +1948,56 @@
       const delay=(-(Math.random()*10)).toFixed(2);
       html+=`<span class="star ${cls}" style="left:${left}%;top:${top}%;animation-duration:${dur}s;animation-delay:${delay}s;"></span>`;
     }
+    layers[cls].innerHTML = html;
   });
-  field.innerHTML = html;
 })();
+
 // Pause all background animation while the tab isn't visible.
 document.addEventListener('visibilitychange', ()=>{
   document.body.classList.toggle('bg-paused', document.hidden);
 });
+
+// ── AMBIENT BACKGROUND: pointer glow + parallax ──
+// A soft light eases toward the cursor and nearby star layers drift very
+// slightly with it. The rAF loop is self-terminating: it only runs while the
+// glow is still easing toward a new target, and stops the instant it settles
+// — this is not a perpetual loop like the old particle system. Skipped
+// entirely on touch devices (no fake touch interaction) and under
+// prefers-reduced-motion (no pointer interaction in that mode).
+(function initPointerGlow(){
+  if(!window.matchMedia('(pointer:fine)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const root = document.documentElement;
+  let targetX = window.innerWidth/2, targetY = window.innerHeight/2;
+  let curX = targetX, curY = targetY;
+  let raf = null, idleTimer = null;
+
+  function tick(){
+    curX += (targetX - curX) * 0.08;
+    curY += (targetY - curY) * 0.08;
+    root.style.setProperty('--mx', curX.toFixed(1)+'px');
+    root.style.setProperty('--my', curY.toFixed(1)+'px');
+    root.style.setProperty('--px', ((curX/window.innerWidth-0.5)*2).toFixed(3));
+    root.style.setProperty('--py', ((curY/window.innerHeight-0.5)*2).toFixed(3));
+    if(Math.abs(targetX-curX) > 0.4 || Math.abs(targetY-curY) > 0.4){
+      raf = requestAnimationFrame(tick);
+    } else {
+      raf = null;
+    }
+  }
+
+  window.addEventListener('pointermove', (e)=>{
+    targetX = e.clientX; targetY = e.clientY;
+    document.body.classList.add('pointer-active');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(()=>document.body.classList.remove('pointer-active'), 2200);
+    if(!raf) raf = requestAnimationFrame(tick);
+  }, {passive:true});
+
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden && raf){ cancelAnimationFrame(raf); raf=null; }
+  });
+})();
 
 // ── LOADER ──
 window.addEventListener('load',()=>{
