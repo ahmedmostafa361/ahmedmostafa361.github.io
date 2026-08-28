@@ -119,88 +119,15 @@
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-  /* ── AMBIENT BACKGROUND — interactive deep-space atmosphere ──
-     Extracted from the original particle/cursor system: a fast-following
-     "core" light + a slower "halo" (the original's cursor dot + lagging
-     ring, reimagined as ambient light instead of a custom cursor); stars
-     near the pointer visually brighten via mix-blend-mode (the *feeling* of
-     the original's proximity tether-lines, with zero per-particle distance
-     math — the browser's own compositor does the falloff); and each star
-     drifts independently on its own CSS animation (the original's per-
-     particle vx/vy), not just as one shared field-wide sway. Still just
-     2 elements + 4 custom properties updated per frame — no DOM touched
-     per frame, no O(n²) work, no connection lines. */
-  #bg-ambient{
-    position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
-    background:
-      radial-gradient(ellipse 1000px 800px at 12% -8%, rgba(79,142,255,0.16), transparent 62%),
-      radial-gradient(ellipse 900px 1000px at 106% 26%, rgba(79,142,255,0.11), transparent 58%),
-      radial-gradient(ellipse 800px 750px at 45% 116%, rgba(79,142,255,0.09), transparent 62%),
-      linear-gradient(180deg, #0b0f18 0%, #0f1424 38%, #0b0f1a 72%, #080a11 100%);
-  }
-  /* Halo — soft, larger, slower-easing light (like the original's lagging
-     cursor ring, at ambient scale). */
-  #pointer-glow{
-    position:fixed;top:0;left:0;width:680px;height:680px;
-    margin-left:-340px;margin-top:-340px;border-radius:50%;
-    background:radial-gradient(circle, rgba(79,142,255,0.17) 0%, rgba(79,142,255,0.07) 40%, transparent 68%);
-    transform:translate3d(var(--mx,50vw),var(--my,50vh),0);
-    opacity:0;transition:opacity .8s ease;
-    will-change:transform;
-  }
-  /* Core — tighter, brighter, faster-easing light (like the original's
-     precise cursor dot). Two lights at two speeds read as spatial, not flat. */
-  #pointer-glow-core{
-    position:fixed;top:0;left:0;width:240px;height:240px;
-    margin-left:-120px;margin-top:-120px;border-radius:50%;
-    background:radial-gradient(circle, rgba(79,142,255,0.3) 0%, rgba(79,142,255,0.1) 45%, transparent 72%);
-    transform:translate3d(var(--cx,50vw),var(--cy,50vh),0);
-    opacity:0;transition:opacity .5s ease;
-    will-change:transform;
-  }
-  body.pointer-active #pointer-glow,
-  body.pointer-active #pointer-glow-core{opacity:1;}
-  body.bg-paused #pointer-glow,
-  body.bg-paused #pointer-glow-core{transition:none;opacity:0;}
-  @media (hover:none), (pointer:coarse){
-    #pointer-glow, #pointer-glow-core{display:none;}
-  }
-
-  #star-field{
-    position:absolute;inset:-6%;
-    animation:bg-drift 90s ease-in-out infinite alternate;
-  }
-  .star-layer{position:absolute;inset:0;}
-  #star-layer-far{transform:translate(calc(var(--px,0) * 4px), calc(var(--py,0) * 3px));}
-  #star-layer-mid{transform:translate(calc(var(--px,0) * 9px), calc(var(--py,0) * 6px));}
-  #star-layer-near{transform:translate(calc(var(--px,0) * 20px), calc(var(--py,0) * 14px));}
-  body.bg-paused #star-field,
-  body.bg-paused .star{animation-play-state:paused;}
-  @keyframes bg-drift{
-    from{transform:translate(0,0);}
-    to{transform:translate(-20px,14px);}
-  }
-  /* Each star twinkles AND independently drifts a few px on its own timing
-     (two comma-separated animations; JS supplies per-star durations/delays
-     for both so no two stars move in sync) — this is what made the original
-     feel alive even when the cursor was still. */
-  .star{position:absolute;border-radius:50%;background:#fff;animation-timing-function:ease-in-out,ease-in-out;animation-iteration-count:infinite,infinite;}
-  .star-dust{width:1px;height:1px;opacity:.16;animation-name:star-twinkle-dust,star-drift-far;}
-  .star-mid{width:1.5px;height:1.5px;opacity:.36;animation-name:star-twinkle-mid,star-drift-mid;mix-blend-mode:screen;}
-  .star-bright{width:2px;height:2px;opacity:.58;box-shadow:0 0 5px rgba(255,255,255,0.55);animation-name:star-twinkle-bright,star-drift-near;mix-blend-mode:screen;}
-  @keyframes star-twinkle-dust{0%,100%{opacity:.06;}50%{opacity:.24;}}
-  @keyframes star-twinkle-mid{0%,100%{opacity:.2;}50%{opacity:.52;}}
-  @keyframes star-twinkle-bright{0%,100%{opacity:.32;}50%{opacity:.82;}}
-  @keyframes star-drift-far{0%,100%{transform:translate(0,0);}50%{transform:translate(2px,-2px);}}
-  @keyframes star-drift-mid{0%,100%{transform:translate(0,0);}50%{transform:translate(4px,-3px);}}
-  @keyframes star-drift-near{0%,100%{transform:translate(0,0);}50%{transform:translate(6px,-5px);}}
-  /* Mobile: fewer stars are generated in JS; animation is fully disabled here
-     to save battery — the static field alone still reads as atmospheric. */
-  @media (max-width:600px){
-    #star-field, .star{animation:none !important;}
-    #pointer-glow, #pointer-glow-core{display:none;}
-    #star-layer-far, #star-layer-mid, #star-layer-near{transform:none !important;}
-  }
+  /* ── PARTICLES ── (restored original background: canvas particle field
+     with connection lines and mouse-tether, matching the original portfolio's
+     visual identity exactly — colors, density, motion, and interaction. The
+     rendering loop itself is modernized: it pauses when the tab is hidden,
+     renders one static frame under prefers-reduced-motion instead of
+     animating, and skips the mouse-tether calculation on touch/coarse-pointer
+     devices — none of which change what you see while actively using the
+     page on desktop. ) */
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
   html{
     scroll-behavior:smooth;font-size:16px;
@@ -1021,16 +948,8 @@
 </head>
 <body>
 
-<!-- AMBIENT BACKGROUND — deep-space atmosphere (see #bg-ambient in <style>) -->
-<div id="bg-ambient" aria-hidden="true">
-  <div id="pointer-glow"></div>
-  <div id="pointer-glow-core"></div>
-  <div id="star-field">
-    <div class="star-layer" id="star-layer-far"></div>
-    <div class="star-layer" id="star-layer-mid"></div>
-    <div class="star-layer" id="star-layer-near"></div>
-  </div>
-</div>
+<!-- PARTICLES CANVAS — restored original background (see #particles in <style>) -->
+<canvas id="particles" aria-hidden="true"></canvas>
 
 <!-- LOADER -->
 <a href="#hero" class="skip-link" style="position:fixed;top:-100px;left:1rem;z-index:99999;padding:.5rem 1rem;background:var(--accent);color:var(--text-on-accent);border-radius:var(--radius-sm);font-weight:600;transition:top .2s ease;text-decoration:none;" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Skip to content</a>
@@ -1953,98 +1872,119 @@
 </button>
 
 <script>
-// ── AMBIENT BACKGROUND: star field ──
-// Generates the star positions ONCE at load — not per-frame. Each star gets
-// its own randomized timing for BOTH its twinkle and its independent drift
-// (two comma-separated animations), so no two stars move in sync — this is
-// the "each particle has its own vx/vy" quality of the original, reimplemented
-// as pure CSS with zero per-frame JS. No O(n²) work, no per-star JS after load.
-(function initStarfield(){
-  const layers = {
-    'star-dust':   document.getElementById('star-layer-far'),
-    'star-mid':    document.getElementById('star-layer-mid'),
-    'star-bright': document.getElementById('star-layer-near')
-  };
-  if(!layers['star-dust']) return;
-  const small = window.matchMedia('(max-width:600px)').matches;
-  const tiers = [
-    {cls:'star-dust',   n: small ? 30 : 60},
-    {cls:'star-mid',    n: small ? 14 : 30},
-    {cls:'star-bright', n: small ? 6  : 16}
-  ];
-  tiers.forEach(({cls,n})=>{
-    let html='';
-    for(let i=0;i<n;i++){
-      const left=(Math.random()*100).toFixed(2);
-      const top=(Math.random()*100).toFixed(2);
-      const twDur=(6+Math.random()*9).toFixed(2);
-      const twDelay=(-(Math.random()*10)).toFixed(2);
-      const drDur=(14+Math.random()*18).toFixed(2);
-      const drDelay=(-(Math.random()*20)).toFixed(2);
-      html+=`<span class="star ${cls}" style="left:${left}%;top:${top}%;animation-duration:${twDur}s,${drDur}s;animation-delay:${twDelay}s,${drDelay}s;"></span>`;
+// ── PARTICLES ── (restored original background)
+// Faithfully reproduces the original portfolio's canvas particle field:
+// 80 drifting particles in the original two colors, connection lines
+// between nearby particles, and mouse-tether lines reaching toward the
+// cursor — same density, same colors, same distances, same opacity
+// formulas as the original implementation.
+//
+// Modernized (without changing the visible result while active on desktop):
+//   - the render loop pauses while the tab is hidden (visibilitychange)
+//   - prefers-reduced-motion draws ONE static frame instead of animating —
+//     the atmosphere stays, the movement doesn't
+//   - the mouse-tether calculation only runs on fine-pointer (mouse/trackpad)
+//     devices; touch devices still get the full drifting/connected field,
+//     just without a cursor to tether to
+//   - particle count trims modestly on narrow viewports for battery
+(function initParticles(){
+  const canvas = document.getElementById('particles');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+  let W, H, particles = [];
+
+  function particleCount(){
+    return window.innerWidth < 600 ? 50 : 80;
+  }
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', ()=>{ resize(); initP(); drawStaticIfReduced(); });
+
+  class Particle{
+    constructor(){ this.reset(); }
+    reset(){
+      this.x = Math.random()*W; this.y = Math.random()*H;
+      this.vx = (Math.random()-.5)*.4; this.vy = (Math.random()-.5)*.4;
+      this.r = Math.random()*1.5+.5; this.alpha = Math.random()*.5+.1;
+      this.color = Math.random()>.5 ? '79,142,255' : '162,89,255';
     }
-    layers[cls].innerHTML = html;
-  });
-})();
+    update(){
+      this.x += this.vx; this.y += this.vy;
+      if(this.x<0 || this.x>W || this.y<0 || this.y>H) this.reset();
+    }
+    draw(){
+      ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${this.color},${this.alpha})`; ctx.fill();
+    }
+  }
+  function initP(){
+    particles = [];
+    const n = particleCount();
+    for(let i=0;i<n;i++) particles.push(new Particle());
+  }
+  initP();
 
-// Pause all background animation while the tab isn't visible.
-document.addEventListener('visibilitychange', ()=>{
-  document.body.classList.toggle('bg-paused', document.hidden);
-});
+  let mouseX = W/2, mouseY = H/2;
+  if(hasFinePointer){
+    document.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; }, {passive:true});
+  }
 
-// ── AMBIENT BACKGROUND: pointer glow + parallax ──
-// Two lights ease toward the cursor at two different speeds — a tight,
-// bright "core" (fast, ~the original's precise cursor dot) and a larger,
-// softer "halo" (slower, ~the original's lagging cursor ring) — which reads
-// as spatial rather than one flat blob. Nearby stars brighten via
-// mix-blend-mode where they overlap either light: this recreates the
-// *feeling* of the original's proximity tether-lines (effect strongest near
-// the cursor, fading smoothly with distance) using the compositor's own
-// blending instead of a single per-star distance calculation.
-// The rAF loop is self-terminating — it only runs while still easing toward
-// a new target, and stops the instant both lights settle. Skipped entirely
-// on touch devices and under prefers-reduced-motion.
-(function initPointerGlow(){
-  if(!window.matchMedia('(pointer:fine)').matches) return;
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  const root = document.documentElement;
-  let targetX = window.innerWidth/2, targetY = window.innerHeight/2;
-  let coreX = targetX, coreY = targetY;   // fast-easing
-  let haloX = targetX, haloY = targetY;   // slow-easing
-  let raf = null, idleTimer = null;
-
-  function tick(){
-    coreX += (targetX - coreX) * 0.22;
-    coreY += (targetY - coreY) * 0.22;
-    haloX += (targetX - haloX) * 0.07;
-    haloY += (targetY - haloY) * 0.07;
-    root.style.setProperty('--cx', coreX.toFixed(1)+'px');
-    root.style.setProperty('--cy', coreY.toFixed(1)+'px');
-    root.style.setProperty('--mx', haloX.toFixed(1)+'px');
-    root.style.setProperty('--my', haloY.toFixed(1)+'px');
-    root.style.setProperty('--px', ((haloX/window.innerWidth-0.5)*2).toFixed(3));
-    root.style.setProperty('--py', ((haloY/window.innerHeight-0.5)*2).toFixed(3));
-    const settled =
-      Math.abs(targetX-coreX) < 0.4 && Math.abs(targetY-coreY) < 0.4 &&
-      Math.abs(targetX-haloX) < 0.4 && Math.abs(targetY-haloY) < 0.4;
-    if(!settled){
-      raf = requestAnimationFrame(tick);
-    } else {
-      raf = null;
+  function renderFrame(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{ if(!reduceMotion) p.update(); p.draw(); });
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(79,142,255,${(1-d/120)*.15})`;
+          ctx.lineWidth=.5; ctx.stroke();
+        }
+      }
+      if(hasFinePointer && !reduceMotion){
+        const dx=particles[i].x-mouseX, dy=particles[i].y-mouseY;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<150){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(mouseX,mouseY);
+          ctx.strokeStyle=`rgba(162,89,255,${(1-d/150)*.3})`;
+          ctx.lineWidth=.6; ctx.stroke();
+        }
+      }
     }
   }
 
-  window.addEventListener('pointermove', (e)=>{
-    targetX = e.clientX; targetY = e.clientY;
-    document.body.classList.add('pointer-active');
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(()=>document.body.classList.remove('pointer-active'), 2200);
-    if(!raf) raf = requestAnimationFrame(tick);
-  }, {passive:true});
+  let raf = null;
+  function loop(){
+    renderFrame();
+    raf = requestAnimationFrame(loop);
+  }
+  function drawStaticIfReduced(){
+    if(reduceMotion) renderFrame();
+  }
 
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden && raf){ cancelAnimationFrame(raf); raf=null; }
-  });
+  if(reduceMotion){
+    // Atmosphere stays fully visible; nothing moves, nothing tethers to the cursor.
+    drawStaticIfReduced();
+  } else {
+    raf = requestAnimationFrame(loop);
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){
+        if(raf){ cancelAnimationFrame(raf); raf=null; }
+      } else if(!raf){
+        raf = requestAnimationFrame(loop);
+      }
+    });
+  }
 })();
 
 // ── LOADER ──
