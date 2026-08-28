@@ -120,15 +120,16 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
   /* ── AMBIENT BACKGROUND — interactive deep-space atmosphere ──
-     Structure: (1) a fixed base layer with a richer navy/charcoal tonal
-     gradient plus three clearly-perceptible, asymmetrically-placed
-     accent-tinted glow fields, so the page has real depth even with
-     animation fully disabled; (2) a sparse 3-tier star field (far/mid/near)
-     whose twinkle is pure CSS and whose subtle parallax offset is driven by
-     two CSS custom properties (--px/--py); (3) a soft pointer-follow glow,
-     also driven by CSS custom properties. Only 2–4 custom properties are
-     written per animation frame — no DOM elements are touched per frame,
-     no O(n²) work, no connection lines, no per-star JS. */
+     Extracted from the original particle/cursor system: a fast-following
+     "core" light + a slower "halo" (the original's cursor dot + lagging
+     ring, reimagined as ambient light instead of a custom cursor); stars
+     near the pointer visually brighten via mix-blend-mode (the *feeling* of
+     the original's proximity tether-lines, with zero per-particle distance
+     math — the browser's own compositor does the falloff); and each star
+     drifts independently on its own CSS animation (the original's per-
+     particle vx/vy), not just as one shared field-wide sway. Still just
+     2 elements + 4 custom properties updated per frame — no DOM touched
+     per frame, no O(n²) work, no connection lines. */
   #bg-ambient{
     position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
     background:
@@ -137,21 +138,32 @@
       radial-gradient(ellipse 800px 750px at 45% 116%, rgba(79,142,255,0.09), transparent 62%),
       linear-gradient(180deg, #0b0f18 0%, #0f1424 38%, #0b0f1a 72%, #080a11 100%);
   }
-  /* Soft light that eases toward the pointer. Position is set via --mx/--my
-     (viewport px) written by a self-terminating rAF loop that stops the
-     instant the glow catches up to the cursor — it does not run forever. */
+  /* Halo — soft, larger, slower-easing light (like the original's lagging
+     cursor ring, at ambient scale). */
   #pointer-glow{
-    position:fixed;top:0;left:0;width:820px;height:820px;
-    margin-left:-410px;margin-top:-410px;border-radius:50%;
-    background:radial-gradient(circle, rgba(79,142,255,0.15) 0%, rgba(79,142,255,0.06) 38%, transparent 68%);
+    position:fixed;top:0;left:0;width:680px;height:680px;
+    margin-left:-340px;margin-top:-340px;border-radius:50%;
+    background:radial-gradient(circle, rgba(79,142,255,0.17) 0%, rgba(79,142,255,0.07) 40%, transparent 68%);
     transform:translate3d(var(--mx,50vw),var(--my,50vh),0);
-    opacity:0;transition:opacity .9s ease;
+    opacity:0;transition:opacity .8s ease;
     will-change:transform;
   }
-  body.pointer-active #pointer-glow{opacity:1;}
-  body.bg-paused #pointer-glow{transition:none;opacity:0;}
+  /* Core — tighter, brighter, faster-easing light (like the original's
+     precise cursor dot). Two lights at two speeds read as spatial, not flat. */
+  #pointer-glow-core{
+    position:fixed;top:0;left:0;width:240px;height:240px;
+    margin-left:-120px;margin-top:-120px;border-radius:50%;
+    background:radial-gradient(circle, rgba(79,142,255,0.3) 0%, rgba(79,142,255,0.1) 45%, transparent 72%);
+    transform:translate3d(var(--cx,50vw),var(--cy,50vh),0);
+    opacity:0;transition:opacity .5s ease;
+    will-change:transform;
+  }
+  body.pointer-active #pointer-glow,
+  body.pointer-active #pointer-glow-core{opacity:1;}
+  body.bg-paused #pointer-glow,
+  body.bg-paused #pointer-glow-core{transition:none;opacity:0;}
   @media (hover:none), (pointer:coarse){
-    #pointer-glow{display:none;}
+    #pointer-glow, #pointer-glow-core{display:none;}
   }
 
   #star-field{
@@ -159,30 +171,34 @@
     animation:bg-drift 90s ease-in-out infinite alternate;
   }
   .star-layer{position:absolute;inset:0;}
-  #star-layer-far{transform:translate(calc(var(--px,0) * 3px), calc(var(--py,0) * 2px));}
-  #star-layer-mid{transform:translate(calc(var(--px,0) * 7px), calc(var(--py,0) * 5px));}
-  #star-layer-near{transform:translate(calc(var(--px,0) * 15px), calc(var(--py,0) * 11px));}
+  #star-layer-far{transform:translate(calc(var(--px,0) * 4px), calc(var(--py,0) * 3px));}
+  #star-layer-mid{transform:translate(calc(var(--px,0) * 9px), calc(var(--py,0) * 6px));}
+  #star-layer-near{transform:translate(calc(var(--px,0) * 20px), calc(var(--py,0) * 14px));}
   body.bg-paused #star-field,
   body.bg-paused .star{animation-play-state:paused;}
   @keyframes bg-drift{
     from{transform:translate(0,0);}
     to{transform:translate(-20px,14px);}
   }
-  .star{
-    position:absolute;border-radius:50%;background:#fff;
-    animation-name:star-twinkle-mid;animation-timing-function:ease-in-out;animation-iteration-count:infinite;
-  }
-  .star-dust{width:1px;height:1px;opacity:.2;animation-name:star-twinkle-dust;}
-  .star-mid{width:1.5px;height:1.5px;opacity:.34;animation-name:star-twinkle-mid;}
-  .star-bright{width:2px;height:2px;opacity:.52;box-shadow:0 0 4px rgba(255,255,255,0.45);animation-name:star-twinkle-bright;}
-  @keyframes star-twinkle-dust{0%,100%{opacity:.1;}50%{opacity:.3;}}
-  @keyframes star-twinkle-mid{0%,100%{opacity:.18;}50%{opacity:.48;}}
-  @keyframes star-twinkle-bright{0%,100%{opacity:.28;}50%{opacity:.75;}}
+  /* Each star twinkles AND independently drifts a few px on its own timing
+     (two comma-separated animations; JS supplies per-star durations/delays
+     for both so no two stars move in sync) — this is what made the original
+     feel alive even when the cursor was still. */
+  .star{position:absolute;border-radius:50%;background:#fff;animation-timing-function:ease-in-out,ease-in-out;animation-iteration-count:infinite,infinite;}
+  .star-dust{width:1px;height:1px;opacity:.16;animation-name:star-twinkle-dust,star-drift-far;}
+  .star-mid{width:1.5px;height:1.5px;opacity:.36;animation-name:star-twinkle-mid,star-drift-mid;mix-blend-mode:screen;}
+  .star-bright{width:2px;height:2px;opacity:.58;box-shadow:0 0 5px rgba(255,255,255,0.55);animation-name:star-twinkle-bright,star-drift-near;mix-blend-mode:screen;}
+  @keyframes star-twinkle-dust{0%,100%{opacity:.06;}50%{opacity:.24;}}
+  @keyframes star-twinkle-mid{0%,100%{opacity:.2;}50%{opacity:.52;}}
+  @keyframes star-twinkle-bright{0%,100%{opacity:.32;}50%{opacity:.82;}}
+  @keyframes star-drift-far{0%,100%{transform:translate(0,0);}50%{transform:translate(2px,-2px);}}
+  @keyframes star-drift-mid{0%,100%{transform:translate(0,0);}50%{transform:translate(4px,-3px);}}
+  @keyframes star-drift-near{0%,100%{transform:translate(0,0);}50%{transform:translate(6px,-5px);}}
   /* Mobile: fewer stars are generated in JS; animation is fully disabled here
      to save battery — the static field alone still reads as atmospheric. */
   @media (max-width:600px){
     #star-field, .star{animation:none !important;}
-    #pointer-glow{display:none;}
+    #pointer-glow, #pointer-glow-core{display:none;}
     #star-layer-far, #star-layer-mid, #star-layer-near{transform:none !important;}
   }
 
@@ -602,18 +618,24 @@
   .project-card:hover{border-color:var(--accent-border);transform:translateY(-3px);}
   .project-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.5rem;}
 
-  /* ── VIDEO TOGGLE (secondary) — a quiet inline disclosure, no thumbnail loaded until opened ── */
-  .video-toggle{
-    display:inline-flex;align-items:center;gap:.4rem;
-    background:none;border:none;padding:0;cursor:pointer;
-    color:var(--text-secondary);font-size:.82rem;font-weight:500;font-family:var(--font-body);
-    transition:color var(--duration-fast) var(--ease-standard);
+  /* ── VIDEO PREVIEW (secondary, compact) — a small but clearly visible
+     thumbnail + play button + label, so a demo video is obvious at a glance
+     without reading a heading. Reuses .video-facade's existing click/Enter/
+     Space handling — only sizing differs from the flagship treatment, so it
+     stays visually lighter than the case studies while remaining unmistakably
+     "click to watch." ── */
+  .project-video-compact{margin-top:1rem;}
+  .video-facade-compact .video-facade-play{width:38px;height:38px;}
+  .video-facade-compact .video-facade-play svg{width:14px;height:14px;}
+  .video-facade-label{
+    position:absolute;left:0;right:0;bottom:0;
+    display:flex;align-items:center;gap:.35rem;
+    padding:.5rem .6rem;
+    background:linear-gradient(0deg, rgba(0,0,0,0.6), transparent);
+    color:#fff;font-size:.7rem;font-weight:600;font-family:var(--font-mono);
+    letter-spacing:.02em;pointer-events:none;
   }
-  .video-toggle:hover{color:var(--accent);}
-  .video-toggle svg{transition:transform var(--duration-base) var(--ease-standard);}
-  .video-toggle[aria-expanded="true"] svg{transform:rotate(90deg);}
-  .video-slot{display:none;margin-top:1rem;}
-  .video-slot iframe{width:100%;aspect-ratio:16/9;border-radius:var(--radius-md);border:1px solid var(--border-01);display:block;}
+  .video-facade-label svg{flex-shrink:0;}
   .project-title{font-family:var(--font-display);font-weight:600;font-size:1.05rem;margin-bottom:.5rem;color:var(--text-primary);}
   .project-desc{font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;}
   .project-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
@@ -1002,6 +1024,7 @@
 <!-- AMBIENT BACKGROUND — deep-space atmosphere (see #bg-ambient in <style>) -->
 <div id="bg-ambient" aria-hidden="true">
   <div id="pointer-glow"></div>
+  <div id="pointer-glow-core"></div>
   <div id="star-field">
     <div class="star-layer" id="star-layer-far"></div>
     <div class="star-layer" id="star-layer-mid"></div>
@@ -1564,12 +1587,14 @@
         <a href="https://github.com/ahmedmostafa361/Eventely_app" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
-        <button class="video-toggle" data-target="video-slot-evently" data-video-id="NzQGhf3gIGs" data-video-title="Evently Demo" aria-expanded="false" aria-controls="video-slot-evently">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          <span class="video-toggle-label">Watch Demo</span>
-        </button>
       </div>
-      <div class="video-slot" id="video-slot-evently"></div>
+      <div class="project-video project-video-compact">
+        <div class="video-facade video-facade-compact" data-video-id="NzQGhf3gIGs" data-video-title="Evently Demo" role="button" tabindex="0" aria-label="Play Evently demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/NzQGhf3gIGs/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="video-facade-label" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Watch Demo</span>
+        </div>
+      </div>
     </div>
 
     <!-- 05 — Movies App (Team) -->
@@ -1604,12 +1629,14 @@
         <a href="https://github.com/ahmedmostafa361/to_do_app_flutter" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
-        <button class="video-toggle" data-target="video-slot-aitodo" data-video-id="rS6KpSlP69E" data-video-title="AI To-Do App Demo" aria-expanded="false" aria-controls="video-slot-aitodo">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          <span class="video-toggle-label">Watch Demo</span>
-        </button>
       </div>
-      <div class="video-slot" id="video-slot-aitodo"></div>
+      <div class="project-video project-video-compact">
+        <div class="video-facade video-facade-compact" data-video-id="rS6KpSlP69E" data-video-title="AI To-Do App Demo" role="button" tabindex="0" aria-label="Play AI To-Do App demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/rS6KpSlP69E/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="video-facade-label" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Watch Demo</span>
+        </div>
+      </div>
     </div>
 
     <!-- 07 — News App -->
@@ -1625,12 +1652,14 @@
         <a href="https://github.com/ahmedmostafa361/news_app" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
-        <button class="video-toggle" data-target="video-slot-news" data-video-id="IOnYdmx8pNE" data-video-title="News App Demo" aria-expanded="false" aria-controls="video-slot-news">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          <span class="video-toggle-label">Watch Demo</span>
-        </button>
       </div>
-      <div class="video-slot" id="video-slot-news"></div>
+      <div class="project-video project-video-compact">
+        <div class="video-facade video-facade-compact" data-video-id="IOnYdmx8pNE" data-video-title="News App Demo" role="button" tabindex="0" aria-label="Play News App demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/IOnYdmx8pNE/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="video-facade-label" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Watch Demo</span>
+        </div>
+      </div>
     </div>
 
     <!-- 08 — QuizMaster (Internship) -->
@@ -1647,12 +1676,14 @@
         <a href="https://github.com/ahmedmostafa361/quiz_app_flutter" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
-        <button class="video-toggle" data-target="video-slot-quizmaster" data-video-id="R8LsBDNd8ps" data-video-title="QuizMaster Demo" aria-expanded="false" aria-controls="video-slot-quizmaster">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          <span class="video-toggle-label">Watch Demo</span>
-        </button>
       </div>
-      <div class="video-slot" id="video-slot-quizmaster"></div>
+      <div class="project-video project-video-compact">
+        <div class="video-facade video-facade-compact" data-video-id="R8LsBDNd8ps" data-video-title="QuizMaster Demo" role="button" tabindex="0" aria-label="Play QuizMaster demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/R8LsBDNd8ps/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="video-facade-label" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Watch Demo</span>
+        </div>
+      </div>
     </div>
 
 
@@ -1923,9 +1954,11 @@
 
 <script>
 // ── AMBIENT BACKGROUND: star field ──
-// Generates the star positions ONCE at load — not per-frame. All motion after
-// this (twinkle + slow drift + parallax) is handled entirely by CSS, which the
-// browser compositor runs independently of JS. No O(n²) work, no per-star JS.
+// Generates the star positions ONCE at load — not per-frame. Each star gets
+// its own randomized timing for BOTH its twinkle and its independent drift
+// (two comma-separated animations), so no two stars move in sync — this is
+// the "each particle has its own vx/vy" quality of the original, reimplemented
+// as pure CSS with zero per-frame JS. No O(n²) work, no per-star JS after load.
 (function initStarfield(){
   const layers = {
     'star-dust':   document.getElementById('star-layer-far'),
@@ -1935,18 +1968,20 @@
   if(!layers['star-dust']) return;
   const small = window.matchMedia('(max-width:600px)').matches;
   const tiers = [
-    {cls:'star-dust',   n: small ? 26 : 52},
-    {cls:'star-mid',    n: small ? 11 : 22},
-    {cls:'star-bright', n: small ? 4  : 8}
+    {cls:'star-dust',   n: small ? 30 : 60},
+    {cls:'star-mid',    n: small ? 14 : 30},
+    {cls:'star-bright', n: small ? 6  : 16}
   ];
   tiers.forEach(({cls,n})=>{
     let html='';
     for(let i=0;i<n;i++){
       const left=(Math.random()*100).toFixed(2);
       const top=(Math.random()*100).toFixed(2);
-      const dur=(6+Math.random()*9).toFixed(2);
-      const delay=(-(Math.random()*10)).toFixed(2);
-      html+=`<span class="star ${cls}" style="left:${left}%;top:${top}%;animation-duration:${dur}s;animation-delay:${delay}s;"></span>`;
+      const twDur=(6+Math.random()*9).toFixed(2);
+      const twDelay=(-(Math.random()*10)).toFixed(2);
+      const drDur=(14+Math.random()*18).toFixed(2);
+      const drDelay=(-(Math.random()*20)).toFixed(2);
+      html+=`<span class="star ${cls}" style="left:${left}%;top:${top}%;animation-duration:${twDur}s,${drDur}s;animation-delay:${twDelay}s,${drDelay}s;"></span>`;
     }
     layers[cls].innerHTML = html;
   });
@@ -1958,28 +1993,41 @@ document.addEventListener('visibilitychange', ()=>{
 });
 
 // ── AMBIENT BACKGROUND: pointer glow + parallax ──
-// A soft light eases toward the cursor and nearby star layers drift very
-// slightly with it. The rAF loop is self-terminating: it only runs while the
-// glow is still easing toward a new target, and stops the instant it settles
-// — this is not a perpetual loop like the old particle system. Skipped
-// entirely on touch devices (no fake touch interaction) and under
-// prefers-reduced-motion (no pointer interaction in that mode).
+// Two lights ease toward the cursor at two different speeds — a tight,
+// bright "core" (fast, ~the original's precise cursor dot) and a larger,
+// softer "halo" (slower, ~the original's lagging cursor ring) — which reads
+// as spatial rather than one flat blob. Nearby stars brighten via
+// mix-blend-mode where they overlap either light: this recreates the
+// *feeling* of the original's proximity tether-lines (effect strongest near
+// the cursor, fading smoothly with distance) using the compositor's own
+// blending instead of a single per-star distance calculation.
+// The rAF loop is self-terminating — it only runs while still easing toward
+// a new target, and stops the instant both lights settle. Skipped entirely
+// on touch devices and under prefers-reduced-motion.
 (function initPointerGlow(){
   if(!window.matchMedia('(pointer:fine)').matches) return;
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   const root = document.documentElement;
   let targetX = window.innerWidth/2, targetY = window.innerHeight/2;
-  let curX = targetX, curY = targetY;
+  let coreX = targetX, coreY = targetY;   // fast-easing
+  let haloX = targetX, haloY = targetY;   // slow-easing
   let raf = null, idleTimer = null;
 
   function tick(){
-    curX += (targetX - curX) * 0.08;
-    curY += (targetY - curY) * 0.08;
-    root.style.setProperty('--mx', curX.toFixed(1)+'px');
-    root.style.setProperty('--my', curY.toFixed(1)+'px');
-    root.style.setProperty('--px', ((curX/window.innerWidth-0.5)*2).toFixed(3));
-    root.style.setProperty('--py', ((curY/window.innerHeight-0.5)*2).toFixed(3));
-    if(Math.abs(targetX-curX) > 0.4 || Math.abs(targetY-curY) > 0.4){
+    coreX += (targetX - coreX) * 0.22;
+    coreY += (targetY - coreY) * 0.22;
+    haloX += (targetX - haloX) * 0.07;
+    haloY += (targetY - haloY) * 0.07;
+    root.style.setProperty('--cx', coreX.toFixed(1)+'px');
+    root.style.setProperty('--cy', coreY.toFixed(1)+'px');
+    root.style.setProperty('--mx', haloX.toFixed(1)+'px');
+    root.style.setProperty('--my', haloY.toFixed(1)+'px');
+    root.style.setProperty('--px', ((haloX/window.innerWidth-0.5)*2).toFixed(3));
+    root.style.setProperty('--py', ((haloY/window.innerHeight-0.5)*2).toFixed(3));
+    const settled =
+      Math.abs(targetX-coreX) < 0.4 && Math.abs(targetY-coreY) < 0.4 &&
+      Math.abs(targetX-haloX) < 0.4 && Math.abs(targetY-haloY) < 0.4;
+    if(!settled){
       raf = requestAnimationFrame(tick);
     } else {
       raf = null;
@@ -2069,6 +2117,9 @@ if(card3d){
 
 // ── COUNTERS ──
 function animCounter(el,target,suffix=''){
+  // Defensive guard: never render "NaN" and never leak a perpetual interval
+  // if a target value is missing or invalid.
+  if(!Number.isFinite(target)) return;
   let current=0;
   const step=Math.ceil(target/60);
   const timer=setInterval(()=>{
@@ -2276,6 +2327,8 @@ function buildYouTubeIframe(id, title){
 }
 
 // Flagship poster facades: click or Enter/Space swaps the poster for the real embed.
+// Secondary compact previews use the same .video-facade class and pattern —
+// one shared, tested interaction handler for every project demo on the page.
 document.querySelectorAll('.video-facade').forEach(el=>{
   const load=()=>{
     const id=el.dataset.videoId, title=el.dataset.videoTitle;
@@ -2285,28 +2338,6 @@ document.querySelectorAll('.video-facade').forEach(el=>{
   el.addEventListener('click', load);
   el.addEventListener('keydown', e=>{
     if(e.key==='Enter'||e.key===' '){ e.preventDefault(); load(); }
-  });
-});
-
-// Secondary compact cards: a quiet text toggle expands/collapses the embed inline.
-document.querySelectorAll('.video-toggle').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const slot=document.getElementById(btn.dataset.target);
-    if(!slot) return;
-    const isOpen=btn.getAttribute('aria-expanded')==='true';
-    const label=btn.querySelector('.video-toggle-label');
-    if(isOpen){
-      slot.innerHTML='';
-      slot.style.display='none';
-      btn.setAttribute('aria-expanded','false');
-      if(label) label.textContent='Watch Demo';
-    } else {
-      slot.innerHTML='';
-      slot.appendChild(buildYouTubeIframe(btn.dataset.videoId, btn.dataset.videoTitle));
-      slot.style.display='block';
-      btn.setAttribute('aria-expanded','true');
-      if(label) label.textContent='Hide Demo';
-    }
   });
 });
 </script>
