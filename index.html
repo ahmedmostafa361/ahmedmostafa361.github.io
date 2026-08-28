@@ -461,30 +461,94 @@
   }
 
   /* ── PROJECTS ── */
-  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;}
-  .project-card{
-    padding:2rem;border-radius:var(--radius-lg);
+  /* ── PROJECTS: FEATURED (flagship case-studies) ── */
+  .projects-featured{
+    display:flex;flex-direction:column;gap:var(--space-6);
+    margin-bottom:var(--space-12);
+  }
+  .project-flagship{
+    padding:2.4rem;border-radius:var(--radius-lg);
     background:var(--surface-card);border:1px solid var(--border-01);
+    border-top:3px solid var(--accent);
     box-shadow:var(--shadow-card);
+    position:relative;
+    transition:box-shadow var(--duration-base) var(--ease-standard);
+  }
+  .project-flagship:hover{box-shadow:var(--shadow-card-hover);}
+  .flagship-eyebrow{
+    font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.5rem;
+  }
+  .flagship-header{
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    margin-bottom:.6rem;
+  }
+  .flagship-title{font-family:var(--font-display);font-weight:600;font-size:var(--text-xl);color:var(--text-primary);}
+  .flagship-summary{color:var(--text-secondary);font-size:var(--text-base);line-height:1.65;max-width:680px;margin-bottom:1.6rem;}
+  .flagship-meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+    padding:1.4rem 0;margin-bottom:1.4rem;
+    border-top:1px solid var(--border-01);border-bottom:1px solid var(--border-01);
+  }
+  .case-label{
+    display:block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-tertiary);margin-bottom:.4rem;
+  }
+  .case-value{font-size:.85rem;color:var(--text-secondary);line-height:1.55;}
+  .flagship-links{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:1.4rem;}
+
+  /* ── VIDEO FACADE (flagship) — click/keydown loads the real iframe, nothing loads before that ── */
+  .video-facade{
+    position:relative;width:100%;height:100%;cursor:pointer;
+    background:var(--bg-base);border:0;padding:0;display:block;
+  }
+  .video-facade-img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    opacity:.7;transition:opacity var(--duration-base) var(--ease-standard);
+  }
+  .video-facade:hover .video-facade-img,
+  .video-facade:focus-visible .video-facade-img{opacity:.5;}
+  .video-facade-play{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:56px;height:56px;border-radius:50%;
+    background:var(--accent);color:var(--text-on-accent);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-card);
+    transition:transform var(--duration-base) var(--ease-standard);
+  }
+  .video-facade-play svg{margin-left:2px;}
+  .video-facade:hover .video-facade-play{transform:translate(-50%,-50%) scale(1.08);}
+  .video-facade:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ── PROJECTS: SECONDARY (compact, supporting-evidence tier) ── */
+  .projects-secondary-head{margin-bottom:1.4rem;}
+  .projects-secondary-title{font-family:var(--font-display);font-weight:600;font-size:var(--text-lg);color:var(--text-primary);}
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;}
+  .project-card{
+    padding:1.6rem;border-radius:var(--radius-md);
+    background:var(--surface-card);border:1px solid var(--border-01);
     transition:border-color var(--duration-base) var(--ease-standard),
-      transform var(--duration-base) var(--ease-standard),
-      box-shadow var(--duration-base) var(--ease-standard);
-    position:relative;overflow:hidden;
+      transform var(--duration-base) var(--ease-standard);
+    position:relative;
   }
-  .project-card::before{
-    content:'';position:absolute;inset:0;
-    background:radial-gradient(ellipse at 50% 0%,var(--accent-dim),transparent 70%);
-    opacity:0;transition:opacity var(--duration-base) var(--ease-standard);
+  .project-card:hover{border-color:var(--accent-border);transform:translateY(-3px);}
+  .project-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.5rem;}
+
+  /* ── VIDEO TOGGLE (secondary) — a quiet inline disclosure, no thumbnail loaded until opened ── */
+  .video-toggle{
+    display:inline-flex;align-items:center;gap:.4rem;
+    background:none;border:none;padding:0;cursor:pointer;
+    color:var(--text-secondary);font-size:.82rem;font-weight:500;font-family:var(--font-body);
+    transition:color var(--duration-fast) var(--ease-standard);
   }
-  .project-card:hover{border-color:var(--accent-border);transform:translateY(-6px);box-shadow:var(--shadow-card-hover);}
-  .project-card:hover::before{opacity:1;}
-  .project-num{
-    font-family:'Space Mono',monospace;font-size:.72rem;color:var(--neon);
-    margin-bottom:1rem;opacity:.6;
-  }
-  .project-title{font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin-bottom:.7rem;}
-  .project-desc{font-size:.88rem;color:var(--text-secondary);line-height:1.7;margin-bottom:1.2rem;}
-  .project-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;}
+  .video-toggle:hover{color:var(--accent);}
+  .video-toggle svg{transition:transform var(--duration-base) var(--ease-standard);}
+  .video-toggle[aria-expanded="true"] svg{transform:rotate(90deg);}
+  .video-slot{display:none;margin-top:1rem;}
+  .video-slot iframe{width:100%;aspect-ratio:16/9;border-radius:var(--radius-md);border:1px solid var(--border-01);display:block;}
+  .project-title{font-family:var(--font-display);font-weight:600;font-size:1.05rem;margin-bottom:.5rem;color:var(--text-primary);}
+  .project-desc{font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem;}
+  .project-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
   .tag{
     padding:.3rem .8rem;border-radius:var(--radius-full);font-size:var(--text-xs);
     font-family:var(--font-mono);
@@ -521,12 +585,12 @@
   gap: .5rem;
   margin-top: 1.5rem;
   margin-bottom: .6rem;
-  font-family: 'Space Mono', monospace;
+  font-family: var(--font-mono);
   font-size: .68rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--neon);
+  color: var(--accent);
 }
 
 .video-label::before {
@@ -769,6 +833,7 @@
     #experience .timeline{padding-left:1.5rem;}
     #about .container{grid-template-columns:1fr;}
     .skills-grid{grid-template-columns:1fr 1fr;}
+    .flagship-meta{grid-template-columns:repeat(2,1fr);}
     .projects-grid{grid-template-columns:1fr;}
     .content-grid{grid-template-columns:1fr;}
     .contact-grid{grid-template-columns:1fr;}
@@ -786,6 +851,9 @@
     .hero-btns{justify-content:center;}
     .hero-utility{justify-content:center;}
     .avatar-wrap{width:260px;height:288px;}
+    .project-flagship{padding:1.6rem;}
+    .flagship-meta{grid-template-columns:1fr;gap:1.1rem;}
+    .flagship-header{justify-content:flex-start;}
     .skills-grid{grid-template-columns:1fr;}
     div[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr) !important;}
     .certs-grid{grid-template-columns:1fr;}
@@ -1235,108 +1303,41 @@
     <p class="section-label">// portfolio</p>
     <h2 class="section-title">Featured Projects</h2>
     <div class="divider"></div>
-    <p class="section-sub">Real-world applications built with clean code, modern architecture and thoughtful UX.</p>
+    <p class="section-sub">Three projects told as short case studies, plus five more that round out the range — from a live production app to internship deliverables.</p>
   </div>
-  <div class="projects-grid">
 
-    <!-- 01 — E-Commerce App (FEATURED FIRST per CV) -->
-    <div class="project-card reveal slide-left">
-      <div class="project-num">01 / 08</div>
-      <h3 class="project-title">E-Commerce App</h3>
-      <p class="project-desc">Production-ready shopping app for iOS & Android. MVVM + Clean Architecture with BLoC/Cubit, Dio, Retrofit, GetIt, and Injectable. Implements token-based (Bearer/JWT) auth, products, categories, brands, wishlist, cart, and persistent login against a real REST API with centralized error mapping. UI built directly from Figma designs.</p>
-      <div class="project-tags">
-        <span class="tag">BLoC/Cubit</span><span class="tag">Clean Arch</span><span class="tag">Dio/Retrofit</span><span class="tag">JWT Auth</span><span class="tag">GetIt</span><span class="tag">Figma</span>
+  <div class="projects-featured">
+
+    <!-- FLAGSHIP 01 — Siratic (live, published, real users) -->
+    <div class="project-flagship reveal fade-up">
+      <div class="flagship-header">
+        <div class="flagship-heading">
+          <p class="flagship-eyebrow">Case Study 01</p>
+        </div>
+        <span class="badge-status badge-live">● LIVE ON PLAY STORE</span>
+      </div>
+      <h3 class="flagship-title">Siratic</h3>
+      <p class="flagship-summary">An Islamic utility app — prayer times, Quran, Hijri calendar, and Athan notifications — published and actively maintained on Google Play.</p>
+
+      <div class="flagship-meta">
+        <div>
+          <span class="case-label">What It Is</span>
+          <p class="case-value">Prayer times, Quran, Hijri calendar, and Athan notifications for iOS & Android.</p>
+        </div>
+        <div>
+          <span class="case-label">Built</span>
+          <p class="case-value">Offline support via SharedPreferences; iterated across multiple releases from real user feedback.</p>
+        </div>
+        <div>
+          <span class="case-label">Architecture</span>
+          <p class="case-value">Provider/Selector state management with background Adhan audio playback.</p>
+        </div>
+        <div>
+          <span class="case-label">Proof</span>
+          <p class="case-value">Diagnosed and resolved an Android 13 Do Not Disturb notification bug — live today.</p>
+        </div>
       </div>
 
-      <div class="video-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        PROJECT DEMO
-      </div>
-      <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/1p28urLxZ_w"
-          title="E-Commerce App Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
-        <a href="https://github.com/ahmedmostafa361/E_Commerce_app" target="_blank" rel="noopener noreferrer" class="project-link">
-          View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- 02 — Restaurant App -->
-    <div class="project-card reveal slide-right" style="transition-delay:.1s">
-      <div class="project-num">02 / 08</div>
-
-      <h3 class="project-title">Restaurant App</h3>
-
-      <p class="project-desc">
-        Scalable restaurant food ordering application built with MVVM + Clean Architecture,
-        BLoC/Cubit, Dio/Retrofit, and GetIt/Injectable for dependency injection.
-        Features REST APIs for authentication, menus, cart, ordering, order history, and search
-        with structured mapping and centralized error handling. Includes 30+ automated test files
-        using flutter_test, Mocktail, and bloc_test across mappers, repositories, use cases,
-        and Cubit/ViewModel state transitions, plus a GitHub Actions CI/CD pipeline with
-        Codecov coverage reporting (~75%) on every push and pull request.
-      </p>
-
-      <div class="project-tags">
-        <span class="tag">BLoC/Cubit</span>
-        <span class="tag">Clean Arch</span>
-        <span class="tag">MVVM</span>
-        <span class="tag">Dio/Retrofit</span>
-        <span class="tag">GetIt</span>
-        <span class="tag">Unit Testing</span>
-        <span class="tag">Mocktail</span>
-        <span class="tag">GitHub Actions</span>
-        <span class="tag">CI/CD</span>
-        <span class="tag">Codecov</span>
-      </div>
-
-      <div class="video-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        PROJECT DEMO
-      </div>
-      <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/-GOj1Wy_dzs"
-          title="Restaurant App Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
-        <a href="https://github.com/ahmedmostafa361/restaurant_flutter_app"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="project-link">
-          View on GitHub
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24"
-               stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- 03 — Siratic (PUBLISHED) -->
-    <div class="project-card reveal slide-left" style="border-color:rgba(34,197,94,0.25);transition-delay:.2s">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem;">
-        <div class="project-num">03 / 08</div>
-        <span class="badge-status badge-live">
-          ● LIVE ON PLAY STORE
-        </span>
-      </div>
-      <h3 class="project-title">Siratic</h3>
-      <p class="project-desc">Published and actively maintained live production app on Google Play. Features prayer times, Athan notifications, Quran, Hijri calendar, and offline support via SharedPreferences — iterated across multiple releases based on real user feedback. Diagnosed and resolved Android Do Not Disturb notification issues across Android 13 devices.</p>
       <div class="project-tags">
         <span class="tag">Provider/Selector</span><span class="tag">SharedPrefs</span><span class="tag">Adhan</span><span class="tag">Audioplayers</span><span class="tag">iOS & Android</span>
       </div>
@@ -1346,16 +1347,13 @@
         PROJECT DEMO
       </div>
       <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/nl_-vsM_9qs"
-          title="Siratic Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <div class="video-facade" data-video-id="nl_-vsM_9qs" data-video-title="Siratic Demo" role="button" tabindex="0" aria-label="Play Siratic demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/nl_-vsM_9qs/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
       </div>
 
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <div class="flagship-links">
         <a href="https://play.google.com/store/apps/details?id=com.siratic.quran" target="_blank" rel="noopener noreferrer" class="project-link" style="color:var(--status-live);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76C1.97 24.44.99 23.84.99 22.45V1.55C.99.16 1.97-.44 3.18.24l19.64 10.45c1.21.68 1.21 1.78 0 2.46L3.18 23.76z"/></svg> Google Play
         </a>
@@ -1365,13 +1363,37 @@
       </div>
     </div>
 
-    <!-- 04 — Evently -->
-    <div class="project-card reveal slide-right" style="transition-delay:.3s">
-      <div class="project-num">04 / 08</div>
-      <h3 class="project-title">Evently</h3>
-      <p class="project-desc">Production-ready cross-platform event management for iOS & Android. OTP-based password recovery via EmailJS + Firebase + Brevo SMTP. Google Sign-In, interactive maps, geolocation, Google Maps navigation, Arabic/English RTL localization, persistent dark/light theming, onboarding, and reusable UI from Figma designs.</p>
+    <!-- FLAGSHIP 02 — Restaurant App (deepest technical/testing proof) -->
+    <div class="project-flagship reveal fade-up" style="transition-delay:.1s">
+      <div class="flagship-header">
+        <div class="flagship-heading">
+          <p class="flagship-eyebrow">Case Study 02</p>
+        </div>
+      </div>
+      <h3 class="flagship-title">Restaurant App</h3>
+      <p class="flagship-summary">A scalable food-ordering app built with the same rigor as a production codebase — automated tests and a CI/CD pipeline included.</p>
+
+      <div class="flagship-meta">
+        <div>
+          <span class="case-label">What It Is</span>
+          <p class="case-value">Restaurant ordering app — auth, menus, cart, ordering, order history, search.</p>
+        </div>
+        <div>
+          <span class="case-label">Built</span>
+          <p class="case-value">Full ordering flow against REST APIs, with structured mapping and centralized error handling.</p>
+        </div>
+        <div>
+          <span class="case-label">Architecture</span>
+          <p class="case-value">MVVM + Clean Architecture, BLoC/Cubit, Dio/Retrofit, GetIt/Injectable DI.</p>
+        </div>
+        <div>
+          <span class="case-label">Proof</span>
+          <p class="case-value">30+ automated tests (flutter_test, Mocktail, bloc_test) + GitHub Actions CI/CD, ~75% Codecov coverage on every push.</p>
+        </div>
+      </div>
+
       <div class="project-tags">
-        <span class="tag">Firebase Auth</span><span class="tag">Firestore</span><span class="tag">Provider</span><span class="tag">Google Maps</span><span class="tag">RTL</span><span class="tag">Clean Arch</span>
+        <span class="tag">BLoC/Cubit</span><span class="tag">Clean Arch</span><span class="tag">MVVM</span><span class="tag">Dio/Retrofit</span><span class="tag">GetIt</span><span class="tag">Unit Testing</span><span class="tag">Mocktail</span><span class="tag">GitHub Actions</span><span class="tag">CI/CD</span><span class="tag">Codecov</span>
       </div>
 
       <div class="video-label">
@@ -1379,144 +1401,182 @@
         PROJECT DEMO
       </div>
       <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/NzQGhf3gIGs"
-          title="Evently Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+        <div class="video-facade" data-video-id="-GOj1Wy_dzs" data-video-title="Restaurant App Demo" role="button" tabindex="0" aria-label="Play Restaurant App demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/-GOj1Wy_dzs/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
       </div>
 
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
-        <a href="https://github.com/ahmedmostafa361/Eventely_app" target="_blank" rel="noopener noreferrer" class="project-link">
+      <div class="flagship-links">
+        <a href="https://github.com/ahmedmostafa361/restaurant_flutter_app" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
       </div>
     </div>
 
-    <!-- 05 — Movies App (Team) -->
-    <!-- NOTE: no YouTube link was provided for this project yet — video block intentionally omitted.
-         Insert the same <div class="video-label">...</div> + <div class="project-video">...</div>
-         pattern used in the other cards here once you confirm the link. -->
-    <div class="project-card reveal slide-left" style="transition-delay:.1s">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem;">
-        <div class="project-num">05 / 08</div>
-        <span class="badge-status badge-neutral">
-          TEAM · 4 DEVS
-        </span>
+    <!-- FLAGSHIP 03 — E-Commerce App (real REST integration, CV-led project) -->
+    <div class="project-flagship reveal fade-up" style="transition-delay:.2s">
+      <div class="flagship-header">
+        <div class="flagship-heading">
+          <p class="flagship-eyebrow">Case Study 03</p>
+        </div>
       </div>
-      <h3 class="project-title">Movies App</h3>
-      <p class="project-desc">Movies discovery app built collaborating in a 4-person developer team using Git feature branches and pull requests. Resolved merge conflicts across shared modules through regular code reviews and coordinated branch integration.</p>
+      <h3 class="flagship-title">E-Commerce App</h3>
+      <p class="flagship-summary">A production-shaped shopping app for iOS & Android, built against a real REST API rather than a mocked demo.</p>
+
+      <div class="flagship-meta">
+        <div>
+          <span class="case-label">What It Is</span>
+          <p class="case-value">Shopping app — products, categories, brands, wishlist, cart, persistent login.</p>
+        </div>
+        <div>
+          <span class="case-label">Built</span>
+          <p class="case-value">Token-based (Bearer/JWT) auth against a real REST API; UI built directly from Figma designs.</p>
+        </div>
+        <div>
+          <span class="case-label">Architecture</span>
+          <p class="case-value">MVVM + Clean Architecture, BLoC/Cubit, Dio, Retrofit, GetIt, Injectable.</p>
+        </div>
+        <div>
+          <span class="case-label">Proof</span>
+          <p class="case-value">Centralized error mapping across the full REST integration, not a mocked demo.</p>
+        </div>
+      </div>
+
+      <div class="project-tags">
+        <span class="tag">BLoC/Cubit</span><span class="tag">Clean Arch</span><span class="tag">Dio/Retrofit</span><span class="tag">JWT Auth</span><span class="tag">GetIt</span><span class="tag">Figma</span>
+      </div>
+
+      <div class="video-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        PROJECT DEMO
+      </div>
+      <div class="project-video">
+        <div class="video-facade" data-video-id="1p28urLxZ_w" data-video-title="E-Commerce App Demo" role="button" tabindex="0" aria-label="Play E-Commerce App demo video">
+          <img class="video-facade-img" src="https://img.youtube.com/vi/1p28urLxZ_w/hqdefault.jpg" alt="" loading="lazy">
+          <span class="video-facade-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        </div>
+      </div>
+
+      <div class="flagship-links">
+        <a href="https://github.com/ahmedmostafa361/E_Commerce_app" target="_blank" rel="noopener noreferrer" class="project-link">
+          View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="projects-secondary-head reveal fade-up">
+    <p class="section-label">// more projects</p>
+    <h3 class="projects-secondary-title">Additional Projects</h3>
+  </div>
+  <div class="projects-grid">
+
+    <!-- 04 — Evently -->
+    <div class="project-card reveal fade-up">
+      <div class="project-card-head">
+        <h3 class="project-title">Evently</h3>
+      </div>
+      <p class="project-desc">Cross-platform event management app — Firebase Auth, Firestore real-time sync, OTP password recovery via EmailJS + Brevo SMTP, Google Sign-In, Maps navigation, Arabic/English RTL, and persistent theming.</p>
+      <div class="project-tags">
+        <span class="tag">Firebase Auth</span><span class="tag">Firestore</span><span class="tag">Provider</span><span class="tag">Google Maps</span><span class="tag">RTL</span><span class="tag">Clean Arch</span>
+      </div>
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
+        <a href="https://github.com/ahmedmostafa361/Eventely_app" target="_blank" rel="noopener noreferrer" class="project-link">
+          View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+        <button class="video-toggle" data-target="video-slot-evently" data-video-id="NzQGhf3gIGs" data-video-title="Evently Demo" aria-expanded="false" aria-controls="video-slot-evently">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span class="video-toggle-label">Watch Demo</span>
+        </button>
+      </div>
+      <div class="video-slot" id="video-slot-evently"></div>
+    </div>
+
+    <!-- 05 — Movies App (Team) -->
+    <div class="project-card reveal fade-up" style="transition-delay:.1s">
+      <div class="project-card-head">
+        <h3 class="project-title">Movies App</h3>
+        <span class="badge-status badge-neutral">TEAM · 4 DEVS</span>
+      </div>
+      <p class="project-desc">Movie discovery app built collaborating in a 4-person developer team using Git feature branches and pull requests — resolved merge conflicts across shared modules through code review.</p>
       <div class="project-tags">
         <span class="tag">REST API</span><span class="tag">Dio</span><span class="tag">Git Branches</span><span class="tag">Team Collab</span>
       </div>
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
         <a href="https://github.com/ahmedsukkary52-cmd/movies_app/tree/developer/lib" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
+        <!-- No YouTube demo has been provided for this project -->
       </div>
     </div>
 
     <!-- 06 — AI To-Do App (Internship) -->
-    <div class="project-card reveal slide-right" style="transition-delay:.2s;border-color:rgba(161,127,224,0.22);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem;">
-        <div class="project-num">06 / 08</div>
-        <span class="badge-status badge-progress">
-          INTERNSHIP · AI
-        </span>
+    <div class="project-card reveal fade-up" style="transition-delay:.2s;border-color:rgba(161,127,224,0.22);">
+      <div class="project-card-head">
+        <h3 class="project-title">AI To-Do App</h3>
+        <span class="badge-status badge-progress">INTERNSHIP · AI</span>
       </div>
-      <h3 class="project-title">AI To-Do App</h3>
-      <p class="project-desc">Voice & AI-powered task manager using Groq API (LLaMA 3.3 70B) for AI-generated task summaries and smart tag auto-labelling from natural language input. Voice-to-task creation via Speech-to-Text, real-time search, animated progress bar, and swipe-to-delete.</p>
+      <p class="project-desc">Voice & AI-powered task manager using the Groq API (LLaMA 3.3 70B) for AI-generated summaries and smart tag labelling, with voice-to-task creation via Speech-to-Text.</p>
       <div class="project-tags">
         <span class="tag">Groq API</span><span class="tag">LLaMA 3.3 70B</span><span class="tag">Speech-to-Text</span><span class="tag">Provider</span><span class="tag">Clean Arch</span>
       </div>
-
-      <div class="video-label" style="color:var(--status-progress);">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        PROJECT DEMO
-      </div>
-      <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/rS6KpSlP69E"
-          title="AI To-Do App Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
         <a href="https://github.com/ahmedmostafa361/to_do_app_flutter" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
+        <button class="video-toggle" data-target="video-slot-aitodo" data-video-id="rS6KpSlP69E" data-video-title="AI To-Do App Demo" aria-expanded="false" aria-controls="video-slot-aitodo">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span class="video-toggle-label">Watch Demo</span>
+        </button>
       </div>
+      <div class="video-slot" id="video-slot-aitodo"></div>
     </div>
 
     <!-- 07 — News App -->
-    <div class="project-card reveal slide-left" style="transition-delay:.3s">
-      <div class="project-num">07 / 08</div>
-      <h3 class="project-title">News App</h3>
-      <p class="project-desc">News aggregator with offline-first approach. BLoC state management and Hive-based offline caching keep users informed even without connectivity.</p>
+    <div class="project-card reveal fade-up" style="transition-delay:.3s">
+      <div class="project-card-head">
+        <h3 class="project-title">News App</h3>
+      </div>
+      <p class="project-desc">Offline-first news aggregator — BLoC state management and Hive-based caching keep users informed even without connectivity.</p>
       <div class="project-tags">
         <span class="tag">BLoC</span><span class="tag">Hive</span><span class="tag">Dio</span><span class="tag">Offline First</span>
       </div>
-
-      <div class="video-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        PROJECT DEMO
-      </div>
-      <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/IOnYdmx8pNE"
-          title="News App Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
         <a href="https://github.com/ahmedmostafa361/news_app" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
+        <button class="video-toggle" data-target="video-slot-news" data-video-id="IOnYdmx8pNE" data-video-title="News App Demo" aria-expanded="false" aria-controls="video-slot-news">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span class="video-toggle-label">Watch Demo</span>
+        </button>
       </div>
+      <div class="video-slot" id="video-slot-news"></div>
     </div>
 
     <!-- 08 — QuizMaster (Internship) -->
-    <div class="project-card reveal slide-right" style="transition-delay:.1s;border-color:rgba(161,127,224,0.22);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem;">
-        <div class="project-num">08 / 08</div>
-        <span class="badge-status badge-progress">
-          INTERNSHIP
-        </span>
+    <div class="project-card reveal fade-up" style="transition-delay:.1s;border-color:rgba(161,127,224,0.22);">
+      <div class="project-card-head">
+        <h3 class="project-title">QuizMaster</h3>
+        <span class="badge-status badge-progress">INTERNSHIP</span>
       </div>
-      <h3 class="project-title">QuizMaster</h3>
-      <p class="project-desc">Category-based quiz app with 15-second timed questions, Easy/Medium/Hard difficulty filtering, real-time Firestore result tracking, and a weekly progress dashboard with responsive UI.</p>
+      <p class="project-desc">Category-based quiz app with 15-second timed questions, difficulty filtering, and real-time Firestore result tracking with a weekly progress dashboard.</p>
       <div class="project-tags">
         <span class="tag">Firebase Auth</span><span class="tag">Firestore</span><span class="tag">Provider</span><span class="tag">Google Sign-In</span><span class="tag">Clean Arch</span>
       </div>
-
-      <div class="video-label" style="color:var(--status-progress);">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        PROJECT DEMO
-      </div>
-      <div class="project-video">
-        <iframe
-          src="https://www.youtube.com/embed/R8LsBDNd8ps"
-          title="QuizMaster Demo"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:1rem;">
         <a href="https://github.com/ahmedmostafa361/quiz_app_flutter" target="_blank" rel="noopener noreferrer" class="project-link">
           View on GitHub <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
+        <button class="video-toggle" data-target="video-slot-quizmaster" data-video-id="R8LsBDNd8ps" data-video-title="QuizMaster Demo" aria-expanded="false" aria-controls="video-slot-quizmaster">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span class="video-toggle-label">Watch Demo</span>
+        </button>
       </div>
+      <div class="video-slot" id="video-slot-quizmaster"></div>
     </div>
+
 
   </div>
   </div>
@@ -2047,6 +2107,53 @@ function copyToClipboard(e,text){
   });
 }
 window.copyToClipboard=copyToClipboard;
+// ────────────────────────────────────────────────────────────────────────────
+
+// ── PROJECT VIDEOS — click-to-load, no iframes fetched until requested ──────
+function buildYouTubeIframe(id, title){
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  iframe.title = title || 'Project demo video';
+  iframe.loading = 'lazy';
+  iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+  iframe.allowFullscreen = true;
+  return iframe;
+}
+
+// Flagship poster facades: click or Enter/Space swaps the poster for the real embed.
+document.querySelectorAll('.video-facade').forEach(el=>{
+  const load=()=>{
+    const id=el.dataset.videoId, title=el.dataset.videoTitle;
+    if(!id) return;
+    el.replaceWith(buildYouTubeIframe(id, title));
+  };
+  el.addEventListener('click', load);
+  el.addEventListener('keydown', e=>{
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); load(); }
+  });
+});
+
+// Secondary compact cards: a quiet text toggle expands/collapses the embed inline.
+document.querySelectorAll('.video-toggle').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const slot=document.getElementById(btn.dataset.target);
+    if(!slot) return;
+    const isOpen=btn.getAttribute('aria-expanded')==='true';
+    const label=btn.querySelector('.video-toggle-label');
+    if(isOpen){
+      slot.innerHTML='';
+      slot.style.display='none';
+      btn.setAttribute('aria-expanded','false');
+      if(label) label.textContent='Watch Demo';
+    } else {
+      slot.innerHTML='';
+      slot.appendChild(buildYouTubeIframe(btn.dataset.videoId, btn.dataset.videoTitle));
+      slot.style.display='block';
+      btn.setAttribute('aria-expanded','true');
+      if(label) label.textContent='Hide Demo';
+    }
+  });
+});
 </script>
 
 <!-- PRINT CV CONTENT (hidden in browser, shown only in @media print) -->
