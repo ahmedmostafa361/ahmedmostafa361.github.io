@@ -1,0 +1,156 @@
+{
+ "about-weights": {
+  "w": 560,
+  "h": 605,
+  "sw": 340,
+  "sh": 367,
+  "kb": 18
+ },
+ "about-gym-floor": {
+  "w": 560,
+  "h": 605,
+  "sw": 340,
+  "sh": 367,
+  "kb": 25
+ },
+ "service-personal-training": {
+  "w": 640,
+  "h": 416,
+  "sw": 400,
+  "sh": 260,
+  "kb": 16
+ },
+ "service-weight-loss": {
+  "w": 640,
+  "h": 416,
+  "sw": 400,
+  "sh": 260,
+  "kb": 17
+ },
+ "service-muscle-building": {
+  "w": 640,
+  "h": 416,
+  "sw": 400,
+  "sh": 260,
+  "kb": 17
+ },
+ "service-group-classes": {
+  "w": 640,
+  "h": 426,
+  "sw": 400,
+  "sh": 266,
+  "kb": 15
+ },
+ "service-cardio": {
+  "w": 640,
+  "h": 416,
+  "sw": 400,
+  "sh": 260,
+  "kb": 16
+ },
+ "service-nutrition": {
+  "w": 640,
+  "h": 416,
+  "sw": 400,
+  "sh": 260,
+  "kb": 17
+ },
+ "trainer-ahmed": {
+  "w": 520,
+  "h": 645,
+  "sw": 320,
+  "sh": 397,
+  "kb": 20
+ },
+ "trainer-sara": {
+  "w": 520,
+  "h": 645,
+  "sw": 320,
+  "sh": 397,
+  "kb": 20
+ },
+ "trainer-omar": {
+  "w": 520,
+  "h": 645,
+  "sw": 320,
+  "sh": 397,
+  "kb": 21
+ },
+ "trainer-nour": {
+  "w": 520,
+  "h": 645,
+  "sw": 320,
+  "sh": 397,
+  "kb": 21
+ },
+ "transform-khaled-before": {
+  "w": 560,
+  "h": 717,
+  "sw": 340,
+  "sh": 435,
+  "kb": 15
+ },
+ "transform-khaled-after": {
+  "w": 560,
+  "h": 717,
+  "sw": 340,
+  "sh": 435,
+  "kb": 15
+ },
+ "transform-tarek-before": {
+  "w": 560,
+  "h": 717,
+  "sw": 340,
+  "sh": 435,
+  "kb": 16
+ },
+ "transform-tarek-after": {
+  "w": 560,
+  "h": 715,
+  "sw": 340,
+  "sh": 434,
+  "kb": 14
+ },
+ "social-1": {
+  "w": 420,
+  "h": 420,
+  "sw": 260,
+  "sh": 260,
+  "kb": 15
+ },
+ "social-2": {
+  "w": 420,
+  "h": 420,
+  "sw": 260,
+  "sh": 260,
+  "kb": 14
+ },
+ "social-4": {
+  "w": 420,
+  "h": 420,
+  "sw": 260,
+  "sh": 260,
+  "kb": 14
+ },
+ "social-5": {
+  "w": 420,
+  "h": 420,
+  "sw": 260,
+  "sh": 260,
+  "kb": 14
+ },
+ "social-6": {
+  "w": 420,
+  "h": 420,
+  "sw": 260,
+  "sh": 260,
+  "kb": 15
+ },
+ "hero-athlete": {
+  "w": 1000,
+  "h": 1241,
+  "sw": 620,
+  "sh": 769,
+  "kb": 54
+ }
+}

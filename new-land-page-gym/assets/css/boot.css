@@ -1,0 +1,195 @@
+/* ===== Boot sequence — the opening title of the site =====
+   Hidden until the boot script sets data-booting on <html>, so a failed script
+   or a no-JS visit never leaves a black plate over the page. */
+
+.fz-boot { display: none; }
+html[data-booting] .fz-boot { display: block; }
+
+.fz-boot {
+  position: fixed; inset: 0; z-index: 200;
+  contain: layout paint style;
+  font-family: var(--font-mono);
+}
+
+/* The two plates that part along the rule at the end of the sequence. */
+.fz-boot__half {
+  position: absolute; left: 0; right: 0; height: 50.05%;
+  background: var(--ink-000);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  transition: transform var(--dur-reveal) var(--ease-out-power);
+}
+.fz-boot__half--t { top: 0; }
+.fz-boot__half--b { bottom: 0; }
+.fz-boot[data-state="out"] .fz-boot__half--t { transform: translate3d(0, -100.5%, 0); }
+.fz-boot[data-state="out"] .fz-boot__half--b { transform: translate3d(0, 100.5%, 0); }
+
+/* ---------- Atmosphere ---------- */
+.fz-boot__air {
+  position: absolute; inset: 0; overflow: hidden;
+  opacity: 1; transition: opacity var(--dur-slow) var(--ease-out-power);
+}
+.fz-boot[data-state="lift"] .fz-boot__air,
+.fz-boot[data-state="out"] .fz-boot__air { opacity: 0; }
+
+.fz-boot__field { position: absolute; border-radius: 50%; will-change: transform; }
+.fz-boot__field--e {
+  width: 78vmax; height: 78vmax; left: -18vmax; top: -26vmax;
+  background: var(--light-field-ember); opacity: .34;
+  animation: fz-boot-drift-a 16s var(--ease-in-out-power) infinite alternate;
+}
+.fz-boot__field--p {
+  width: 86vmax; height: 86vmax; right: -28vmax; bottom: -34vmax;
+  background: var(--light-field-pulse); opacity: .28;
+  animation: fz-boot-drift-b 21s var(--ease-in-out-power) infinite alternate;
+}
+@keyframes fz-boot-drift-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(5vw, 3vh, 0); } }
+@keyframes fz-boot-drift-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-4vw, -3vh, 0); } }
+
+.fz-boot__grid {
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(90deg, rgba(244, 246, 250, .055) 0 1px, transparent 1px 25vw);
+  opacity: 0; transform: translate3d(0, 0, 0);
+  transition: opacity var(--dur-cinematic) var(--ease-out-power);
+}
+.fz-boot[data-state="in"] .fz-boot__grid { opacity: 1; }
+
+/* Faint energy lines crossing the field — two only, at different speeds. */
+.fz-boot__line {
+  position: absolute; left: -30%; width: 30%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 74, 23, .55), transparent);
+  will-change: transform;
+}
+.fz-boot__line--1 { top: 28%; animation: fz-boot-run 5.2s var(--ease-in-out-power) .4s infinite; }
+.fz-boot__line--2 { top: 71%; animation: fz-boot-run 6.8s var(--ease-in-out-power) 1.9s infinite; }
+@keyframes fz-boot-run {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  14% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translate3d(440%, 0, 0); opacity: 0; }
+}
+
+.fz-boot__air::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: var(--vignette),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23b)'/%3E%3C/svg%3E");
+  background-blend-mode: normal, overlay;
+  opacity: .9;
+}
+
+/* ---------- The rule: the page parts along this line ---------- */
+.fz-boot__rule {
+  position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+  background: linear-gradient(90deg, transparent 0, var(--ember-500) 7%, var(--ember-500) 72%, rgba(255, 74, 23, 0) 100%);
+  transform: scaleX(0); transform-origin: left center;
+  will-change: transform;
+  transition: transform var(--dur-cinematic) var(--ease-out-power), opacity var(--dur-base) linear;
+}
+.fz-boot[data-state="in"] .fz-boot__rule,
+.fz-boot[data-state="lift"] .fz-boot__rule { transform: scaleX(1); }
+.fz-boot[data-state="out"] .fz-boot__rule { transform: scaleX(1); opacity: 0; transition-delay: 0s, 200ms; }
+
+/* ---------- Stage ---------- */
+.fz-boot__stage {
+  position: absolute; inset: 0;
+  display: grid; grid-template-rows: 1fr 1fr;
+  max-width: var(--max-width); margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.fz-boot__top { display: flex; flex-direction: column; justify-content: flex-end; min-height: 0; padding-bottom: var(--space-4); }
+.fz-boot__bot { display: flex; flex-direction: column; gap: var(--space-5); padding-top: var(--space-5); min-height: 0; }
+
+/* Rise-in group: meta, label, readout */
+.fz-boot__rise { opacity: 0; transform: translate3d(0, 12px, 0); transition: opacity var(--dur-slow) var(--ease-out-power), transform var(--dur-slow) var(--ease-out-power); }
+.fz-boot[data-state="in"] .fz-boot__rise { opacity: 1; transform: none; }
+.fz-boot[data-state="lift"] .fz-boot__rise,
+.fz-boot[data-state="out"] .fz-boot__rise { opacity: 0; transform: translate3d(0, -10px, 0); transition-duration: var(--dur-base); }
+
+.fz-boot__meta {
+  display: flex; flex-wrap: wrap; gap: var(--space-4); margin: 0 0 var(--space-5);
+  font-size: var(--fs-micro); letter-spacing: var(--ls-micro); text-transform: uppercase;
+  color: var(--ink-700);
+}
+.fz-boot__meta em { font-style: normal; color: var(--ember-500); }
+
+/* ---------- Wordmark ---------- */
+.fz-boot__mark {
+  position: relative; display: flex; flex-wrap: wrap; overflow: hidden;
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 900;
+  font-size: clamp(3rem, 13.4vw, 12.5rem); line-height: .86;
+  letter-spacing: -.045em; text-transform: uppercase;
+  margin: 0; padding-bottom: .04em;
+}
+.fz-boot__word {
+  display: block; will-change: transform;
+  transform: translate3d(0, 106%, 0);
+  transition: transform var(--dur-cinematic) var(--ease-out-power);
+}
+.fz-boot__mark span:nth-child(1) { color: var(--chalk); }
+.fz-boot__mark span:nth-child(2) { color: var(--ember-500); transition-delay: var(--stagger); }
+.fz-boot[data-state="in"] .fz-boot__word { transform: translate3d(0, 0, 0); }
+.fz-boot[data-state="lift"] .fz-boot__mark span,
+.fz-boot[data-state="out"] .fz-boot__word {
+  transform: translate3d(0, -108%, 0);
+  transition-duration: var(--dur-slow); transition-delay: 0s;
+}
+.fz-boot__word--b { transition-delay: var(--stagger); }
+
+/* One light sweep across the mark, once. */
+.fz-boot__sweep {
+  position: absolute; top: 0; bottom: 0; left: -40%; width: 34%;
+  background: linear-gradient(100deg, transparent, rgba(244, 246, 250, .16), transparent);
+  transform: skewX(-14deg) translate3d(0, 0, 0); pointer-events: none;
+  opacity: 0;
+}
+.fz-boot[data-state="in"] .fz-boot__sweep { animation: fz-boot-sweep 1.5s var(--ease-in-out-power) .58s 1 forwards; }
+@keyframes fz-boot-sweep {
+  0% { opacity: 0; transform: skewX(-14deg) translate3d(0, 0, 0); }
+  22% { opacity: 1; }
+  78% { opacity: 1; }
+  100% { opacity: 0; transform: skewX(-14deg) translate3d(420%, 0, 0); }
+}
+
+/* ---------- Readout ---------- */
+.fz-boot__read { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5); }
+.fz-boot__label { font-size: var(--fs-micro); letter-spacing: var(--ls-micro); text-transform: uppercase; color: var(--ink-700); transition: color var(--dur-fast) linear; }
+.fz-boot[data-ready="1"] .fz-boot__label { color: var(--chalk); }
+.fz-boot__num {
+  display: flex; align-items: baseline; gap: .1em;
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 900;
+  font-size: clamp(1.7rem, 4.4vw, 3.1rem); line-height: .9; letter-spacing: -.03em;
+  color: var(--chalk); font-variant-numeric: tabular-nums;
+}
+.fz-boot__num i { font-style: normal; font-size: .34em; color: var(--ember-500); letter-spacing: 0; }
+
+/* ---------- Segmented measure ---------- */
+.fz-boot__ticks { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.fz-boot__tick {
+  flex: 1 1 0; height: 100%;
+  background: var(--line-hairline);
+  transform: scaleY(.34); transform-origin: bottom center;
+  will-change: transform;
+  transition: transform var(--dur-base) var(--ease-out-power), background-color var(--dur-fast) linear;
+}
+.fz-boot__tick--on { background: var(--ember-500); transform: scaleY(1); }
+.fz-boot[data-state="lift"] .fz-boot__tick,
+.fz-boot[data-state="out"] .fz-boot__tick { transform: scaleY(0); transition-duration: var(--dur-base); }
+
+@media (max-width: 640px) {
+  .fz-boot__ticks { gap: 2px; height: 14px; }
+  .fz-boot__meta { gap: var(--space-3); }
+}
+
+/* ---------- Reduced motion: one static frame, then a short fade ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fz-boot__field, .fz-boot__line, .fz-boot__sweep { animation: none !important; }
+  .fz-boot__line, .fz-boot__sweep { display: none; }
+  .fz-boot__word, .fz-boot__rise, .fz-boot__grid { transform: none !important; opacity: 1 !important; transition: none !important; }
+  .fz-boot__rule { transform: scaleX(1) !important; transition: none !important; }
+  .fz-boot__tick { transition: none !important; }
+  .fz-boot__half { transition: none !important; }
+  .fz-boot { transition: opacity var(--dur-fast) linear; }
+  .fz-boot[data-state="out"] { opacity: 0; }
+  .fz-boot[data-state="out"] .fz-boot__half--t,
+  .fz-boot[data-state="out"] .fz-boot__half--b { transform: none; }
+}

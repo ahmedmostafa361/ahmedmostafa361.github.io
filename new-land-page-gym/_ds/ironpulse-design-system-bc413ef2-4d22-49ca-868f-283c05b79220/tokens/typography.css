@@ -1,0 +1,41 @@
+:root{
+  /* Display - Archivo at max width (125), weight 900, tight and oversized */
+  --fs-mega:clamp(3.75rem,13.5vw,16rem); /* @kind font */
+  --fs-display-1:clamp(3rem,8.5vw,9rem); /* @kind font */
+  --fs-display-2:clamp(2.5rem,6vw,6rem); /* @kind font */
+  --fs-display-3:clamp(2rem,4vw,3.75rem); /* @kind font */
+  --fs-title-1:2.25rem;
+  --fs-title-2:1.75rem;
+  --fs-title-3:1.375rem;
+  --fs-body-lg:1.1875rem;
+  --fs-body:1rem;
+  --fs-body-sm:.875rem;
+  --fs-label:.8125rem;
+  --fs-micro:.6875rem;
+  --fs-stat:clamp(4rem,11vw,11rem); /* @kind font */
+
+  --lh-mega:.82; /* @kind other */
+  --lh-display:.88; /* @kind other */
+  --lh-title:1.08; /* @kind other */
+  --lh-body:1.55; /* @kind other */
+  --lh-tight:1.2; /* @kind other */
+
+  --ls-mega:-.045em; /* @kind other */
+  --ls-display:-.03em; /* @kind other */
+  --ls-title:-.015em; /* @kind other */
+  --ls-body:0em; /* @kind other */
+  --ls-label:.14em; /* @kind other */
+  --ls-micro:.22em; /* @kind other */
+
+  --fw-regular:400; /* @kind font */
+  --fw-medium:500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-black:900; /* @kind font */
+
+  /* Composite text roles */
+  --text-role-mega:var(--fw-black) var(--fs-mega)/var(--lh-mega) var(--font-display); /* @kind font */
+  --text-role-display:var(--fw-black) var(--fs-display-1)/var(--lh-display) var(--font-display); /* @kind font */
+  --text-role-title:var(--fw-black) var(--fs-title-1)/var(--lh-title) var(--font-display); /* @kind font */
+  --text-role-body:var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-ui); /* @kind font */
+  --text-role-label:var(--fw-medium) var(--fs-label)/1.2 var(--font-mono); /* @kind font */
+}
