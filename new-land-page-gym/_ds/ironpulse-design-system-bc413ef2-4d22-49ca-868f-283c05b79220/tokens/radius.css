@@ -1,9 +1,0 @@
-:root{
-  /* IronPulse is a hard-edged system. Radius is the exception, never the default. */
-  --radius-none:0px;
-  --radius-xs:2px;
-  --radius-sm:4px;
-  --radius-md:8px;
-  --radius-pill:999px;
-  --radius-default:var(--radius-none);
-}
