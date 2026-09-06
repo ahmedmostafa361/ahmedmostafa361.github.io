@@ -1,0 +1,14 @@
+:root{
+  /* Atmosphere: the reactive environment layer */
+  --blur-glass:18px;
+  --blur-heavy:40px;
+  --grain-opacity:.055; /* @kind other */
+  --vignette:radial-gradient(120% 90% at 50% 40%,transparent 40%,rgba(5,6,10,.85) 100%); /* @kind other */
+  --scrim-bottom:linear-gradient(to top,var(--ink-000) 0%,rgba(5,6,10,.75) 32%,transparent 78%); /* @kind other */
+  --scrim-top:linear-gradient(to bottom,rgba(5,6,10,.9) 0%,transparent 100%); /* @kind other */
+  --light-field-ember:radial-gradient(closest-side,rgba(255,74,23,.28),transparent 100%); /* @kind other */
+  --light-field-pulse:radial-gradient(closest-side,rgba(83,70,255,.32),transparent 100%); /* @kind other */
+  --hairline-grid:repeating-linear-gradient(to right,var(--line-hairline) 0 1px,transparent 1px 25%); /* @kind other */
+  --img-filter-brand:saturate(.85) contrast(1.12) brightness(.92); /* @kind other */
+  --img-filter-mono:grayscale(1) contrast(1.2); /* @kind other */
+}
