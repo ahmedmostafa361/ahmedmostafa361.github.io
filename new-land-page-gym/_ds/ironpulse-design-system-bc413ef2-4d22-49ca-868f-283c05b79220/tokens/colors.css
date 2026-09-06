@@ -1,0 +1,65 @@
+:root{
+  /* --- Base: cool near-black ink ramp, read off the gym photography --- */
+  --ink-000:#05060A;
+  --ink-050:#080A11;
+  --ink-100:#0D1017;
+  --ink-200:#141824;
+  --ink-300:#1E2431;
+  --ink-400:#2B3242;
+  --ink-500:#3F4859;
+  --ink-600:#5C6577;
+  --ink-700:#8C95A6;
+  --ink-800:#C2C9D6;
+  --ink-900:#E8ECF3;
+  --chalk:#F4F6FA;
+
+  /* --- Ember: the single hot signal colour. Buttons, rules, live data. --- */
+  --ember-300:#FF9166;
+  --ember-400:#FF6A3D;
+  --ember-500:#FF4A17;
+  --ember-600:#E23100;
+  --ember-700:#A82400;
+
+  /* --- Pulse: cool violet, the atmosphere colour. Light fields, glow, never a button. --- */
+  --pulse-300:#9A92FF;
+  --pulse-400:#7368FF;
+  --pulse-500:#5346FF;
+  --pulse-600:#3A2ED6;
+  --pulse-700:#241B8F;
+
+  /* --- Semantic --- */
+  --green-500:#39D98A;
+  --amber-500:#FFB020;
+  --red-500:#F5334F;
+
+  /* --- Aliases: surfaces --- */
+  --surface-void:var(--ink-000);
+  --surface-base:var(--ink-050);
+  --surface-raised:var(--ink-100);
+  --surface-card:var(--ink-200);
+  --surface-inset:var(--ink-300);
+  --surface-invert:var(--chalk);
+  --surface-scrim:rgba(5,6,10,.72);
+  --surface-glass:rgba(20,24,36,.55);
+
+  /* --- Aliases: text --- */
+  --text-hero:var(--chalk);
+  --text-body:var(--ink-800);
+  --text-muted:var(--ink-700);
+  --text-faint:var(--ink-600);
+  --text-accent:var(--ember-500);
+  --text-on-ember:var(--ink-000);
+  --text-on-invert:var(--ink-000);
+
+  /* --- Aliases: lines --- */
+  --line-hairline:rgba(244,246,250,.10);
+  --line-strong:rgba(244,246,250,.24);
+  --line-accent:var(--ember-500);
+  --line-on-light:rgba(5,6,10,.14);
+
+  /* --- Aliases: state --- */
+  --state-focus:var(--ember-400);
+  --state-success:var(--green-500);
+  --state-warning:var(--amber-500);
+  --state-danger:var(--red-500);
+}
