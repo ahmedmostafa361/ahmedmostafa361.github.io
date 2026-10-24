@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <title>Ahmed Mostafa Megahed — Flutter Developer | BLoC & Clean Architecture</title>
-<meta name="description" content="Flutter Developer building production iOS & Android apps with BLoC, Clean Architecture, Firebase, and REST APIs. Published Siratic on Google Play. Best Intern at Uneeq Interns. Based in Giza, Egypt — open to remote.">
-<meta name="keywords" content="Flutter Developer, Mobile App Developer, BLoC, Clean Architecture, Firebase, Dart, Flutter Egypt, Cross-Platform, iOS Android">
+<meta name="description" content="Flutter Developer building production iOS & Android apps with BLoC, Clean Architecture, Firebase, REST APIs and Node.js/TypeScript backends. Freelance client app La Tansa (13 languages, 2,534 tests), full-stack MedCare, and Siratic live on Google Play. Best Intern at Uneeq Interns. Based in Giza, Egypt — open to remote.">
+<meta name="keywords" content="Flutter Developer, Mobile App Developer, BLoC, Clean Architecture, Firebase, Dart, Flutter Egypt, Cross-Platform, iOS Android, Node.js, TypeScript, PostgreSQL, Freelance Flutter Developer">
 <meta name="author" content="Ahmed Mostafa Megahed">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Ahmed Mostafa Megahed — Flutter Developer">
-<meta property="og:description" content="Flutter Developer building production iOS & Android apps with BLoC, Clean Architecture, Firebase, and REST APIs. Published on Google Play. Open to remote opportunities.">
+<meta property="og:description" content="Flutter Developer building production iOS & Android apps — freelance client work (La Tansa), a full-stack booking platform (MedCare), and a live Google Play app. Open to remote opportunities.">
 <meta property="og:url" content="https://ahmedmostafa361.github.io">
 <meta property="og:image" content="https://ahmedmostafa361.github.io/og-preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -880,6 +880,416 @@
   }
 
   /* ══════════════════════════════════════════════════════
+     SPOTLIGHT CASE STUDIES — La Tansa & MedCare
+     Full-width cards at the top of .projects-grid. Each card sets its
+     own --sp-* brand hues (deliberately NOT the semantic status colors).
+     Animated conic border, CSS-only phone mock-ups, count-up stats.
+     All motion stops under prefers-reduced-motion (overrides below).
+  ══════════════════════════════════════════════════════ */
+  @property --sp-angle{syntax:'<angle>';inherits:false;initial-value:0deg;}
+  .spotlight{
+    --sp-a:#ffb547;--sp-b:#ff7a59;--sp-c:#7c5cff;
+    --sp-glow:rgba(255,160,80,.17);--sp-soft:rgba(255,181,71,.10);--sp-line:rgba(255,181,71,.30);
+    grid-column:1/-1;position:relative;isolation:isolate;
+    padding:1px;border-radius:26px;
+    background:conic-gradient(from var(--sp-angle),var(--sp-a),var(--sp-b),var(--sp-c),rgba(255,255,255,.07) 72%,var(--sp-a));
+    animation:spSpin 9s linear infinite;
+    box-shadow:0 50px 100px -60px var(--sp-a),var(--shadow-card);
+  }
+  .spotlight--medcare{
+    --sp-a:#2dd4bf;--sp-b:#38bdf8;--sp-c:#4f8eff;
+    --sp-glow:rgba(45,212,191,.15);--sp-soft:rgba(45,212,191,.10);--sp-line:rgba(45,212,191,.32);
+  }
+  @keyframes spSpin{to{--sp-angle:360deg;}}
+  .spotlight-inner{
+    position:relative;border-radius:25px;overflow:hidden;
+    background:
+      radial-gradient(70% 60% at 88% 8%,var(--sp-glow),transparent 62%),
+      radial-gradient(55% 50% at 0% 100%,rgba(124,92,255,.08),transparent 65%),
+      linear-gradient(180deg,#0f0f17,#09090e);
+    display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+    gap:clamp(1.75rem,1rem + 3vw,4rem);align-items:center;
+    padding:clamp(1.3rem,.8rem + 2.4vw,3rem);
+  }
+  .spotlight-inner::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:36px 36px;
+    -webkit-mask-image:radial-gradient(ellipse 45% 70% at 80% 50%,#000 10%,transparent 75%);
+            mask-image:radial-gradient(ellipse 45% 70% at 80% 50%,#000 10%,transparent 75%);
+  }
+  .spotlight-inner>*{position:relative;z-index:1;}
+  .spotlight--reverse .spotlight-inner{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);}
+  .spotlight--reverse .sp-visual{order:-1;}
+  .spotlight--reverse .spotlight-inner::before{
+    -webkit-mask-image:radial-gradient(ellipse 45% 70% at 20% 50%,#000 10%,transparent 75%);
+            mask-image:radial-gradient(ellipse 45% 70% at 20% 50%,#000 10%,transparent 75%);
+  }
+
+  /* ── content column ── */
+  .sp-topline{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:1.1rem;}
+  .sp-new{
+    display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .85rem .3rem .65rem;
+    border-radius:var(--radius-full);font-family:var(--font-mono);font-size:.68rem;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--text-primary);
+    background:linear-gradient(90deg,var(--sp-soft),rgba(255,255,255,.02));border:1px solid var(--sp-line);
+  }
+  .sp-new-dot{width:7px;height:7px;border-radius:50%;background:var(--sp-a);animation:spPing 2s var(--ease-standard) infinite;}
+  @keyframes spPing{
+    0%{box-shadow:0 0 0 0 var(--sp-line);}
+    80%,100%{box-shadow:0 0 0 9px transparent;}
+  }
+  .sp-title{
+    font-family:var(--font-display);font-weight:600;line-height:1.02;letter-spacing:-.02em;
+    font-size:clamp(2.2rem,1.5rem + 2.8vw,3.6rem);margin-bottom:.9rem;
+    display:flex;flex-wrap:wrap;align-items:center;gap:.25em .55em;
+  }
+  .sp-title-main{
+    background:linear-gradient(100deg,var(--text-primary) 15%,var(--sp-a) 55%,var(--sp-b) 80%,var(--text-primary));
+    background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:spSheen 7s ease-in-out infinite alternate;
+  }
+  @keyframes spSheen{from{background-position:0% 0;}to{background-position:100% 0;}}
+  .sp-title-sub{
+    font-family:var(--font-body);font-size:.4em;font-weight:600;letter-spacing:0;line-height:1.2;
+    color:var(--sp-a);padding:.3em .7em;border-radius:var(--radius-sm);
+    background:var(--sp-soft);border:1px solid var(--sp-line);
+  }
+  .sp-tagline{color:var(--text-secondary);font-size:var(--text-base);line-height:1.7;max-width:62ch;margin-bottom:1.6rem;}
+  .sp-tagline strong{color:var(--text-primary);font-weight:600;}
+
+  .sp-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin-bottom:1.7rem;}
+  .sp-stat{
+    position:relative;overflow:hidden;padding:.95rem .9rem .85rem;border-radius:var(--radius-md);
+    background:rgba(255,255,255,.025);border:1px solid var(--border-01);
+    transition:border-color var(--duration-base) var(--ease-standard),transform var(--duration-base) var(--ease-standard);
+  }
+  .sp-stat::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:linear-gradient(90deg,var(--sp-a),var(--sp-b),transparent);}
+  .sp-stat:hover{border-color:var(--sp-line);transform:translateY(-2px);}
+  .sp-stat-num{
+    display:block;font-family:var(--font-display);font-weight:600;line-height:1.1;
+    font-size:clamp(1.35rem,1.1rem + .9vw,1.9rem);font-variant-numeric:tabular-nums;
+    background:linear-gradient(120deg,var(--text-primary) 30%,var(--sp-a));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sp-stat-label{display:block;margin-top:.35rem;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);}
+
+  .sp-features{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem 1.5rem;margin-bottom:1.7rem;}
+  .sp-features li{display:flex;gap:.8rem;align-items:flex-start;}
+  .sp-ico{
+    flex-shrink:0;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+    color:var(--sp-a);background:var(--sp-soft);border:1px solid var(--sp-line);
+  }
+  .sp-ico svg{width:17px;height:17px;}
+  .sp-features strong{display:block;font-size:.9rem;font-weight:600;color:var(--text-primary);margin-bottom:.2rem;line-height:1.35;}
+  .sp-txt{display:block;font-size:.8rem;line-height:1.58;color:var(--text-secondary);}
+
+  .sp-flow{margin-bottom:1.5rem;}
+  .sp-flow-label{display:block;font-family:var(--font-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:.65rem;}
+  .sp-flow ol{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;}
+  .sp-flow li{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--font-mono);font-size:.7rem;color:var(--text-primary);}
+  .sp-flow li+li::before{content:"";width:14px;height:1px;background:linear-gradient(90deg,var(--border-02),var(--sp-a));}
+  .sp-flow li>span{
+    padding:.36rem .72rem;border-radius:var(--radius-full);border:1px solid var(--border-02);
+    background:rgba(255,255,255,.03);white-space:nowrap;
+    animation:spFlow 6s var(--ease-standard) infinite;animation-delay:calc(var(--i) * .7s);
+  }
+  @keyframes spFlow{
+    0%,10%{border-color:var(--sp-a);color:var(--sp-a);background:var(--sp-soft);box-shadow:0 0 18px -4px var(--sp-a);}
+    24%,100%{border-color:var(--border-02);color:var(--text-primary);background:rgba(255,255,255,.03);box-shadow:none;}
+  }
+
+  .sp-links{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:.3rem;}
+  .sp-btn{
+    display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.15rem;border-radius:var(--radius-full);
+    font-size:.84rem;font-weight:600;text-decoration:none;color:#04110f;
+    background:linear-gradient(110deg,var(--sp-a),var(--sp-b));
+    box-shadow:0 12px 30px -14px var(--sp-a);
+    transition:transform var(--duration-base) var(--ease-standard),box-shadow var(--duration-base) var(--ease-standard);
+  }
+  .sp-btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px var(--sp-a);}
+  .sp-btn:focus-visible{outline:2px solid var(--sp-a);outline-offset:3px;}
+  .sp-private{
+    display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;line-height:1.4;color:var(--text-secondary);
+    padding:.6rem 1rem;border-radius:var(--radius-md);border:1px dashed var(--border-02);background:rgba(255,255,255,.02);
+  }
+  .sp-private svg{flex-shrink:0;color:var(--sp-a);}
+
+  /* ── visual column ── */
+  .sp-visual{position:relative;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:640px;}
+  .sp-stage{position:relative;width:100%;flex:1;display:flex;align-items:center;justify-content:center;min-height:650px;}
+  .sp-orb{position:absolute;border-radius:50%;filter:blur(56px);pointer-events:none;opacity:.24;animation:spOrb 12s ease-in-out infinite alternate;}
+  .sp-orb--a{width:240px;height:240px;background:var(--sp-a);top:6%;right:8%;}
+  .sp-orb--b{width:210px;height:210px;background:var(--sp-c);bottom:6%;left:6%;animation-delay:-6s;}
+  @keyframes spOrb{to{transform:translate(-28px,22px) scale(1.12);}}
+  .sp-ring{
+    position:absolute;top:50%;left:50%;width:min(450px,100%);aspect-ratio:1;transform:translate(-50%,-50%);
+    border-radius:50%;border:1px solid rgba(255,255,255,.06);pointer-events:none;
+  }
+  .sp-ring::before{content:"";position:absolute;inset:13%;border-radius:50%;border:1px dashed var(--sp-line);animation:spRot 48s linear infinite;}
+  .sp-ring::after{
+    content:"";position:absolute;inset:-1px;border-radius:50%;
+    background:conic-gradient(from 0deg,transparent 0 78%,var(--sp-a) 94%,transparent 100%);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1.5px));
+            mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1.5px));
+    animation:spRot 7s linear infinite;
+  }
+  @keyframes spRot{to{transform:rotate(360deg);}}
+  .sp-caption{margin-top:.4rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-tertiary);text-align:center;}
+
+  /* device */
+  .sp-device{position:relative;z-index:2;}
+  .phone-float{animation:spFloat 7s ease-in-out infinite;}
+  @keyframes spFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+  .phone{
+    position:relative;width:256px;height:530px;border-radius:44px;padding:9px;
+    background:linear-gradient(145deg,#2c2c38,#0c0c12 42%,#1d1d27);
+    box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.13),0 0 0 1px rgba(0,0,0,.6),
+               0 50px 90px -40px rgba(0,0,0,.9),0 30px 90px -40px var(--sp-a);
+    transform:perspective(1400px) rotateY(-13deg) rotateX(5deg) rotateZ(1deg);
+    transition:transform .9s var(--ease-standard);
+  }
+  .spotlight--reverse .phone{transform:perspective(1400px) rotateY(13deg) rotateX(5deg) rotateZ(-1deg);}
+  .spotlight:hover .phone{transform:perspective(1400px) rotateY(0) rotateX(0) rotateZ(0);}
+  .phone::before{content:"";position:absolute;right:-3px;top:126px;width:3px;height:66px;border-radius:0 3px 3px 0;background:#2c2c38;}
+  .phone::after{content:"";position:absolute;left:-3px;top:110px;width:3px;height:40px;border-radius:3px 0 0 3px;background:#2c2c38;}
+  .phone-screen{
+    position:relative;height:100%;border-radius:36px;overflow:hidden;
+    color:#e9ebf3;font-family:var(--font-body);font-size:11px;line-height:1.35;text-align:left;
+  }
+  .phone-island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:82px;height:23px;border-radius:20px;background:#000;z-index:8;}
+  .phone-status{position:relative;z-index:7;display:flex;justify-content:space-between;align-items:center;height:40px;padding:4px 22px 0 26px;font-size:11px;font-weight:600;}
+  .phone-status svg{display:block;}
+  .phone-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:9;background:linear-gradient(115deg,rgba(255,255,255,.08),transparent 26%,transparent 72%,rgba(255,255,255,.035));}
+  .phone-homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:94px;height:4px;border-radius:4px;background:rgba(255,255,255,.55);z-index:9;}
+  .phone-body{position:relative;padding:4px 14px 0;}
+  .phone-tabbar{
+    position:absolute;left:10px;right:10px;bottom:18px;z-index:6;display:flex;justify-content:space-around;
+    padding:8px 6px;border-radius:18px;background:rgba(18,17,26,.88);border:1px solid rgba(255,255,255,.08);
+  }
+  .phone-tabbar span{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;color:#6f6d86;}
+  .phone-tabbar span.on{color:var(--sp-a);background:var(--sp-soft);}
+  .phone-tabbar svg{width:13px;height:13px;}
+
+  /* floating glass chips around the device */
+  .sp-float{
+    position:absolute;z-index:4;border-radius:16px;
+    background:rgba(17,17,26,.8);border:1px solid rgba(255,255,255,.12);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    box-shadow:0 24px 50px -24px rgba(0,0,0,.95);color:var(--text-primary);
+    animation:spBob 6s ease-in-out infinite;
+  }
+  .sp-float small{display:block;font-family:var(--font-mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);}
+  @keyframes spBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+
+  /* ── La Tansa screen ── */
+  .lt-screen{background:radial-gradient(120% 55% at 50% -8%,rgba(255,122,89,.28),transparent 62%),linear-gradient(180deg,#140e1a,#08070c 58%);}
+  .lt-head{display:flex;justify-content:space-between;align-items:center;margin:2px 0 10px;}
+  .lt-head small{display:block;color:#9a98b0;font-size:9.5px;}
+  .lt-head b{font-family:var(--font-display);font-size:15px;font-weight:600;}
+  .lt-lang{font-size:9px;font-family:var(--font-mono);padding:4px 7px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:#ffd59a;}
+  .lt-prayer{
+    position:relative;overflow:hidden;border-radius:18px;padding:12px 13px;color:#1b0e05;
+    background:linear-gradient(135deg,#ffc061,#ff7a59 58%,#8b62ff);box-shadow:0 14px 30px -14px #ff7a59;
+  }
+  .lt-prayer::after{content:"";position:absolute;right:-20px;top:-22px;width:92px;height:92px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.6),rgba(255,255,255,0) 62%);}
+  .lt-prayer small{display:block;font-size:8.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;opacity:.72;}
+  .lt-prayer-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:2px;}
+  .lt-prayer-row b{font-family:var(--font-display);font-size:21px;font-weight:600;}
+  .lt-prayer-row span{font-family:var(--font-mono);font-size:13px;font-weight:700;}
+  .lt-count{margin-top:5px;display:flex;justify-content:space-between;font-size:9.5px;font-weight:600;}
+  .lt-count span:first-child{font-family:var(--font-mono);}
+  .lt-progress{margin-top:7px;height:4px;border-radius:4px;background:rgba(27,14,5,.2);overflow:hidden;}
+  .lt-progress i{display:block;height:100%;width:66%;background:#1b0e05;border-radius:inherit;animation:ltFill 6s ease-in-out infinite alternate;}
+  @keyframes ltFill{from{width:56%;}to{width:74%;}}
+  .lt-ask{margin:10px 0;display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#a7a5bd;font-size:10px;}
+  .lt-ask svg{width:12px;height:12px;color:#ffb547;flex-shrink:0;}
+  .lt-caret{width:1px;height:11px;background:#ffb547;animation:spBlink 1s steps(1) infinite;}
+  @keyframes spBlink{50%{opacity:0;}}
+  .lt-section{display:flex;justify-content:space-between;font-size:8.5px;font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:#8e8ca6;margin:2px 2px 7px;}
+  .lt-rem{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:7px;}
+  .lt-rem-ico{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;background:rgba(255,181,71,.14);color:#ffb547;flex-shrink:0;}
+  .lt-rem-ico svg{width:14px;height:14px;}
+  .lt-rem--ring .lt-rem-ico svg{animation:ltRing 2.6s ease-in-out infinite;transform-origin:50% 12%;}
+  @keyframes ltRing{
+    0%,42%,100%{transform:rotate(0);}5%{transform:rotate(16deg);}10%{transform:rotate(-14deg);}
+    15%{transform:rotate(10deg);}20%{transform:rotate(-8deg);}25%{transform:rotate(4deg);}30%{transform:rotate(0);}
+  }
+  .lt-rem-txt{flex:1;min-width:0;}
+  .lt-rem-txt b{display:block;font-size:10.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lt-rem-txt small{color:#8e8ca6;font-size:9px;}
+  .lt-actions{display:flex;gap:4px;}
+  .lt-actions span{font-size:8px;font-weight:700;padding:3px 6px;border-radius:999px;background:rgba(255,255,255,.08);}
+  .lt-actions span:first-child{background:#ffb547;color:#1b0e05;}
+  .lt-wave{display:flex;align-items:center;gap:2px;height:16px;}
+  .lt-wave i{width:2px;height:30%;border-radius:2px;background:#ff7a59;animation:ltWave 1.1s ease-in-out infinite alternate;}
+  .lt-wave i:nth-child(2n){animation-delay:-.35s;}
+  .lt-wave i:nth-child(3n){animation-delay:-.7s;}
+  .lt-wave i:nth-child(5n){animation-delay:-.2s;}
+  @keyframes ltWave{to{height:100%;}}
+  /* La Tansa floats */
+  .lt-widget{top:0;right:0;width:132px;padding:12px 13px;}
+  .lt-widget b{display:block;font-family:var(--font-display);font-size:15px;font-weight:600;margin-top:4px;}
+  .lt-widget .lt-w-time{display:block;font-family:var(--font-mono);font-size:19px;font-weight:700;background:linear-gradient(100deg,#ffc061,#ff7a59);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lt-widget .lt-w-os{display:flex;gap:4px;margin-top:6px;}
+  .lt-widget .lt-w-os span{font-size:8px;font-family:var(--font-mono);padding:2px 5px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--text-secondary);}
+  .lt-notif{bottom:2%;left:0;width:205px;padding:10px 12px;display:flex;gap:9px;align-items:center;animation-delay:-2s;}
+  .lt-notif-ico{width:30px;height:30px;border-radius:9px;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(135deg,#ffc061,#ff7a59);color:#1b0e05;}
+  .lt-notif-ico svg{width:15px;height:15px;}
+  .lt-notif b{display:block;font-size:11px;font-weight:600;}
+  .lt-notif div span{display:block;font-size:10px;color:var(--text-secondary);}
+  .lt-langs{top:44%;left:0;padding:10px 13px;width:184px;animation-delay:-4s;}
+  .lt-rot{position:relative;display:block;height:22px;overflow:hidden;margin-top:3px;}
+  .lt-rot span{
+    position:absolute;inset:0;white-space:nowrap;font-family:var(--font-display);font-size:15px;font-weight:600;
+    color:#ffd59a;opacity:0;transform:translateY(100%);animation:ltRot 10s var(--ease-standard) infinite;
+  }
+  .lt-rot span[lang="ar"]{font-family:var(--font-body);}
+  .lt-rot span:nth-child(2){animation-delay:2.5s;}
+  .lt-rot span:nth-child(3){animation-delay:5s;}
+  .lt-rot span:nth-child(4){animation-delay:7.5s;}
+  @keyframes ltRot{0%{opacity:0;transform:translateY(100%);}4%,22%{opacity:1;transform:none;}26%,100%{opacity:0;transform:translateY(-100%);}}
+  .lt-langs em{display:block;white-space:nowrap;font-style:normal;font-family:var(--font-mono);font-size:.55rem;color:var(--text-tertiary);margin-top:2px;}
+
+  /* ── MedCare screen ── */
+  .mc-screen{background:radial-gradient(120% 55% at 50% -8%,rgba(45,212,191,.24),transparent 62%),linear-gradient(180deg,#071319,#06080c 58%);}
+  .mc-view{position:absolute;inset:40px 0 0;padding:4px 14px 0;transition:opacity .55s var(--ease-standard),transform .55s var(--ease-standard);}
+  .mc-view--doctor{opacity:0;transform:translateX(26px);pointer-events:none;}
+  .phone[data-role="doctor"] .mc-view--patient{opacity:0;transform:translateX(-26px);pointer-events:none;}
+  .phone[data-role="doctor"] .mc-view--doctor{opacity:1;transform:none;}
+  .mc-head{display:flex;justify-content:space-between;align-items:center;margin:2px 0 10px;}
+  .mc-head small{display:block;color:#8fa3ad;font-size:9.5px;}
+  .mc-head b{font-family:var(--font-display);font-size:15px;font-weight:600;}
+  .mc-avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:9.5px;font-weight:700;color:#04110f;background:linear-gradient(135deg,#2dd4bf,#38bdf8);}
+  .mc-search{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#8fa3ad;font-size:10px;margin-bottom:9px;}
+  .mc-search svg{width:12px;height:12px;color:#2dd4bf;flex-shrink:0;}
+  .mc-chips{display:flex;gap:5px;margin-bottom:10px;overflow:hidden;white-space:nowrap;}
+  .mc-chips span{font-size:9px;font-weight:600;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.06);color:#b5c3ca;}
+  .mc-chips span.on{background:#2dd4bf;color:#04110f;}
+  .mc-doc{display:flex;gap:9px;align-items:center;padding:10px;border-radius:14px;background:linear-gradient(135deg,rgba(45,212,191,.14),rgba(56,189,248,.06));border:1px solid rgba(45,212,191,.25);margin-bottom:10px;}
+  .mc-doc .mc-avatar{width:34px;height:34px;font-size:11px;border-radius:11px;}
+  .mc-doc b{display:block;font-size:11px;font-weight:600;}
+  .mc-doc small{display:block;font-size:9px;color:#8fa3ad;}
+  .mc-doc em{display:inline-block;margin-top:3px;font-style:normal;font-family:var(--font-mono);font-size:7.5px;padding:2px 5px;border-radius:5px;background:rgba(45,212,191,.16);color:#5eead4;}
+  .mc-days{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:9px;}
+  .mc-days span{text-align:center;padding:5px 0;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:8px;color:#8fa3ad;}
+  .mc-days span b{display:block;font-size:12px;color:#e9ebf3;}
+  .mc-days span.on{background:rgba(45,212,191,.16);border-color:rgba(45,212,191,.5);color:#5eead4;}
+  .mc-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px;}
+  .mc-slots span{text-align:center;padding:6px 0;border-radius:9px;font-family:var(--font-mono);font-size:9.5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);}
+  .mc-slots span.taken{color:#55626a;text-decoration:line-through;background:transparent;border-style:dashed;}
+  .mc-slots span.sel{background:#2dd4bf;color:#04110f;font-weight:700;border-color:#2dd4bf;box-shadow:0 0 0 3px rgba(45,212,191,.2),0 8px 18px -8px #2dd4bf;}
+  .mc-cta{position:relative;overflow:hidden;text-align:center;padding:10px;border-radius:13px;font-weight:700;font-size:11px;color:#04110f;background:linear-gradient(110deg,#2dd4bf,#38bdf8);}
+  .mc-cta::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:mcShine 3.2s ease-in-out infinite;}
+  @keyframes mcShine{0%,40%{left:-60%;}75%,100%{left:130%;}}
+  .mc-toast{
+    position:absolute;top:44px;left:12px;right:12px;z-index:7;display:flex;align-items:center;gap:7px;
+    padding:8px 10px;border-radius:12px;background:rgba(40,16,18,.95);border:1px solid rgba(248,113,113,.45);
+    font-size:9.5px;color:#fecaca;box-shadow:0 14px 28px -12px rgba(0,0,0,.9);
+    opacity:0;transform:translateY(-130%);animation:mcToast 10s var(--ease-standard) infinite;
+  }
+  .mc-toast code{font-family:var(--font-mono);font-size:8.5px;font-weight:700;padding:2px 5px;border-radius:5px;background:rgba(248,113,113,.2);color:#fca5a5;}
+  .phone[data-role="doctor"] .mc-toast{visibility:hidden;}
+  @keyframes mcToast{0%,52%{opacity:0;transform:translateY(-130%);}58%,82%{opacity:1;transform:none;}88%,100%{opacity:0;transform:translateY(-130%);}}
+  /* doctor view */
+  .mc-live{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:8.5px;font-weight:700;color:#5eead4;padding:4px 8px;border-radius:999px;background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.35);}
+  .mc-live i{width:6px;height:6px;border-radius:50%;background:#2dd4bf;animation:spBlink 1.4s steps(1) infinite;}
+  .mc-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px;}
+  .mc-kpis span{padding:7px 8px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:8.5px;color:#8fa3ad;}
+  .mc-kpis b{display:block;font-family:var(--font-display);font-size:16px;color:#e9ebf3;font-weight:600;}
+  .mc-appt{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:6px;}
+  .mc-appt time{font-family:var(--font-mono);font-size:9px;color:#8fa3ad;width:30px;flex-shrink:0;}
+  .mc-appt b{flex:1;min-width:0;font-size:10.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mc-st{font-size:7.5px;font-weight:700;font-family:var(--font-mono);padding:3px 6px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em;}
+  .mc-st--ok{background:rgba(45,212,191,.16);color:#5eead4;}
+  .mc-st--done{background:rgba(255,255,255,.07);color:#9aa6ad;}
+  .mc-act{display:flex;gap:4px;}
+  .mc-act span{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;font-size:9px;font-weight:700;}
+  .mc-act span:first-child{background:#2dd4bf;color:#04110f;}
+  .mc-act span:last-child{background:rgba(248,113,113,.18);color:#fca5a5;}
+  .mc-skel{height:34px;border-radius:12px;margin-bottom:6px;background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.04) 75%);background-size:200% 100%;animation:mcSkel 1.6s linear infinite;}
+  @keyframes mcSkel{from{background-position:200% 0;}to{background-position:-200% 0;}}
+  .mc-hours{margin-top:8px;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+  .mc-hours small{display:block;font-family:var(--font-mono);font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:#8fa3ad;margin-bottom:6px;}
+  .mc-bars{display:flex;align-items:flex-end;gap:5px;height:30px;}
+  .mc-bars i{flex:1;border-radius:3px 3px 1px 1px;background:linear-gradient(180deg,#2dd4bf,rgba(45,212,191,.25));}
+  .mc-bars i.off{background:rgba(255,255,255,.08);}
+  /* role toggle (real control, outside the decorative device) */
+  .mc-toggle{
+    position:relative;z-index:5;display:inline-flex;gap:3px;padding:4px;margin-bottom:.4rem;border-radius:var(--radius-full);
+    background:rgba(255,255,255,.04);border:1px solid var(--border-02);
+  }
+  .mc-toggle button{
+    appearance:none;border:0;cursor:pointer;padding:.45rem 1rem;border-radius:var(--radius-full);
+    font:600 .76rem var(--font-body);color:var(--text-secondary);background:transparent;
+    transition:background var(--duration-base) var(--ease-standard),color var(--duration-base) var(--ease-standard);
+  }
+  .mc-toggle button[aria-pressed="true"]{background:linear-gradient(110deg,var(--sp-a),var(--sp-b));color:#04110f;}
+  .mc-toggle button:focus-visible{outline:2px solid var(--sp-a);outline-offset:2px;}
+  /* MedCare floats */
+  .mc-code{bottom:1%;left:0;width:208px;padding:11px 13px;font-family:var(--font-mono);font-size:9.5px;line-height:1.65;animation-delay:-3s;}
+  .mc-code .k{color:#5eead4;} .mc-code .m{color:#8fa3ad;} .mc-code .ok{color:#86efac;font-weight:700;}
+  .mc-code .cur{display:inline-block;width:6px;height:11px;vertical-align:-2px;background:#5eead4;animation:spBlink 1s steps(1) infinite;}
+  .mc-chip{display:flex;align-items:center;gap:8px;padding:9px 12px;}
+  .mc-chip b{display:block;font-size:11px;font-weight:600;}
+  .mc-chip-ico{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex-shrink:0;background:var(--sp-soft);border:1px solid var(--sp-line);color:var(--sp-a);}
+  .mc-chip-ico svg{width:13px;height:13px;}
+  .mc-chip--a{top:0;right:0;}
+  .mc-chip--b{top:46%;right:0;animation-delay:-1.5s;}
+
+  /* ── responsive ── */
+  @media(max-width:1180px){
+    .sp-float.lt-langs,.sp-float.mc-chip--b{display:none;}
+  }
+  @media(max-width:1024px){
+    .spotlight-inner,.spotlight--reverse .spotlight-inner{grid-template-columns:1fr;}
+    .spotlight--reverse .sp-visual{order:0;}
+    .spotlight-inner::before,.spotlight--reverse .spotlight-inner::before{
+      -webkit-mask-image:radial-gradient(ellipse 70% 40% at 50% 80%,#000 10%,transparent 75%);
+              mask-image:radial-gradient(ellipse 70% 40% at 50% 80%,#000 10%,transparent 75%);
+    }
+    .sp-float.lt-langs,.sp-float.mc-chip--b{display:flex;}
+    .sp-float.lt-langs{display:block;}
+    .sp-visual{min-height:0;}
+    .lt-widget,.mc-chip--a{right:4%;}
+    .lt-notif,.mc-code{left:4%;}
+    .lt-langs{left:4%;}
+    .mc-chip--b{right:4%;}
+  }
+  @media(max-width:720px){
+    .sp-stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sp-features{grid-template-columns:1fr;}
+    .sp-float.lt-langs,.sp-float.mc-chip--b{display:none;}
+    .lt-widget,.mc-chip--a{right:0;top:4%;}
+    .lt-notif,.mc-code{left:0;bottom:6%;}
+  }
+  @media(max-width:560px){
+    .sp-float{display:none !important;}
+    .sp-stage{min-height:480px;}
+    .mc-toggle{margin-bottom:0;}
+    .sp-device{transform:scale(.86);}
+    .spotlight{border-radius:20px;}
+    .spotlight-inner{border-radius:19px;}
+    .sp-title{font-size:clamp(2rem,1.4rem + 4vw,2.6rem);}
+  }
+  @media(max-width:360px){
+    .sp-stage{min-height:440px;}
+    .sp-device{transform:scale(.8);}
+    .sp-stat{padding:.8rem .7rem .7rem;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .spotlight,.spotlight *,.spotlight *::before,.spotlight *::after{animation:none !important;}
+    .lt-rot span{opacity:0;transform:none;}
+    .lt-rot span:first-child{opacity:1;}
+    .mc-toast{display:none;}
+    .phone,.spotlight--reverse .phone,.spotlight:hover .phone{transform:none;}
+    .lt-wave i{height:60%;}
+  }
+  .sp-txt code{font-family:var(--font-mono);font-size:.9em;color:var(--text-primary);}
+
+  /* ══════════════════════════════════════════════════════
      @media print — Professional CV print layout
      Hides all portfolio chrome, shows only CV content
   ══════════════════════════════════════════════════════ */
@@ -979,6 +1389,7 @@
     <p class="hero-specialty">BLoC/Cubit · Clean Architecture</p>
     <div class="hero-proof">
       <span class="badge-status badge-live">● Live on Google Play</span>
+      <span class="badge-status badge-progress">◆ Freelance — La Tansa</span>
       <span class="badge-status badge-award">🏆 Best Intern — Uneeq Interns</span>
       <span class="badge-status badge-neutral">1K+ Flutter Followers</span>
     </div>
@@ -1041,6 +1452,13 @@
     <div class="marquee-item"><span class="marquee-dot"></span>Dio</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Stripe</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Node.js</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>TypeScript</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Prisma</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Kotlin Widgets</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>WidgetKit / SwiftUI</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Codemagic</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>GoRouter</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Clean Architecture</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Hive</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Provider</div>
@@ -1059,6 +1477,13 @@
     <div class="marquee-item"><span class="marquee-dot"></span>Dio</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Stripe</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Node.js</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>TypeScript</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>PostgreSQL</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Prisma</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Kotlin Widgets</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>WidgetKit / SwiftUI</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Codemagic</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>GoRouter</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Clean Architecture</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Hive</div>
     <div class="marquee-item"><span class="marquee-dot"></span>Provider</div>
@@ -1078,6 +1503,7 @@
     <h2 class="section-title">Crafting Digital<br>Experiences</h2>
     <div class="divider"></div>
     <p>Flutter developer building production, consumer-facing mobile apps with BLoC/Cubit and Clean Architecture. Shipped and actively maintain <strong style="color:var(--neon)">Siratic</strong> on Google Play, iterating on real user feedback across multiple releases.</p>
+    <p>Now working as a freelance Flutter developer on <strong style="color:var(--neon)">La Tansa</strong> — a 13-language memory &amp; reminders app with native widgets, shipped to Android and iOS TestFlight — and building <strong style="color:var(--neon)">MedCare</strong>, a full-stack doctor-booking platform with a Node.js/TypeScript + PostgreSQL backend in production.</p>
     <p>Built a full-featured E-Commerce app on MVVM + Clean Architecture with Dio/Retrofit REST integration and token-based authentication. Collaborated in a 4-person developer team using Git feature branches, pull requests, and merge conflict resolution.</p>
     <div class="about-highlights">
       <div class="highlight-item reveal fade-up">
@@ -1117,7 +1543,7 @@
       <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:1rem;">🎓 MUST · Eng. GPA 3.45</div>
       <div class="ac-stats">
         <div class="ac-stat">
-          <div class="ac-stat-val">8+</div>
+          <div class="ac-stat-val">10+</div>
           <div class="ac-stat-label">Projects</div>
         </div>
         <div class="ac-stat">
@@ -1168,8 +1594,8 @@
         <div class="skill-track"><div class="skill-bar" data-width="85"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">JavaScript / Node.js (in progress)</span><span class="skill-pct">60%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="60"></div></div>
+        <div class="skill-header"><span class="skill-name">Node.js / TypeScript (REST APIs)</span><span class="skill-pct">72%</span></div>
+        <div class="skill-track"><div class="skill-bar" data-width="72"></div></div>
       </div>
     </div>
     <!-- Architecture -->
@@ -1217,6 +1643,10 @@
         <div class="skill-header"><span class="skill-name">Postman</span><span class="skill-pct">80%</span></div>
         <div class="skill-track"><div class="skill-bar" data-width="80"></div></div>
       </div>
+      <div class="skill-item">
+        <div class="skill-header"><span class="skill-name">PostgreSQL / Prisma</span><span class="skill-pct">70%</span></div>
+        <div class="skill-track"><div class="skill-bar" data-width="70"></div></div>
+      </div>
     </div>
     <!-- UI & Device Skills -->
     <div class="skill-category reveal slide-left" style="transition-delay:.15s">
@@ -1237,6 +1667,10 @@
       <div class="skill-item">
         <div class="skill-header"><span class="skill-name">Audioplayers / Speech-to-Text</span><span class="skill-pct">78%</span></div>
         <div class="skill-track"><div class="skill-bar" data-width="78"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-header"><span class="skill-name">Native Widgets (Kotlin · WidgetKit)</span><span class="skill-pct">74%</span></div>
+        <div class="skill-track"><div class="skill-bar" data-width="74"></div></div>
       </div>
     </div>
     <!-- Collaboration -->
@@ -1263,6 +1697,10 @@
         <div class="skill-header"><span class="skill-name">Google Play Publishing</span><span class="skill-pct">75%</span></div>
         <div class="skill-track"><div class="skill-bar" data-width="75"></div></div>
       </div>
+      <div class="skill-item">
+        <div class="skill-header"><span class="skill-name">Codemagic → TestFlight (iOS CI)</span><span class="skill-pct">76%</span></div>
+        <div class="skill-track"><div class="skill-bar" data-width="76"></div></div>
+      </div>
     </div>
   </div>
   </div>
@@ -1273,11 +1711,42 @@
   <div class="container">
   <div class="reveal fade-up" style="margin-bottom:3.5rem;">
     <p class="section-label">// work experience</p>
-    <h2 class="section-title">Internship<br>Experience</h2>
+    <h2 class="section-title">Professional<br>Experience</h2>
     <div class="divider"></div>
-    <p class="section-sub">Real-world delivery under professional conditions — not just side projects.</p>
+    <p class="section-sub">Client delivery and an award-winning internship — real-world work under professional conditions, not just side projects.</p>
   </div>
   <div class="timeline" style="max-width:780px;">
+    <div class="timeline-item reveal fade-up">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
+        <div>
+          <div class="tl-year">Oct 2026 — Present</div>
+          <div class="tl-title">Freelance Flutter Developer</div>
+          <div class="tl-sub">La Tansa (<span lang="ar" dir="rtl">لا تنسى</span>) · Client Project · Remote</div>
+        </div>
+        <span class="badge-status badge-progress">◆ Client · In progress</span>
+      </div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem;">
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
+          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
+          Building a 13-language personal memory &amp; reminders app for a client — notes, voice, documents, search and Q&amp;A over saved items, reminders and prayer times — delivered in 18 stages, each gated by <code>flutter analyze</code> and the full suite of 2,534 automated tests.
+        </li>
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
+          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
+          Ship iOS builds from a Windows PC through Codemagic → TestFlight (App Store Connect API key, automatic signing for the app and widget extension, auto build numbers); resolved ITMS-90683 / ITMS-90068 and tested on a real iPhone 14 Pro Max.
+        </li>
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
+          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
+          Built native home-screen and lock-screen widgets (Kotlin RemoteViews · WidgetKit/SwiftUI) synced through App Group JSON snapshots, plus on-device prayer times and Adhan for an offline database of 34,006 cities.
+        </li>
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
+          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
+          Clean Architecture + MVVM (Cubit, use cases, repositories, injectable/get_it) across four environments (mock/dev/staging/prod); GoRouter StatefulShellRoute with per-tab stacks.
+        </li>
+      </ul>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem;">
+        <span class="tag">Flutter</span><span class="tag">Cubit · MVVM</span><span class="tag">Kotlin</span><span class="tag">WidgetKit/SwiftUI</span><span class="tag">Codemagic</span><span class="tag">TestFlight</span><span class="tag">i18n · 13 langs</span>
+      </div>
+    </div>
     <div class="timeline-item reveal fade-up">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
         <div>
@@ -1318,10 +1787,335 @@
     <p class="section-label">// portfolio</p>
     <h2 class="section-title">Selected Projects</h2>
     <div class="divider"></div>
-    <p class="section-sub">Eight projects spanning a live production app, internship deliverables, and personal builds — three shown with the full picture, the rest just as real.</p>
+    <p class="section-sub">Eleven projects — a freelance client app, a full-stack platform in production, a live Play Store app, internship deliverables and personal builds. Five shown with the full picture, the rest just as real.</p>
   </div>
 
   <div class="projects-grid">
+
+    <!-- ★ SPOTLIGHT 01 — La Tansa (لا تنسى) · freelance client project, in progress -->
+    <article class="spotlight spotlight--tansa reveal fade-up" aria-labelledby="sp-tansa-title">
+      <div class="spotlight-inner">
+        <div class="sp-content">
+          <div class="sp-topline">
+            <span class="sp-new"><span class="sp-new-dot" aria-hidden="true"></span>New · Freelance client</span>
+            <span class="badge-status badge-progress">◆ IN PROGRESS · OCT 2026</span>
+          </div>
+          <h3 class="sp-title" id="sp-tansa-title">
+            <span class="sp-title-main">La Tansa</span>
+            <span class="sp-title-sub" lang="ar" dir="rtl">لا تنسى</span>
+          </h3>
+          <p class="sp-tagline">A personal memory &amp; reminders app — notes, voice, documents, <strong>search and Q&amp;A over everything you saved</strong>, alarm-style reminders and prayer times. Built for a client and delivered to <strong>Android (APK) and iPhone (TestFlight)</strong> in 13 languages.</p>
+
+          <div class="sp-stats">
+            <div class="sp-stat"><span class="sp-stat-num" data-count="13">13</span><span class="sp-stat-label">Languages · RTL</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="2534">2,534</span><span class="sp-stat-label">Automated tests</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="34006">34,006</span><span class="sp-stat-label">Offline cities</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="18">18</span><span class="sp-stat-label">Gated stages</span></div>
+          </div>
+
+          <ul class="sp-features">
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+              <div><strong>Native home &amp; lock-screen widgets</strong><span class="sp-txt">Kotlin RemoteViews on Android, WidgetKit + SwiftUI on iOS — fed by versioned JSON snapshots through an App Group, deep-linking via GoRouter with a sign-in guard.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+              <div><strong>On-device prayer times &amp; Adhan</strong><span class="sp-txt">Per-city time zone from an offline database of 34,006 cities. Exact alarm-clock scheduling on Android, time-sensitive alerts with bundled sounds on iOS — inside the 64-notification limit.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+              <div><strong>Alarm-style reminders</strong><span class="sp-txt">Six original tones generated with Python, follow-up rings, and Done / Snooze actions straight from the notification.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3 3m3-3 3 3"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></span>
+              <div><strong>iOS shipped from a Windows PC</strong><span class="sp-txt">Codemagic → TestFlight with an App Store Connect API key, automatic signing for the app and widget extension, auto build numbers. Fixed ITMS-90683 and ITMS-90068.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <div><strong>Accounts built for real life</strong><span class="sp-txt">Google, Apple &amp; email sign-in, optional phone with 4-digit OTP, device limit, active-device sessions, lost-device recovery, and deletion with a grace period.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg></span>
+              <div><strong>13 languages, checked on real screens</strong><span class="sp-txt">14 ARB files incl. Arabic RTL, pt-PT and pt-BR. Every screen verified at 320×568 and 1.3× text with reduce-motion; on an iPhone 14 Pro Max, fixed a Face ID bottom-bar strip and a blank SwiftUI widget.</span></div>
+            </li>
+          </ul>
+
+          <div class="sp-flow">
+            <span class="sp-flow-label">iOS delivery pipeline</span>
+            <ol>
+              <li><span style="--i:0">Windows PC</span></li>
+              <li><span style="--i:1">Codemagic</span></li>
+              <li><span style="--i:2">Auto signing</span></li>
+              <li><span style="--i:3">TestFlight</span></li>
+              <li><span style="--i:4">iPhone 14 Pro Max</span></li>
+            </ol>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag">Cubit · MVVM</span><span class="tag">Clean Arch</span><span class="tag">GoRouter</span><span class="tag">injectable/get_it</span><span class="tag">Kotlin</span><span class="tag">WidgetKit · SwiftUI</span><span class="tag">Codemagic</span><span class="tag">TestFlight</span><span class="tag">i18n · 13 langs</span><span class="tag">4 environments</span>
+          </div>
+
+          <div class="sp-links">
+            <span class="sp-private">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              Private client codebase · Android APK &amp; iOS TestFlight builds delivered
+            </span>
+          </div>
+        </div>
+
+        <figure class="sp-visual">
+          <div class="sp-stage" aria-hidden="true">
+            <div class="sp-orb sp-orb--a"></div>
+            <div class="sp-orb sp-orb--b"></div>
+            <div class="sp-ring"></div>
+
+            <div class="sp-float lt-langs">
+              <small>Don't forget, in</small>
+              <span class="lt-rot">
+                <span lang="en">Don't forget</span>
+                <span lang="ar" dir="rtl">لا تنسى</span>
+                <span lang="pt-PT">Não te esqueças</span>
+                <span lang="pt-BR">Não esqueça</span>
+              </span>
+              <em>EN · AR · PT-PT · PT-BR · +9</em>
+            </div>
+
+            <div class="sp-device">
+              <div class="phone-float">
+                <div class="phone">
+                  <div class="phone-screen lt-screen">
+                    <div class="phone-island"></div>
+                    <div class="phone-status"><span>9:41</span><svg width="38" height="11" viewBox="0 0 38 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/><rect x="21" y="1" width="15" height="9" rx="2.5" fill="none" stroke="currentColor"/><rect x="22.6" y="2.6" width="10" height="5.8" rx="1.3"/><rect x="36.6" y="3.8" width="1.4" height="3.4" rx=".7"/></svg></div>
+                    <div class="phone-body">
+                      <div class="lt-head">
+                        <div><small>Good evening</small><b>Your day, remembered</b></div>
+                        <span class="lt-lang">EN ⇄ ع</span>
+                      </div>
+                      <div class="lt-prayer">
+                        <small>Next prayer · Giza</small>
+                        <div class="lt-prayer-row"><b>Maghrib</b><span>17:21</span></div>
+                        <div class="lt-count"><span id="tansaCountdown">in 00:42:18</span><span>Africa/Cairo</span></div>
+                        <div class="lt-progress"><i></i></div>
+                      </div>
+                      <div class="lt-ask">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                        <span>Where did I save my passport?</span><span class="lt-caret"></span>
+                      </div>
+                      <div class="lt-section"><span>Reminders</span><span>3 today</span></div>
+                      <div class="lt-rem lt-rem--ring">
+                        <span class="lt-rem-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+                        <div class="lt-rem-txt"><b>Renew passport</b><small>Today · 18:00</small></div>
+                        <div class="lt-actions"><span>Done</span><span>Snooze</span></div>
+                      </div>
+                      <div class="lt-rem">
+                        <span class="lt-rem-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></span>
+                        <div class="lt-rem-txt"><b>Voice note</b><small>0:14 · saved 2h ago</small></div>
+                        <div class="lt-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                      </div>
+                      <div class="lt-rem">
+                        <span class="lt-rem-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+                        <div class="lt-rem-txt"><b>Lease contract.pdf</b><small>Document · searchable</small></div>
+                      </div>
+                    </div>
+                    <div class="phone-tabbar">
+                      <span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg></span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+                    </div>
+                    <div class="phone-homebar"></div>
+                    <div class="phone-glare"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sp-float lt-widget">
+              <small>Home widget</small>
+              <b>Maghrib</b>
+              <span class="lt-w-time">17:21</span>
+              <span class="lt-w-os"><span>Kotlin</span><span>WidgetKit</span></span>
+            </div>
+
+            <div class="sp-float lt-notif">
+              <span class="lt-notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+              <div><b>Adhan · Time Sensitive</b><span>Maghrib in Giza — 17:21</span></div>
+            </div>
+          </div>
+          <figcaption class="sp-caption">Illustrative mock-up · not a production screenshot</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- ★ SPOTLIGHT 02 — MedCare · full-stack (Flutter + Node.js/TypeScript + PostgreSQL) -->
+    <article class="spotlight spotlight--medcare spotlight--reverse reveal fade-up" aria-labelledby="sp-medcare-title">
+      <div class="spotlight-inner">
+        <div class="sp-content">
+          <div class="sp-topline">
+            <span class="sp-new"><span class="sp-new-dot" aria-hidden="true"></span>New · Full-stack</span>
+            <span class="badge-status badge-live">● BACKEND IN PRODUCTION</span>
+          </div>
+          <h3 class="sp-title" id="sp-medcare-title">
+            <span class="sp-title-main">MedCare</span>
+            <span class="sp-title-sub">Doctor booking · 2 roles</span>
+          </h3>
+          <p class="sp-tagline">A two-role medical appointment platform — <strong>patients</strong> find a doctor and book in the clinic's time zone, <strong>doctors</strong> run their day from a live dashboard. I built both sides: the Flutter client and the <strong>Node.js/TypeScript + PostgreSQL</strong> API behind it.</p>
+
+          <div class="sp-stats">
+            <div class="sp-stat"><span class="sp-stat-num" data-count="170" data-suffix="+">170+</span><span class="sp-stat-label">Test files</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="500" data-suffix="K">500K</span><span class="sp-stat-label">Rows load-tested</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="27">27</span><span class="sp-stat-label">Backend stages</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="50" data-suffix="+">50+</span><span class="sp-stat-label">Reusable widgets</span></div>
+          </div>
+
+          <ul class="sp-features">
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
+              <div><strong>Two roles, one app</strong><span class="sp-txt">Patients search by name, specialty or clinic, then book, reschedule or cancel; records, prescriptions, notifications. Doctors confirm, decline or complete visits, set weekly hours and time off, write records.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>
+              <div><strong>Booking that survives bad networks</strong><span class="sp-txt">Idempotency key on retries, duplicate-tap blocking, and clear handling when a slot was just taken (409) or a status change isn't allowed.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+              <div><strong>Auth that holds up under load</strong><span class="sp-txt">6-digit OTP reset, secure token storage, one Dio interceptor that shares a single refresh across concurrent 401s, and a 429 Retry-After lock.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
+              <div><strong>Production backend, built in 27 stages</strong><span class="sp-txt">Node.js/TypeScript REST on PostgreSQL + Prisma; every stage gated by lint, type-check, tests and build. A partial unique index makes double-booking impossible; ownership-based access control.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 7 12 12 2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span>
+              <div><strong>Pagination that scales</strong><span class="sp-txt">Keyset on createdAt + id, HMAC-signed opaque cursors, 20 per page (100 max), a frozen response envelope — load-tested on 500,000 rows. Pull-to-refresh and load-more retry on the client.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4M17 19h4"/></svg></span>
+              <div><strong>Polished and proven</strong><span class="sp-txt">Arabic/English RTL with translated server error codes, design-system tokens, skeletons, Lottie and staggered motion that respects reduce-motion. 170+ test files plus opt-in integration tests against the live API.</span></div>
+            </li>
+          </ul>
+
+          <div class="sp-flow">
+            <span class="sp-flow-label">One request, end to end</span>
+            <ol>
+              <li><span style="--i:0">Flutter UI</span></li>
+              <li><span style="--i:1">Cubit</span></li>
+              <li><span style="--i:2">Use case</span></li>
+              <li><span style="--i:3">Repository</span></li>
+              <li><span style="--i:4">Dio + Retrofit</span></li>
+              <li><span style="--i:5">Node.js · TS</span></li>
+              <li><span style="--i:6">PostgreSQL · Prisma</span></li>
+            </ol>
+          </div>
+
+          <div class="project-tags">
+            <span class="tag">Cubit · MVVM</span><span class="tag">Clean Arch</span><span class="tag">GetIt/Injectable</span><span class="tag">Dio/Retrofit</span><span class="tag">Node.js</span><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">Prisma</span><span class="tag">bloc_test</span><span class="tag">Mocktail</span><span class="tag">AR/EN RTL</span>
+          </div>
+
+          <div class="sp-links">
+            <a href="https://github.com/ahmedmostafa361/medical_app_flutter" target="_blank" rel="noopener noreferrer" class="sp-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+              View code on GitHub
+            </a>
+          </div>
+        </div>
+
+        <figure class="sp-visual">
+          <div class="mc-toggle" role="group" aria-label="Preview MedCare as" data-role-toggle="medcarePhone">
+            <button type="button" data-role="patient" aria-pressed="true">Patient app</button>
+            <button type="button" data-role="doctor" aria-pressed="false">Doctor dashboard</button>
+          </div>
+          <div class="sp-stage" aria-hidden="true">
+            <div class="sp-orb sp-orb--a"></div>
+            <div class="sp-orb sp-orb--b"></div>
+            <div class="sp-ring"></div>
+
+            <div class="sp-float mc-chip mc-chip--a">
+              <span class="mc-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>
+              <div><small>Dio interceptor</small><b>3 × 401 → 1 refresh</b></div>
+            </div>
+            <div class="sp-float mc-chip mc-chip--b">
+              <span class="mc-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 7 12 12 2 7z"/><path d="m2 17 10 5 10-5"/></svg></span>
+              <div><small>Keyset cursor</small><b>500K rows · fast</b></div>
+            </div>
+
+            <div class="sp-device">
+              <div class="phone-float">
+                <div class="phone" id="medcarePhone" data-role="patient">
+                  <div class="phone-screen mc-screen">
+                    <div class="phone-island"></div>
+                    <div class="phone-status"><span>9:41</span><svg width="38" height="11" viewBox="0 0 38 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/><rect x="21" y="1" width="15" height="9" rx="2.5" fill="none" stroke="currentColor"/><rect x="22.6" y="2.6" width="10" height="5.8" rx="1.3"/><rect x="36.6" y="3.8" width="1.4" height="3.4" rx=".7"/></svg></div>
+
+                    <div class="mc-toast"><code>409</code><span>Slot just taken — pick another time</span></div>
+
+                    <!-- patient view -->
+                    <div class="mc-view mc-view--patient">
+                      <div class="mc-head">
+                        <div><small>Find care</small><b>Book a doctor</b></div>
+                        <span class="mc-avatar">AM</span>
+                      </div>
+                      <div class="mc-search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                        Name, specialty or clinic
+                      </div>
+                      <div class="mc-chips"><span class="on">Cardiology</span><span>Dermatology</span><span>Pediatrics</span></div>
+                      <div class="mc-doc">
+                        <span class="mc-avatar">SA</span>
+                        <div><b>Dr. Sara Adel</b><small>Cardiology · Nile Clinic</small><em>CLINIC TZ · AFRICA/CAIRO</em></div>
+                      </div>
+                      <div class="mc-days">
+                        <span class="on">Sat<b>24</b></span><span>Sun<b>25</b></span><span>Mon<b>26</b></span><span>Tue<b>27</b></span>
+                      </div>
+                      <div class="mc-slots">
+                        <span>09:00</span><span class="taken">09:30</span><span class="sel">10:00</span>
+                        <span>10:30</span><span class="taken">11:00</span><span>11:30</span>
+                      </div>
+                      <div class="mc-cta">Confirm booking</div>
+                    </div>
+
+                    <!-- doctor view -->
+                    <div class="mc-view mc-view--doctor">
+                      <div class="mc-head">
+                        <div><small>Doctor dashboard</small><b>Today</b></div>
+                        <span class="mc-live"><i></i>LIVE</span>
+                      </div>
+                      <div class="mc-kpis">
+                        <span><b>8</b>Booked</span><span><b>2</b>Pending</span><span><b>5</b>Done</span>
+                      </div>
+                      <div class="mc-appt"><time>09:00</time><b>Omar K.</b><span class="mc-st mc-st--ok">Confirmed</span></div>
+                      <div class="mc-appt"><time>09:30</time><b>Lina M.</b><span class="mc-act"><span>✓</span><span>✕</span></span></div>
+                      <div class="mc-appt"><time>10:00</time><b>Youssef H.</b><span class="mc-st mc-st--done">Completed</span></div>
+                      <div class="mc-skel"></div>
+                      <div class="mc-skel"></div>
+                      <div class="mc-hours">
+                        <small>Weekly hours</small>
+                        <div class="mc-bars"><i style="height:70%"></i><i style="height:90%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:75%"></i><i class="off" style="height:20%"></i><i class="off" style="height:20%"></i></div>
+                      </div>
+                    </div>
+
+                    <div class="phone-tabbar">
+                      <span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg></span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+                      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+                    </div>
+                    <div class="phone-homebar"></div>
+                    <div class="phone-glare"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sp-float mc-code">
+              <div><span class="k">POST</span> /appointments</div>
+              <div class="m">Idempotency-Key: 7f3c…a91e</div>
+              <div><span class="ok">← 201 Created</span> <span class="cur"></span></div>
+            </div>
+          </div>
+          <figcaption class="sp-caption">Illustrative mock-up · toggle to switch roles</figcaption>
+        </figure>
+      </div>
+    </article>
 
     <!-- 01 — Siratic (live, published, real users) -->
     <div class="project-card project-featured reveal fade-up">
@@ -1634,7 +2428,7 @@
       <div style="font-size:.75rem;color:var(--text-secondary);">Siratic App — Published</div>
     </div>
     <div style="text-align:center;padding:1rem;border-left:1px solid var(--border-01);">
-      <div style="font-family:var(--font-display);font-weight:600;font-size:1.8rem;color:var(--accent);">8+</div>
+      <div style="font-family:var(--font-display);font-weight:600;font-size:1.8rem;color:var(--accent);">10+</div>
       <div style="font-family:var(--font-display);font-weight:600;font-size:1rem;color:var(--text-primary);margin:.3rem 0 .2rem;">Apps Delivered</div>
       <div style="font-size:.75rem;color:var(--text-secondary);">Cross-platform mobile</div>
     </div>
@@ -2291,13 +3085,63 @@ document.querySelectorAll('.video-facade').forEach(el=>{
     if(e.key==='Enter'||e.key===' '){ e.preventDefault(); load(); }
   });
 });
+
+// ── SPOTLIGHT CASE STUDIES (La Tansa, MedCare): count-ups, role toggle, live countdown ──
+(function(){
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt = n => n.toLocaleString('en-US');
+
+  // Count-up stats — final value is already in the HTML, so no-JS / reduced-motion shows it as-is.
+  const nums = document.querySelectorAll('.sp-stat-num[data-count]');
+  const runCount = el => {
+    const target = Number(el.dataset.count), suffix = el.dataset.suffix || '';
+    if(!Number.isFinite(target)) return;
+    const duration = 1500, start = performance.now();
+    const tick = now => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(Math.round(target * eased)) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    const numObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ runCount(e.target); numObs.unobserve(e.target); } });
+    }, {threshold:.4});
+    nums.forEach(n => { n.textContent = '0' + (n.dataset.suffix || ''); numObs.observe(n); });
+  }
+
+  // MedCare role toggle — Patient app / Doctor dashboard
+  document.querySelectorAll('[data-role-toggle]').forEach(group => {
+    const phone = document.getElementById(group.dataset.roleToggle);
+    if(!phone) return;
+    const buttons = group.querySelectorAll('button[data-role]');
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      buttons.forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+      phone.dataset.role = btn.dataset.role;
+    }));
+  });
+
+  // La Tansa mock countdown (decorative; loops)
+  const cd = document.getElementById('tansaCountdown');
+  if(cd && !reduceMotion){
+    const START = 42 * 60 + 18;
+    let s = START;
+    const pad = n => String(n).padStart(2, '0');
+    setInterval(() => {
+      s = s > 0 ? s - 1 : START;
+      cd.textContent = 'in ' + pad(Math.floor(s / 3600)) + ':' + pad(Math.floor(s % 3600 / 60)) + ':' + pad(s % 60);
+    }, 1000);
+  }
+})();
 </script>
 
 <!-- PRINT CV CONTENT (hidden in browser, shown only in @media print) -->
 <div id="print-cv-content" style="display:none;">
   <div class="pcv-header">
     <div class="pcv-name">Ahmed Mostafa Megahed</div>
-    <div class="pcv-role">Flutter Developer | BLoC &amp; Clean Architecture | Cross-Platform (iOS &amp; Android)</div>
+    <div class="pcv-role">Flutter Developer | BLoC &amp; Clean Architecture | Cross-Platform (iOS &amp; Android) | Node.js/TypeScript</div>
     <div class="pcv-contact">
       <span>Giza, Egypt (Open to Remote/Hybrid)</span>
       <span>+20 01553015505</span>
@@ -2310,7 +3154,7 @@ document.querySelectorAll('.video-facade').forEach(el=>{
 
   <div class="pcv-section">
     <div class="pcv-section-title">Professional Summary</div>
-    <p class="pcv-summary">Flutter developer building production, consumer-facing mobile apps with BLoC/Cubit and Clean Architecture. Shipped and actively maintain "Siratic," a live Google Play app, iterating on real user feedback across multiple releases. Built a full-featured E-Commerce app on MVVM + Clean Architecture with Dio/Retrofit REST integration, authentication, and persistent state. Collaborated in a 4-person developer team using Git feature branches, pull requests, and merge conflict resolution. Recognised as Best Intern of the Month at Uneeq Interns; teaches Flutter to a 1,000+ follower community on YouTube and TikTok.</p>
+    <p class="pcv-summary">Flutter developer building production, consumer-facing mobile apps with BLoC/Cubit and Clean Architecture. Shipped and actively maintain "Siratic," a live Google Play app, iterating on real user feedback across multiple releases. Freelance developer on "La Tansa," a 13-language memory &amp; reminders app delivered to Android and iOS TestFlight with native widgets and 2,534 automated tests; built "MedCare," a full-stack doctor-booking platform (Flutter + Node.js/TypeScript, PostgreSQL/Prisma) deployed to production. Built a full-featured E-Commerce app on MVVM + Clean Architecture with Dio/Retrofit REST integration, authentication, and persistent state. Collaborated in a 4-person developer team using Git feature branches, pull requests, and merge conflict resolution. Recognised as Best Intern of the Month at Uneeq Interns; teaches Flutter to a 1,000+ follower community on YouTube and TikTok.</p>
   </div>
 
   <div class="pcv-section">
@@ -2318,7 +3162,9 @@ document.querySelectorAll('.video-facade').forEach(el=>{
     <div class="pcv-skills-grid">
       <div class="pcv-skill-row"><span class="pcv-skill-label">Architecture & State:</span> BLoC/Cubit, Clean Architecture, MVVM, Provider, GetIt/Injectable, Design Patterns</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Languages & Platforms:</span> Flutter, Dart (Null Safety), JavaScript, Android SDK, iOS (Simulator/Device)</div>
-      <div class="pcv-skill-row"><span class="pcv-skill-label">Networking & Backend:</span> REST APIs, Dio, http, Retrofit, JWT/Bearer Auth, Firebase Auth, Cloud Firestore, Hive, SharedPreferences, Node.js/Express (in progress)</div>
+      <div class="pcv-skill-row"><span class="pcv-skill-label">Networking & Backend:</span> REST APIs, Dio, http, Retrofit, JWT/Bearer Auth, Firebase Auth, Cloud Firestore, Hive, SharedPreferences, Node.js/TypeScript, PostgreSQL + Prisma, keyset pagination</div>
+      <div class="pcv-skill-row"><span class="pcv-skill-label">Native &amp; Delivery:</span> Kotlin (Android widgets), WidgetKit/SwiftUI, Codemagic → TestFlight, GoRouter, i18n (13 languages / ARB)</div>
+      <div class="pcv-skill-row"><span class="pcv-skill-label">Testing:</span> flutter_test, bloc_test, Mocktail, integration tests, GitHub Actions CI</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Payments:</span> Stripe (Payment Intents, native Payment Sheet, webhook signature verification), PCI-compliant tokenization, 3D Secure</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Version Control:</span> Git, GitHub, feature-branch workflows, pull requests, merge conflict resolution</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Design & Collaboration:</span> Figma, Stitch (UI/UX Handoff), Agile development, Postman, Android Studio</div>
@@ -2328,6 +3174,17 @@ document.querySelectorAll('.video-facade').forEach(el=>{
 
   <div class="pcv-section">
     <div class="pcv-section-title">Experience</div>
+    <div class="pcv-item">
+      <div class="pcv-item-header">
+        <span class="pcv-item-title">Freelance Flutter Developer — La Tansa (لا تنسى), Client Project (Remote)</span>
+        <span class="pcv-item-date">Oct 2026 – Present</span>
+      </div>
+      <ul class="pcv-bullets">
+        <li>Building a 13-language memory &amp; reminders app (notes, voice, documents, search &amp; Q&amp;A, reminders, prayer times) in 18 stages gated by flutter analyze and 2,534 automated tests; Android APK and iOS TestFlight builds delivered.</li>
+        <li>iOS from Windows via Codemagic → TestFlight (App Store Connect API key, automatic signing for app + widget extension); fixed ITMS-90683/ITMS-90068; tested on iPhone 14 Pro Max.</li>
+        <li>Native widgets (Kotlin RemoteViews, WidgetKit/SwiftUI) via App Group JSON snapshots; on-device prayer times and Adhan for 34,006 offline cities; Clean Architecture + MVVM (Cubit, injectable/get_it), GoRouter.</li>
+      </ul>
+    </div>
     <div class="pcv-item">
       <div class="pcv-item-header">
         <span class="pcv-item-title">Mobile App Development Intern — Uneeq Interns <span class="pcv-badge">🏆 Best Intern — May 2026</span></span>
@@ -2343,6 +3200,16 @@ document.querySelectorAll('.video-facade').forEach(el=>{
 
   <div class="pcv-section">
     <div class="pcv-section-title">Selected Projects</div>
+    <div class="pcv-item">
+      <div class="pcv-item-header">
+        <span class="pcv-item-title">MedCare — Medical Appointment Platform <span class="pcv-badge">FULL-STACK</span></span>
+        <span class="pcv-item-date">github.com/ahmedmostafa361/medical_app_flutter</span>
+      </div>
+      <ul class="pcv-bullets">
+        <li>Two-role Flutter client (patients book/reschedule in the clinic's time zone; doctors run a live dashboard) — MVVM + Clean Architecture, Cubit, GetIt/Injectable, cursor pagination, idempotent booking retries, 409 handling, single shared token refresh across concurrent 401s, AR/EN RTL; 170+ test files.</li>
+        <li>Node.js/TypeScript REST API on PostgreSQL + Prisma in 27 gated stages, deployed to production; keyset pagination with HMAC-signed cursors load-tested on 500,000 rows; partial unique index prevents double-booking.</li>
+      </ul>
+    </div>
     <div class="pcv-item">
       <div class="pcv-item-header">
         <span class="pcv-item-title">E-Commerce App</span>
