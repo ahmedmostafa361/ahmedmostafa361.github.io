@@ -1945,6 +1945,105 @@
   @media (prefers-reduced-motion: reduce){.py-r{opacity:1;}}
 
   /* ══════════════════════════════════════════════════════
+     SKILLS — orbit hero + filterable bento of proven skills
+  ══════════════════════════════════════════════════════ */
+  .sk-section{position:relative;overflow:hidden;}
+  .sk-section::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(50% 40% at 80% 10%,rgba(79,142,255,.12),transparent 70%),radial-gradient(40% 35% at 5% 90%,rgba(161,127,224,.10),transparent 70%);}
+  .sk-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(1.5rem,1rem + 3vw,4rem);align-items:center;margin-bottom:2.5rem;}
+  .sk-lead{color:var(--text-secondary);font-size:var(--text-base);line-height:1.75;max-width:56ch;margin:1.2rem 0 1.8rem;}
+  .sk-lead strong{color:var(--text-primary);}
+  .sk-counters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;}
+  .sk-counters div{position:relative;padding:1rem .9rem;border-radius:var(--radius-md);background:rgba(255,255,255,.025);border:1px solid var(--border-01);overflow:hidden;}
+  .sk-counters div::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,#4f8eff,#a17fe0,#2dd4bf);}
+  .sk-counters b{display:block;font-family:var(--font-display);font-weight:600;font-size:clamp(1.4rem,1.1rem + 1vw,2rem);
+    background:linear-gradient(120deg,#fff 30%,#7fb0ff);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums;}
+  .sk-counters span{display:block;margin-top:.3rem;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);}
+
+  /* orbit */
+  .sk-orbit{position:relative;width:min(440px,100%);aspect-ratio:1;margin:0 auto;}
+  .sk-core{position:absolute;inset:36%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    background:radial-gradient(circle at 35% 30%,#5b8cff,#3b2ea8 70%);box-shadow:0 0 0 10px rgba(79,142,255,.08),0 0 80px -10px #4f8eff;animation:skPulse 4s ease-in-out infinite;}
+  .sk-core b{font-family:var(--font-display);font-size:clamp(1.4rem,1rem + 1.6vw,2.1rem);font-weight:600;color:#fff;line-height:1;}
+  .sk-core span{font-family:var(--font-mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-top:.35rem;}
+  @keyframes skPulse{50%{box-shadow:0 0 0 18px rgba(79,142,255,.04),0 0 110px -6px #4f8eff;}}
+  .sk-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.08);animation:spRot var(--t) linear infinite;}
+  .sk-ring--1{inset:24%;--t:26s;--r:-26s;border-style:dashed;border-color:rgba(79,142,255,.3);}
+  .sk-ring--2{inset:11%;--t:40s;--r:-40s;animation-direction:reverse;}
+  .sk-ring--3{inset:0;--t:60s;}
+  .sk-ring span{position:absolute;white-space:nowrap;translate:-50% -50%;
+    font-size:.72rem;font-family:var(--font-mono);color:var(--text-primary);padding:.35rem .7rem;border-radius:var(--radius-full);
+    background:rgba(15,16,26,.9);border:1px solid var(--border-02);box-shadow:0 8px 20px -10px rgba(0,0,0,.8);
+    animation:spRot var(--t) linear infinite reverse;}
+  .sk-ring--2 span{animation-direction:normal;border-color:rgba(161,127,224,.4);}
+  .sk-ring--1 span{border-color:rgba(79,142,255,.45);}
+  .sk-ring--3 span{border-color:rgba(45,212,191,.35);}
+
+  /* tabs */
+  .sk-tabs{display:flex;flex-wrap:wrap;gap:.4rem;padding:.35rem;margin-bottom:1.4rem;width:max-content;max-width:100%;border-radius:var(--radius-full);background:rgba(255,255,255,.03);border:1px solid var(--border-01);}
+  .sk-tabs button{appearance:none;border:0;cursor:pointer;padding:.5rem 1rem;border-radius:var(--radius-full);font:600 .8rem var(--font-body);color:var(--text-secondary);background:transparent;transition:background var(--duration-base),color var(--duration-base);}
+  .sk-tabs button[aria-pressed="true"]{background:linear-gradient(110deg,#4f8eff,#a17fe0);color:#fff;box-shadow:0 8px 20px -10px #4f8eff;}
+  .sk-tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* bento */
+  .sk-bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;}
+  .sk-card{--c:hsl(var(--h) 90% 66%);--cs:hsl(var(--h) 90% 66% / .12);--cl:hsl(var(--h) 90% 66% / .35);
+    position:relative;isolation:isolate;padding:1.5rem;border-radius:20px;overflow:hidden;
+    background:linear-gradient(180deg,#0f0f17,#0a0a10);border:1px solid var(--border-01);
+    transition:border-color var(--duration-base) var(--ease-standard),transform var(--duration-base) var(--ease-standard),opacity .35s,filter .35s;}
+  .sk-card::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .3s;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),var(--cs),transparent 70%);}
+  .sk-card::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.7;}
+  .sk-card:hover{border-color:var(--cl);transform:translateY(-3px);}
+  .sk-card:hover::before{opacity:1;}
+  .sk-card--wide{grid-column:span 2;}
+  .sk-card.is-dim{opacity:.22;filter:grayscale(.8);transform:scale(.985);}
+  .sk-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+  .sk-ico{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:var(--c);background:var(--cs);border:1px solid var(--cl);box-shadow:0 0 24px -8px var(--c);}
+  .sk-ico svg{width:20px;height:20px;}
+  .sk-level{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--c);padding:.28rem .65rem;border-radius:var(--radius-full);border:1px solid var(--cl);background:var(--cs);}
+  .sk-card h3{font-family:var(--font-display);font-weight:600;font-size:1.3rem;color:var(--text-primary);margin-bottom:.4rem;}
+  .sk-card > p{font-size:.86rem;line-height:1.6;color:var(--text-secondary);margin-bottom:1rem;}
+  .sk-chips{display:flex;flex-wrap:wrap;gap:.4rem;align-content:flex-start;}
+  .sk-chips span{font-family:var(--font-mono);font-size:.7rem;padding:.32rem .65rem;border-radius:var(--radius-full);color:var(--text-primary);background:rgba(255,255,255,.035);border:1px solid var(--border-01);transition:border-color .2s,color .2s,background .2s;}
+  .sk-chips span:hover{border-color:var(--cl);color:var(--c);background:var(--cs);}
+  .sk-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:1rem;align-items:start;}
+  .sk-code{margin:0;padding:.9rem 1rem;border-radius:14px;background:#07070c;border:1px solid var(--border-01);font-family:var(--font-mono);font-size:.68rem;line-height:1.7;color:#c9d1e8;overflow-x:auto;white-space:pre;}
+  .sk-code i{font-style:normal;color:#c084fc;} .sk-code b{font-weight:400;color:#5eead4;}
+  .sk-caret{display:inline-block;width:6px;height:12px;vertical-align:-2px;background:var(--c);animation:spBlink 1s steps(1) infinite;}
+  .sk-pipe{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:1rem;}
+  .sk-pipe span{font-family:var(--font-mono);font-size:.68rem;padding:.4rem .75rem;border-radius:10px;border:1px solid var(--border-02);background:rgba(255,255,255,.03);color:var(--text-primary);animation:skPipe 6s var(--ease-standard) infinite;animation-delay:calc(var(--i) * .8s);}
+  .sk-pipe span + span::before{content:"→";margin-right:.4rem;color:var(--text-tertiary);}
+  @keyframes skPipe{0%,10%{border-color:var(--c);color:var(--c);background:var(--cs);box-shadow:0 0 18px -4px var(--c);}22%,100%{}}
+  .sk-proof{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem;margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--border-01);
+    font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);}
+  .sk-proof a{color:var(--c);text-decoration:none;font-size:.66rem;letter-spacing:.02em;text-transform:none;padding:.15rem .5rem;border-radius:6px;background:var(--cs);}
+  .sk-proof a:hover{text-decoration:underline;}
+  .sk-proof a:focus-visible{outline:2px solid var(--c);outline-offset:2px;}
+
+  @media(max-width:1024px){
+    .sk-hero{grid-template-columns:1fr;}
+    .sk-orbit{width:min(400px,100%);}
+    .sk-bento{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sk-card--wide{grid-column:span 2;}
+  }
+  @media(max-width:720px){
+    .sk-counters{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sk-bento{grid-template-columns:1fr;}
+    .sk-card--wide{grid-column:auto;}
+    .sk-split{grid-template-columns:1fr;}
+    .sk-ring span{font-size:.62rem;padding:.28rem .55rem;}
+    .sk-tabs{width:auto;}
+  }
+  .sk-card--full{grid-column:1/-1;}
+  .sk-card--full .sk-chips{max-width:70ch;}
+  @media(max-width:1024px){.sk-card--tw,.sk-card--full{grid-column:span 2;}}
+  @media(max-width:720px){.sk-card--tw,.sk-card--full{grid-column:auto;} .sk-orbit{width:min(310px,84%);margin:.5rem auto 0;}}
+  @media (prefers-reduced-motion: reduce){
+    .sk-ring,.sk-ring span,.sk-core,.sk-pipe span{animation:none !important;}
+  }
+
+  /* ══════════════════════════════════════════════════════
      @media print — Professional CV print layout
      Hides all portfolio chrome, shows only CV content
   ══════════════════════════════════════════════════════ */
@@ -2232,143 +2331,103 @@
   </div>
   </div>
 </section>
-<section id="skills">
+<section id="skills" class="sk-section">
   <div class="container">
-  <div style="text-align:center;margin-bottom:3.5rem;" class="reveal fade-up">
-    <p class="section-label" style="text-align:center;">// expertise</p>
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="divider" style="margin:1rem auto 0;"></div>
+  <div class="sk-hero reveal fade-up">
+    <div class="sk-hero-copy">
+      <p class="section-label">// expertise</p>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="divider"></div>
+      <p class="sk-lead">No self-rated percentage bars. Every skill below is <strong>proven in a project</strong> you can open, run or watch — from the Flutter client to the Node.js server to the TestFlight build.</p>
+      <div class="sk-counters">
+        <div><b data-count="10" data-suffix="+">10+</b><span>Apps delivered</span></div>
+        <div><b data-count="2534">2,534</b><span>Tests in one app</span></div>
+        <div><b data-count="4">4</b><span>Node.js backends</span></div>
+        <div><b data-count="13">13</b><span>Languages shipped</span></div>
+      </div>
+    </div>
+    <div class="sk-orbit" aria-hidden="true">
+      <div class="sk-core"><b>AM</b><span>Flutter · Full-stack</span></div>
+      <div class="sk-ring sk-ring--1"><span style="left:50.00%;top:0.00%">Dart</span><span style="left:93.30%;top:75.00%">Cubit</span><span style="left:6.70%;top:75.00%">Provider</span></div>
+      <div class="sk-ring sk-ring--2"><span style="left:67.10%;top:3.02%">Dio</span><span style="left:96.98%;top:67.10%">Firebase</span><span style="left:32.90%;top:96.98%">GoRouter</span><span style="left:3.02%;top:32.90%">Hive</span></div>
+      <div class="sk-ring sk-ring--3"><span style="left:50.00%;top:0.00%">Node.js</span><span style="left:97.55%;top:34.55%">PostgreSQL</span><span style="left:79.39%;top:90.45%">Redis</span><span style="left:20.61%;top:90.45%">Stripe</span><span style="left:2.45%;top:34.55%">Kotlin</span></div>
+    </div>
   </div>
-  <div class="skills-grid">
-    <!-- Core -->
-    <div class="skill-category reveal slide-left">
-      <div class="skill-cat-title"><span>⚡</span> Core</div>
-      <div class="skill-cat-sub">Primary technologies I build with daily</div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Flutter</span><span class="skill-pct">95%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="95"></div></div>
+
+  <div class="sk-tabs reveal fade-up" role="group" aria-label="Filter skills">
+    <button type="button" data-sk-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-sk-filter="mobile" aria-pressed="false">Mobile</button>
+    <button type="button" data-sk-filter="backend" aria-pressed="false">Backend</button>
+    <button type="button" data-sk-filter="ship" aria-pressed="false">Shipping &amp; quality</button>
+  </div>
+
+  <div class="sk-bento">
+    <article class="sk-card sk-card--wide reveal fade-up" data-sk="mobile" style="--h:199">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span><span class="sk-level">Daily driver</span></div>
+      <h3>Flutter &amp; Dart</h3>
+      <p>Cross-platform apps for Android and iOS, from Figma to store — null-safe Dart, custom widgets, animations and accessibility.</p>
+      <div class="sk-split">
+        <div class="sk-chips"><span>Flutter</span><span>Dart (null safety)</span><span>Custom widgets</span><span>Lottie &amp; staggered motion</span><span>Skeleton loading</span><span>Semantics &amp; large text</span><span>GoRouter · StatefulShellRoute</span><span>Speech-to-Text</span><span>flutter_map</span></div>
+        <pre class="sk-code" aria-hidden="true"><code><i>class</i> <b>BookingCubit</b> <i>extends</i> Cubit&lt;<b>State</b>&gt; {
+  Future&lt;void&gt; book(Slot s) <i>async</i> {
+    emit(<b>Loading</b>());
+    <i>final</i> r = <i>await</i> _bookSlot(s, key: _idem);
+    emit(r.fold(<b>Failure</b>.new, <b>Booked</b>.new));
+  }
+}<span class="sk-caret"></span></code></pre>
       </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Dart (Null Safety)</span><span class="skill-pct">92%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="92"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Firebase Auth & Firestore</span><span class="skill-pct">85%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="85"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Node.js / TypeScript (REST APIs)</span><span class="skill-pct">72%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="72"></div></div>
-      </div>
-    </div>
-    <!-- Architecture -->
-    <div class="skill-category reveal fade-up" style="transition-delay:.15s">
-      <div class="skill-cat-title"><span>🏗️</span> Architecture</div>
-      <div class="skill-cat-sub">Patterns for scalable & maintainable apps</div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">BLoC / Cubit</span><span class="skill-pct">90%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="90"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Clean Architecture</span><span class="skill-pct">85%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="85"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">MVVM</span><span class="skill-pct">88%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="88"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Provider / GetIt / Injectable</span><span class="skill-pct">84%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="84"></div></div>
-      </div>
-    </div>
-    <!-- Networking -->
-    <div class="skill-category reveal slide-right" style="transition-delay:.3s">
-      <div class="skill-cat-title"><span>🌐</span> Networking & Data</div>
-      <div class="skill-cat-sub">APIs, AI integrations & storage</div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">REST APIs (Dio/Retrofit)</span><span class="skill-pct">88%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="88"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Groq AI API (LLaMA 3.3)</span><span class="skill-pct">78%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="78"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Hive / Shared Prefs</span><span class="skill-pct">83%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="83"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">JWT / Bearer Auth</span><span class="skill-pct">82%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="82"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Postman</span><span class="skill-pct">80%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="80"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">PostgreSQL / Prisma</span><span class="skill-pct">70%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="70"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">MongoDB (Mongoose) / Redis</span><span class="skill-pct">70%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="70"></div></div>
-      </div>
-    </div>
-    <!-- UI & Device Skills -->
-    <div class="skill-category reveal slide-left" style="transition-delay:.15s">
-      <div class="skill-cat-title"><span>🎨</span> UI & Device</div>
-      <div class="skill-cat-sub">Rich interfaces and native device features</div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Responsive UI / Dark-Light Mode</span><span class="skill-pct">90%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="90"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">RTL (Arabic / English)</span><span class="skill-pct">85%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="85"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Maps &amp; Geolocation (flutter_map)</span><span class="skill-pct">80%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="80"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Audioplayers / Speech-to-Text</span><span class="skill-pct">78%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="78"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Native Widgets (Kotlin · WidgetKit)</span><span class="skill-pct">74%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="74"></div></div>
-      </div>
-    </div>
-    <!-- Collaboration -->
-    <div class="skill-category reveal slide-right" style="transition-delay:.3s">
-      <div class="skill-cat-title"><span>🤝</span> Collaboration</div>
-      <div class="skill-cat-sub">Team workflows and professional tools</div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Agile Development</span><span class="skill-pct">82%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="82"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Git / GitHub</span><span class="skill-pct">86%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="86"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Android Studio / VS Code</span><span class="skill-pct">88%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="88"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Figma / Stitch (UI Handoff)</span><span class="skill-pct">78%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="78"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Google Play Publishing</span><span class="skill-pct">75%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="75"></div></div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-header"><span class="skill-name">Codemagic → TestFlight (iOS CI)</span><span class="skill-pct">76%</span></div>
-        <div class="skill-track"><div class="skill-bar" data-width="76"></div></div>
-      </div>
-    </div>
+      <div class="sk-proof">Proven in <a href="#sp-medcare-title">MedCare</a><a href="#sp-tansa-title">La Tansa</a><a href="#sp-siratic-title">Siratic</a><a href="#sp-shop-title">E-Commerce</a></div>
+    </article>
+    <article class="sk-card reveal fade-up" data-sk="mobile" style="--h:262">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 7 12 12 2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span><span class="sk-level">Production</span></div>
+      <h3>Architecture &amp; State</h3>
+      <p>Layered code that survives growth: views, view models, use cases, repositories and data sources.</p>
+      <div class="sk-chips"><span>Clean Architecture</span><span>MVVM</span><span>BLoC / Cubit</span><span>Provider / Selector</span><span>GetIt · Injectable</span><span>Repository · Use cases</span><span>SOLID</span><span>4 environments</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-medcare-title">MedCare</a><a href="#sp-resto-title">Restaurant</a><a href="#sp-weather-title">Weather</a></div>
+    </article>
+    <article class="sk-card reveal fade-up" data-sk="backend" style="--h:150">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><span class="sk-level">In production</span></div>
+      <h3>Backend &amp; Data</h3>
+      <p>REST APIs I designed and deployed myself — not just consumed.</p>
+      <div class="sk-chips"><span>Node.js</span><span>TypeScript</span><span>Express</span><span>PostgreSQL · Prisma</span><span>MongoDB · Mongoose</span><span>Redis (Upstash)</span><span>Zod</span><span>Keyset pagination</span><span>MySQL</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-medcare-title">MedCare</a><a href="#sp-unsaid-title">UNSAID</a><a href="#sp-pay-title">Stripe</a></div>
+    </article>
+    <article class="sk-card reveal fade-up" data-sk="backend" style="--h:330">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><span class="sk-level">Security-minded</span></div>
+      <h3>Auth, APIs &amp; Payments</h3>
+      <p>The parts that break in production, handled on purpose.</p>
+      <div class="sk-chips"><span>Dio · Retrofit · http</span><span>JWT + refresh rotation</span><span>Shared 401 refresh</span><span>2-step OTP</span><span>Idempotency keys</span><span>Rate limiting</span><span>Stripe · webhooks · 3DS</span><span>Firebase Auth</span><span>Google &amp; Apple sign-in</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-unsaid-title">UNSAID</a><a href="#sp-pay-title">Stripe</a><a href="#sp-medcare-title">MedCare</a></div>
+    </article>
+    <article class="sk-card reveal fade-up" data-sk="ship" style="--h:140">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4 20h16L14 9V3"/></svg></span><span class="sk-level">Test-first habits</span></div>
+      <h3>Quality &amp; Testing</h3>
+      <p>Tests at every layer, run automatically on every push.</p>
+      <div class="sk-chips"><span>flutter_test</span><span>bloc_test</span><span>Mocktail</span><span>Integration tests</span><span>Codecov</span><span>Load testing</span><span>Git · PR workflow</span><span>Agile</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-tansa-title">La Tansa</a><a href="#sp-medcare-title">MedCare</a><a href="#sp-resto-title">Restaurant</a></div>
+    </article>
+    <article class="sk-card sk-card--wide reveal fade-up" data-sk="ship" style="--h:28">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3 3m3-3 3 3"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></span><span class="sk-level">Shipped</span></div>
+      <h3>Native, CI &amp; Delivery</h3>
+      <p>Getting apps onto real phones: native widgets, signing, store builds and pipelines — even iOS from a Windows PC.</p>
+      <div class="sk-pipe" aria-hidden="true"><span style="--i:0">Code</span><span style="--i:1">Tests</span><span style="--i:2">Codemagic</span><span style="--i:3">Signing</span><span style="--i:4">TestFlight</span><span style="--i:5">Play Console</span></div>
+      <div class="sk-chips"><span>Kotlin · RemoteViews</span><span>WidgetKit · SwiftUI</span><span>App Groups · deep links</span><span>Codemagic → TestFlight</span><span>App Store Connect</span><span>Play Console · AAB</span><span>Exact alarms · DND bypass</span><span>GitHub Actions</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-tansa-title">La Tansa</a><a href="#sp-siratic-title">Siratic</a><a href="#sp-resto-title">Restaurant</a></div>
+    </article>
+    <article class="sk-card sk-card--tw reveal fade-up" data-sk="mobile" style="--h:300">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg></span><span class="sk-level">13 languages</span></div>
+      <h3>UI, Design &amp; Localization</h3>
+      <p>Pixel-matched designs that work in Arabic, English and beyond.</p>
+      <div class="sk-chips"><span>Figma → Flutter</span><span>Stitch handoff</span><span>Design tokens</span><span>RTL · ARB / gen-l10n</span><span>Dark / light themes</span><span>Responsive UI</span><span>Reduce-motion</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-tansa-title">La Tansa</a><a href="#sp-shop-title">E-Commerce</a><a href="#sp-evently-title">Evently</a></div>
+    </article>
+    <article class="sk-card sk-card--full reveal fade-up" data-sk="backend" style="--h:280">
+      <div class="sk-card-top"><span class="sk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4M17 19h4"/></svg></span><span class="sk-level">Integrated</span></div>
+      <h3>AI &amp; Platform Services</h3>
+      <p>Cloud and AI services wired in with care for flaky networks.</p>
+      <div class="sk-chips"><span>Groq API · LLaMA 3.3</span><span>Cloud Firestore</span><span>Local notifications</span><span>SQLite · zlib</span><span>Nodemailer · Mailjet</span><span>Multer uploads</span><span>Postman</span></div>
+      <div class="sk-proof">Proven in <a href="#sp-todo-title">AI To-Do</a><a href="#sp-quiz-title">QuizMaster</a><a href="#sp-siratic-title">Siratic</a></div>
+    </article>
   </div>
   </div>
 </section>
@@ -5055,6 +5114,34 @@ document.querySelectorAll('.video-facade').forEach(el=>{
       cd.textContent = 'in ' + pad(Math.floor(s / 3600)) + ':' + pad(Math.floor(s % 3600 / 60)) + ':' + pad(s % 60);
     }, 1000);
   }
+})();
+// ── SKILLS: filter tabs, cursor glow, counters ──
+(function(){
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tabs = document.querySelectorAll('[data-sk-filter]');
+  const cards = document.querySelectorAll('.sk-card');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(b => b.setAttribute('aria-pressed', b === t ? 'true' : 'false'));
+    const f = t.dataset.skFilter;
+    cards.forEach(c => c.classList.toggle('is-dim', f !== 'all' && c.dataset.sk !== f));
+  }));
+  cards.forEach(c => c.addEventListener('pointermove', e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+  const nums = document.querySelectorAll('.sk-counters b[data-count]');
+  if(reduce || !('IntersectionObserver' in window)) return;
+  const fmt = n => n.toLocaleString('en-US');
+  const run = el => {
+    const target = Number(el.dataset.count), suf = el.dataset.suffix || '';
+    if(!Number.isFinite(target)) return;
+    const start = performance.now();
+    const tick = now => { const p = Math.min((now - start) / 1500, 1); el.textContent = fmt(Math.round(target * (1 - Math.pow(1 - p, 3)))) + suf; if(p < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  };
+  const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ run(e.target); obs.unobserve(e.target); } }), {threshold:.6});
+  nums.forEach(n => { n.textContent = '0' + (n.dataset.suffix || ''); obs.observe(n); });
 })();
 </script>
 
