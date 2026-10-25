@@ -2181,6 +2181,268 @@
   }
 
   /* ══════════════════════════════════════════════════════
+     SHARED
+  ══════════════════════════════════════════════════════ */
+  .grad-text{background:linear-gradient(100deg,#7fb0ff,#a17fe0 50%,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  /* ══════════════════════════════════════════════════════
+     SPLASH LOADER
+  ══════════════════════════════════════════════════════ */
+  #loader{overflow:hidden;gap:0 !important;background:radial-gradient(ellipse at center,#0b0c18 0%,#050506 70%) !important;
+    clip-path:circle(150% at 50% 50%);
+    transition:clip-path 1s cubic-bezier(.7,0,.3,1),opacity .4s ease .7s,visibility 0s linear 1.1s !important;}
+  #loader.hide{clip-path:circle(0% at 50% 50%);opacity:0;visibility:hidden;}
+  .ld-aurora{position:absolute;inset:0;pointer-events:none;}
+  .ld-aurora i{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(100px);opacity:.35;animation:hxFloat 6s ease-in-out infinite alternate;}
+  .ld-aurora i:first-child{background:#4f8eff;top:-160px;left:-120px;}
+  .ld-aurora i:last-child{background:#8b5cf6;bottom:-180px;right:-120px;animation-delay:-3s;}
+  .ld-stage{position:relative;width:190px;height:190px;display:grid;place-items:center;margin-bottom:1.6rem;}
+  .ld-ring{position:absolute;inset:0;border-radius:50%;padding:2px;
+    background:conic-gradient(from 0deg,transparent 0 40%,#4f8eff 65%,#a17fe0 82%,#2dd4bf 100%);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1.5px));
+    animation:spRot 1.4s linear infinite;filter:drop-shadow(0 0 10px rgba(79,142,255,.7));}
+  .ld-ring--2{inset:18px;opacity:.5;animation-duration:2.6s;animation-direction:reverse;background:conic-gradient(from 90deg,transparent 0 60%,#2dd4bf 100%);}
+  .ld-orb{position:absolute;inset:-8px;animation:spRot 3.6s linear infinite;animation-delay:var(--d);}
+  .ld-orb::after{content:"";position:absolute;top:0;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:#fff;box-shadow:0 0 12px 3px #7fb0ff;}
+  .ld-mono{width:96px;height:56px;fill:none;stroke:url(#ldg);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 14px rgba(127,176,255,.55));}
+  .ld-mono path{stroke-dasharray:240;stroke-dashoffset:240;animation:ldDraw 1.3s cubic-bezier(.6,0,.3,1) .15s forwards;}
+  .ld-mono path:nth-child(3){animation-delay:.45s;}
+  @keyframes ldDraw{to{stroke-dashoffset:0;}}
+  .ld-name{font-family:var(--font-display);font-size:clamp(1.3rem,1rem + 1.6vw,2rem);font-weight:600;color:var(--text-primary);letter-spacing:-.01em;text-align:center;padding:0 1rem;}
+  .ld-name span{display:inline-block;opacity:0;transform:translateY(14px);filter:blur(6px);animation:ldWord .7s var(--ease-standard) forwards;}
+  .ld-name span:nth-child(1){animation-delay:.6s;} .ld-name span:nth-child(2){animation-delay:.75s;}
+  .ld-name span:nth-child(3){animation-delay:.9s;background:linear-gradient(100deg,#7fb0ff,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  @keyframes ldWord{to{opacity:1;transform:none;filter:none;}}
+  .ld-tag{margin-top:.5rem;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-secondary);opacity:0;animation:ldWord .7s ease 1.05s forwards;}
+  .ld-bar{position:relative;width:min(240px,60vw);height:3px;margin-top:1.6rem;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;}
+  .ld-bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#4f8eff,#a17fe0,#2dd4bf);animation:ldBar 2s cubic-bezier(.3,.7,.4,1) forwards;box-shadow:0 0 12px #4f8eff;}
+  @keyframes ldBar{to{transform:scaleX(1);}}
+  .ld-pct{margin-top:.6rem;font-family:var(--font-mono);font-size:.72rem;color:var(--text-secondary);font-variant-numeric:tabular-nums;}
+
+  /* ══════════════════════════════════════════════════════
+     EXPERIENCE — glowing career rail
+  ══════════════════════════════════════════════════════ */
+  #experience.xp{position:relative;background:radial-gradient(60% 40% at 0% 20%,rgba(79,142,255,.08),transparent 70%),radial-gradient(50% 40% at 100% 80%,rgba(161,127,224,.07),transparent 70%);}
+  .xp-head{margin-bottom:3rem;}
+  .xp-rail{position:relative;display:grid;gap:1.4rem;max-width:960px;padding-left:66px;}
+  .xp-rail::before{content:"";position:absolute;left:22px;top:10px;bottom:10px;width:2px;border-radius:2px;
+    background:linear-gradient(180deg,#ffb547,#a17fe0 45%,#e0b04a 70%,rgba(255,255,255,.08));}
+  .xp-rail::after{content:"";position:absolute;left:19px;top:0;width:8px;height:60px;border-radius:8px;background:linear-gradient(180deg,transparent,#fff,transparent);
+    filter:blur(1px);opacity:.7;animation:xpBeam 4s ease-in-out infinite;}
+  @keyframes xpBeam{0%{top:0;opacity:0;}15%{opacity:.8;}85%{opacity:.8;}100%{top:calc(100% - 60px);opacity:0;}}
+  .xp-item,.xp-next{position:relative;display:block;text-decoration:none;color:inherit;}
+  .xp-node{position:absolute;left:-66px;top:22px;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+    font-family:var(--font-display);font-weight:600;font-size:1rem;color:#fff;
+    background:linear-gradient(135deg,hsl(var(--h) 95% 62%),hsl(calc(var(--h) + 40) 80% 50%));box-shadow:0 0 0 6px #08080d,0 0 30px -4px hsl(var(--h) 95% 60%);}
+  .xp-node--ghost{background:#0d0d14;border:1.5px dashed rgba(255,255,255,.25);box-shadow:0 0 0 6px #08080d;color:var(--text-secondary);font-size:1.3rem;}
+  .xp-card{position:relative;padding:1.6rem;border-radius:22px;overflow:hidden;
+    background:radial-gradient(70% 60% at 100% 0%,hsl(var(--h) 95% 60% / .10),transparent 60%),linear-gradient(180deg,#0f0f17,#0a0a10);
+    border:1px solid var(--border-01);transition:border-color .3s,transform .3s;}
+  .xp-card::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,hsl(var(--h) 95% 62%),transparent);}
+  .xp-item:hover .xp-card{border-color:hsl(var(--h) 95% 62% / .45);transform:translateX(4px);}
+  .xp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem;}
+  .xp-date{display:inline-block;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;color:hsl(var(--h,220) 95% 70%);padding:.25rem .65rem;border-radius:999px;background:hsl(var(--h,220) 95% 60% / .1);border:1px solid hsl(var(--h,220) 95% 60% / .3);margin-bottom:.6rem;}
+  .xp-role{font-family:var(--font-display);font-weight:600;font-size:clamp(1.25rem,1.1rem + .6vw,1.6rem);color:var(--text-primary);}
+  .xp-org{font-size:.88rem;color:var(--text-secondary);margin-top:.2rem;}
+  .xp-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;margin-bottom:1.1rem;}
+  .xp-metrics div{padding:.75rem .8rem;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid var(--border-01);}
+  .xp-metrics b{display:block;font-family:var(--font-display);font-size:1.35rem;font-weight:600;background:linear-gradient(120deg,#fff 30%,hsl(var(--h) 95% 66%));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .xp-metrics span{display:block;font-family:var(--font-mono);font-size:.58rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text-secondary);margin-top:.15rem;}
+  .xp-bullets{list-style:none;display:grid;gap:.55rem;margin-bottom:1.1rem;}
+  .xp-bullets li{position:relative;padding-left:1.3rem;font-size:.88rem;line-height:1.6;color:var(--text-secondary);}
+  .xp-bullets li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:2px;transform:rotate(45deg);background:hsl(var(--h) 95% 62%);box-shadow:0 0 8px hsl(var(--h) 95% 62%);}
+  .xp-bullets code{font-family:var(--font-mono);font-size:.85em;color:var(--text-primary);}
+  .xp-foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:1rem;border-top:1px dashed var(--border-01);}
+  .xp-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .xp-tags span{font-family:var(--font-mono);font-size:.68rem;padding:.28rem .6rem;border-radius:999px;background:rgba(255,255,255,.035);border:1px solid var(--border-01);color:var(--text-primary);}
+  .xp-link{font-size:.82rem;font-weight:600;text-decoration:none;color:hsl(var(--h) 95% 70%);white-space:nowrap;}
+  .xp-link:hover{text-decoration:underline;}
+  .xp-card--ghost{border-style:dashed;background:rgba(255,255,255,.015);padding:1.2rem 1.6rem;}
+  .xp-card--ghost b{display:block;font-family:var(--font-display);font-size:1.25rem;color:var(--text-primary);}
+  .xp-card--ghost p{font-size:.86rem;color:var(--text-secondary);margin-top:.2rem;}
+  .xp-next:hover .xp-card--ghost{border-color:var(--accent-border);background:var(--accent-dim);}
+  .xp-next:focus-visible .xp-card{outline:2px solid var(--accent);outline-offset:3px;}
+
+  /* ══════════════════════════════════════════════════════
+     EDUCATOR — Fixha brand + player mock-ups
+  ══════════════════════════════════════════════════════ */
+  #content.ed{position:relative;}
+  .ed-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(2rem,1rem + 3vw,4rem);align-items:center;}
+  .ed-brand{display:flex;align-items:center;gap:.8rem;margin:1.4rem 0 1rem;}
+  .ed-logo{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,#ff3d5a,#a17fe0 55%,#2dd4bf);box-shadow:0 12px 30px -12px #ff3d5a;}
+  .ed-brand b{display:block;font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--text-primary);}
+  .ed-brand small{font-family:var(--font-mono);font-size:.68rem;color:var(--text-secondary);}
+  .ed-lead{color:var(--text-secondary);line-height:1.8;margin-bottom:1.4rem;max-width:52ch;}
+  .ed-counters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-bottom:1.2rem;}
+  .ed-count{position:relative;padding:1rem;border-radius:16px;background:rgba(255,255,255,.025);border:1px solid var(--border-01);overflow:hidden;}
+  .ed-count::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,#ff3d5a,#a17fe0,#2dd4bf);}
+  .ed-count b{display:block;font-family:var(--font-display);font-size:1.7rem;font-weight:600;line-height:1.1;background:linear-gradient(120deg,#fff 30%,#ff8fa3);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .ed-count span{display:block;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);margin-top:.25rem;}
+  .ed-topics{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem;}
+  .ed-topics span{font-family:var(--font-mono);font-size:.7rem;padding:.3rem .65rem;border-radius:999px;border:1px solid var(--border-02);background:rgba(255,255,255,.03);color:var(--text-primary);}
+  .ed-quote{position:relative;margin:0;padding:1rem 1.2rem 1rem 1.4rem;border-radius:14px;background:rgba(255,255,255,.02);border-left:3px solid #a17fe0;color:var(--text-secondary);font-size:.9rem;line-height:1.7;font-style:italic;}
+  .ed-visual{position:relative;padding-right:90px;}
+  .ed-player{display:block;text-decoration:none;color:inherit;border-radius:22px;padding:1px;background:linear-gradient(135deg,#ff3d5a,#a17fe0 50%,#2dd4bf);
+    box-shadow:0 40px 80px -40px #ff3d5a;transition:transform .35s var(--ease-standard);}
+  .ed-player:hover{transform:translateY(-4px) rotate(-.4deg);}
+  .ed-player:focus-visible,.ed-tiktok:focus-visible{outline:2px solid #ff8fa3;outline-offset:4px;}
+  .ed-screen{position:relative;aspect-ratio:16/9;border-radius:21px 21px 0 0;overflow:hidden;background:radial-gradient(80% 80% at 70% 30%,#1c1440,#07070c);}
+  .ed-screen pre{position:absolute;left:6%;top:14%;margin:0;font-family:var(--font-mono);font-size:clamp(.55rem,.45rem + .35vw,.78rem);line-height:1.7;color:#c9d1e8;opacity:.75;}
+  .ed-screen pre i{font-style:normal;color:#c084fc;} .ed-screen pre b{font-weight:400;color:#5eead4;}
+  .ed-play{position:absolute;left:50%;top:50%;translate:-50% -50%;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:#fff;
+    background:#ff3d5a;box-shadow:0 0 0 0 rgba(255,61,90,.5),0 14px 30px -10px #ff3d5a;animation:edPulse 2.2s infinite;}
+  .ed-play svg{width:26px;height:26px;margin-left:3px;}
+  @keyframes edPulse{to{box-shadow:0 0 0 18px rgba(255,61,90,0),0 14px 30px -10px #ff3d5a;}}
+  .ed-live{position:absolute;left:12px;bottom:18px;font-family:var(--font-mono);font-size:.62rem;padding:.3rem .6rem;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;}
+  .ed-progress{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.15);}
+  .ed-progress i{display:block;height:100%;width:0;background:#ff3d5a;animation:edProg 9s linear infinite;}
+  @keyframes edProg{to{width:100%;}}
+  .ed-meta{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;border-radius:0 0 21px 21px;background:#0d0d14;}
+  .ed-meta b{display:block;font-size:.92rem;color:var(--text-primary);}
+  .ed-meta small{display:block;font-size:.74rem;color:var(--text-secondary);}
+  .ed-yt,.ed-tt{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;}
+  .ed-yt{background:#ff0033;color:#fff;} .ed-tt{background:#111;color:#fff;border:1px solid rgba(255,255,255,.15);box-shadow:-2px 0 0 #25f4ee inset,2px 0 0 #fe2c55 inset;}
+  .ed-yt svg,.ed-tt svg{width:20px;height:20px;}
+  @media(min-width:721px){.ed-player .ed-meta{padding-right:150px;}}
+  .ed-go{margin-left:auto;font-size:.8rem;font-weight:600;color:#ff8fa3;}
+  .ed-tiktok{position:absolute;right:0;bottom:-34px;width:150px;display:block;text-decoration:none;color:inherit;border-radius:22px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.14);background:#0d0d14;box-shadow:0 30px 60px -24px rgba(0,0,0,.95),0 0 40px -16px #25f4ee;
+    transform:rotate(5deg);transition:transform .35s var(--ease-standard);animation:spBob 6s ease-in-out infinite;}
+  .ed-tiktok:hover{transform:rotate(0) translateY(-4px);}
+  .ed-tt-screen{position:relative;height:200px;padding:14px 12px;display:flex;flex-direction:column;justify-content:flex-end;
+    background:radial-gradient(100% 70% at 30% 20%,rgba(37,244,238,.35),transparent 60%),radial-gradient(90% 70% at 80% 80%,rgba(254,44,85,.35),transparent 60%),#0a0a10;}
+  .ed-tt-tip{position:absolute;top:12px;left:12px;font-family:var(--font-mono);font-size:.56rem;padding:.2rem .45rem;border-radius:5px;background:#fe2c55;color:#fff;}
+  .ed-tt-screen b{font-size:.86rem;color:#fff;line-height:1.3;}
+  .ed-tt-screen code{font-family:var(--font-mono);color:#25f4ee;}
+  .ed-tt-screen small{font-size:.66rem;color:rgba(255,255,255,.7);margin-top:.2rem;}
+  .ed-tt-side{position:absolute;right:8px;top:40%;display:grid;gap:8px;font-style:normal;}
+  .ed-tt-side i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);font-style:normal;font-size:.65rem;color:#fff;}
+  .ed-meta--sm{padding:.6rem .7rem;border-radius:0;gap:.5rem;}
+  .ed-meta--sm .ed-tt{width:28px;height:28px;border-radius:8px;} .ed-meta--sm .ed-tt svg{width:14px;height:14px;}
+  .ed-meta--sm b{font-size:.74rem;} .ed-meta--sm small{font-size:.64rem;}
+
+  /* ══════════════════════════════════════════════════════
+     EDUCATION — university card + credential badges
+  ══════════════════════════════════════════════════════ */
+  .eu-head{margin-bottom:3rem;}
+  .eu-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.4rem;align-items:start;}
+  .eu-kicker{display:block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;}
+  .eu-uni{padding:1px;border-radius:24px;background:conic-gradient(from var(--sp-angle,0deg),#4f8eff,#a17fe0,#e0b04a,rgba(255,255,255,.06) 70%,#4f8eff);animation:spSpin 12s linear infinite;box-shadow:0 40px 90px -50px #4f8eff;}
+  .eu-uni-in{position:relative;overflow:hidden;height:100%;padding:1.8rem;border-radius:23px;background:radial-gradient(70% 60% at 100% 0%,rgba(224,176,74,.12),transparent 60%),linear-gradient(180deg,#10101a,#0a0a10);}
+  .eu-cap{position:absolute;right:-20px;top:-20px;width:160px;height:160px;color:rgba(224,176,74,.12);transform:rotate(-12deg);}
+  .eu-cap svg{width:100%;height:100%;}
+  .eu-uni h3{position:relative;font-family:var(--font-display);font-weight:600;font-size:clamp(1.3rem,1.1rem + .8vw,1.75rem);line-height:1.25;color:var(--text-primary);max-width:20ch;}
+  .eu-deg{color:var(--text-secondary);margin:.4rem 0 1.4rem;}
+  .eu-row{display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap;}
+  .eu-gpa{position:relative;width:118px;height:118px;flex-shrink:0;}
+  .eu-gpa svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .eu-gpa circle{fill:none;stroke:rgba(255,255,255,.07);stroke-width:9;}
+  .eu-gpa .eu-gpa-fill{stroke:url(#euG);stroke:#e0b04a;stroke-linecap:round;stroke-dasharray:314.16;stroke-dashoffset:314.16;transition:stroke-dashoffset 1.6s var(--ease-standard);filter:drop-shadow(0 0 6px rgba(224,176,74,.6));}
+  .eu-gpa.is-in .eu-gpa-fill{stroke-dashoffset:43.2;}
+  .eu-gpa div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .eu-gpa b{font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:var(--text-primary);line-height:1;}
+  .eu-gpa span{font-family:var(--font-mono);font-size:.56rem;color:var(--text-secondary);margin-top:.2rem;}
+  .eu-path{flex:1;min-width:200px;}
+  .eu-path-top{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.66rem;color:var(--text-secondary);margin-bottom:.4rem;}
+  .eu-path-bar{position:relative;height:6px;border-radius:6px;background:rgba(255,255,255,.07);margin-bottom:.8rem;}
+  .eu-path-bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:inherit;background:linear-gradient(90deg,#4f8eff,#a17fe0,#e0b04a);transition:width 1.6s var(--ease-standard);}
+  .eu-path-bar em{position:absolute;top:50%;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(224,176,74,.3),0 0 14px #e0b04a;transition:left 1.6s var(--ease-standard);}
+  .eu-path p{font-size:.84rem;line-height:1.6;color:var(--text-secondary);}
+  .eu-certs{display:grid;gap:.7rem;}
+  .cr-card{--c:hsl(var(--h) 90% 64%);position:relative;display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,#0f0f17,#0a0a10);border:1px solid var(--border-01);transition:border-color .3s,transform .3s;}
+  .cr-card::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.06),transparent);transition:left .8s ease;}
+  .cr-card:hover{border-color:hsl(var(--h) 90% 64% / .45);transform:translateX(4px);}
+  .cr-card:hover::after{left:120%;}
+  .cr-medal{width:50px;height:50px;flex-shrink:0;display:grid;place-items:center;font-size:1.35rem;
+    clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);background:linear-gradient(135deg,hsl(var(--h) 90% 64% / .35),hsl(var(--h) 90% 40% / .15));}
+  .cr-txt{flex:1;min-width:0;}
+  .cr-txt b{display:block;font-size:.95rem;font-weight:600;color:var(--text-primary);}
+  .cr-txt span{display:block;font-size:.78rem;color:var(--text-secondary);margin-top:.1rem;}
+  .cr-st{flex-shrink:0;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;padding:.28rem .6rem;border-radius:999px;color:#86efac;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);}
+  .cr-st--prog{color:#c4b5fd;background:rgba(161,127,224,.12);border-color:rgba(161,127,224,.35);}
+  .cr-st--prog::before{content:"";display:inline-block;width:6px;height:6px;margin-right:.35rem;border-radius:50%;background:#a17fe0;vertical-align:1px;animation:spBlink 1.4s steps(1) infinite;}
+
+  /* ══════════════════════════════════════════════════════
+     CONTACT
+  ══════════════════════════════════════════════════════ */
+  #contact.ct{position:relative;overflow:hidden;}
+  .ct-glow{position:absolute;left:50%;top:0;width:900px;height:500px;translate:-50% -30%;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(79,142,255,.18),transparent),radial-gradient(closest-side at 70% 60%,rgba(161,127,224,.12),transparent);}
+  .ct-head{text-align:center;margin-bottom:3rem;}
+  .ct-head .section-label{text-align:center;}
+  .ct-head .section-title{font-size:clamp(2.2rem,1.6rem + 3vw,4rem);}
+  .ct-head .section-sub{margin:0 auto 1.2rem;}
+  .ct-status{display:inline-flex;align-items:center;gap:.55rem;padding:.45rem 1rem;border-radius:999px;font-size:.8rem;color:var(--text-primary);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);}
+  .ct-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:hxPing 2s infinite;}
+  #ctClock{font-family:var(--font-mono);font-size:.74rem;color:#86efac;}
+  .ct-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(1.5rem,1rem + 2vw,3rem);align-items:start;}
+  .ct-method{position:relative;display:flex;align-items:center;gap:.9rem;padding:1rem 1.1rem;margin-bottom:.7rem;border-radius:18px;text-decoration:none;color:inherit;
+    background:linear-gradient(180deg,#0f0f17,#0a0a10);border:1px solid var(--border-01);transition:border-color .3s,transform .3s;}
+  a.ct-method:hover{border-color:var(--accent-border);transform:translateY(-2px);}
+  .ct-method small{display:block;font-size:.7rem;color:var(--text-secondary);}
+  .ct-method b{display:block;font-size:.95rem;font-weight:600;color:var(--text-primary);word-break:break-all;}
+  .ct-method div{flex:1;min-width:0;}
+  .ct-m-ico{width:42px;height:42px;flex-shrink:0;border-radius:13px;display:grid;place-items:center;color:#7fb0ff;background:rgba(79,142,255,.12);border:1px solid var(--accent-border);}
+  .ct-m-ico svg{width:19px;height:19px;}
+  .ct-method--big{padding:1.3rem 1.2rem;background:radial-gradient(80% 100% at 0% 0%,rgba(79,142,255,.16),transparent 60%),linear-gradient(180deg,#10101a,#0a0a10);border-color:var(--accent-border);}
+  .ct-method--big b{font-size:1.1rem;}
+  .ct-socials-t{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary);margin:1.4rem 0 .7rem;}
+  .ct-socials{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;}
+  .ct-soc{--c:hsl(var(--h) 90% 62%);display:flex;align-items:center;gap:.7rem;padding:.85rem .9rem;border-radius:16px;text-decoration:none;color:var(--text-primary);
+    background:linear-gradient(180deg,#0f0f17,#0a0a10);border:1px solid var(--border-01);transition:border-color .3s,transform .3s,background .3s;}
+  .ct-soc:hover{border-color:hsl(var(--h) 90% 62% / .5);transform:translateY(-3px);background:hsl(var(--h) 90% 62% / .08);}
+  .ct-soc:focus-visible{outline:2px solid var(--c);outline-offset:2px;}
+  .ct-soc-ico{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;color:var(--c);background:hsl(var(--h) 90% 62% / .12);}
+  .ct-soc-ico svg{width:18px;height:18px;}
+  .ct-soc div{flex:1;min-width:0;} .ct-soc b{display:block;font-size:.86rem;} .ct-soc small{display:block;font-size:.68rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ct-soc i{font-style:normal;color:var(--text-tertiary);transition:transform .3s,color .3s;}
+  .ct-soc:hover i{color:var(--c);transform:translate(2px,-2px);}
+  .ct-formwrap{padding:1px;border-radius:26px;background:conic-gradient(from var(--sp-angle,0deg),#4f8eff,#a17fe0,#2dd4bf,rgba(255,255,255,.06) 70%,#4f8eff);animation:spSpin 9s linear infinite;box-shadow:0 50px 100px -50px #4f8eff;}
+  .ct-form{padding:clamp(1.3rem,1rem + 1.5vw,2.2rem);border-radius:25px;background:radial-gradient(70% 50% at 100% 0%,rgba(161,127,224,.12),transparent 60%),linear-gradient(180deg,#10101a,#0a0a10);}
+  .ct-form-head{margin-bottom:1.3rem;}
+  .ct-form-head b{display:block;font-family:var(--font-display);font-size:1.45rem;font-weight:600;color:var(--text-primary);}
+  .ct-form-head small{font-size:.8rem;color:var(--text-secondary);}
+  .ct-fields{display:flex;flex-direction:column;gap:1rem;}
+  .ct-label{display:block;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:.45rem;}
+  .ct-form input,.ct-form textarea{width:100%;padding:.95rem 1.1rem;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--border-02);
+    color:var(--text-primary);font-size:.92rem;font-family:var(--font-body);outline:none;transition:border-color .25s,box-shadow .25s,background .25s;}
+  .ct-form textarea{resize:vertical;min-height:130px;}
+  .ct-form input:focus,.ct-form textarea:focus{border-color:#7fb0ff;background:rgba(79,142,255,.06);box-shadow:0 0 0 4px rgba(79,142,255,.15);}
+  .ct-form input::placeholder,.ct-form textarea::placeholder{color:var(--text-tertiary);}
+  .ct-send{width:100%;justify-content:center;padding:1rem 1.4rem;border-radius:14px;background:linear-gradient(110deg,#4f8eff,#7c6cff,#2dd4bf) !important;background-size:200% 100% !important;color:#fff !important;
+    box-shadow:0 16px 36px -16px #4f8eff;transition:background-position .6s,transform .25s,box-shadow .25s;}
+  .ct-send:hover{background-position:100% 0 !important;}
+
+  /* ── responsive ── */
+  @media(max-width:1024px){
+    .ed-grid,.eu-grid,.ct-grid{grid-template-columns:1fr;}
+    .ed-visual{max-width:620px;}
+  }
+  @media(max-width:720px){
+    .xp-rail{padding-left:0;}
+    .xp-rail::before,.xp-rail::after{display:none;}
+    .xp-node{position:relative;left:auto;top:auto;margin:0 0 -.9rem 1.2rem;z-index:2;width:40px;height:40px;}
+    .ct-status{flex-wrap:wrap;justify-content:center;border-radius:16px;text-align:center;}
+    .xp-metrics{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .ed-visual{padding-right:0;padding-bottom:0;}
+    .ed-tiktok{display:none;}
+    .ed-counters{grid-template-columns:repeat(3,minmax(0,1fr));}
+    .ed-count{padding:.8rem .6rem;} .ed-count b{font-size:1.3rem;}
+  }
+  @media(max-width:480px){
+    .ct-socials{grid-template-columns:1fr;}
+    .ct-status{font-size:.7rem;}
+    .eu-row{justify-content:center;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ld-mono path{stroke-dashoffset:0;} .ld-name span,.ld-tag{opacity:1;transform:none;filter:none;}
+    #loader{transition:opacity .3s !important;} #loader.hide{clip-path:none;}
+    .xp-rail::after,.eu-uni,.ct-formwrap,.ed-tiktok,.ed-play,.ed-progress i{animation:none !important;}
+  }
+
+  /* ══════════════════════════════════════════════════════
      @media print — Professional CV print layout
      Hides all portfolio chrome, shows only CV content
   ══════════════════════════════════════════════════════ */
@@ -2245,10 +2507,27 @@
 
 <!-- LOADER -->
 <a href="#hero" class="skip-link" style="position:fixed;top:-100px;left:1rem;z-index:99999;padding:.5rem 1rem;background:var(--accent);color:var(--text-on-accent);border-radius:var(--radius-sm);font-weight:600;transition:top .2s ease;text-decoration:none;" onfocus="this.style.top='1rem'" onblur="this.style.top='-100px'">Skip to content</a>
-<div id="loader">
-  <div class="loader-logo">AM</div>
-  <div class="loader-bar"><div class="loader-fill"></div></div>
+<div id="loader" role="status" aria-label="Loading portfolio">
+  <div class="ld-aurora" aria-hidden="true"><i></i><i></i></div>
+  <div class="ld-stage" aria-hidden="true">
+    <div class="ld-ring"></div>
+    <div class="ld-ring ld-ring--2"></div>
+    <span class="ld-orb" style="--d:0s"></span><span class="ld-orb" style="--d:-1.2s"></span><span class="ld-orb" style="--d:-2.4s"></span>
+    <svg class="ld-mono" viewBox="0 0 120 70">
+      <defs><linearGradient id="ldg" x1="0" x2="1"><stop offset="0" stop-color="#7fb0ff"/><stop offset=".5" stop-color="#a17fe0"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs>
+      <path d="M8 62 L30 8 L52 62 M17 42 H43" />
+      <path d="M64 62 V8 L86 44 L108 8 V62" />
+    </svg>
+  </div>
+  <div class="ld-name" aria-hidden="true"><span>Ahmed</span> <span>Mostafa</span> <span>Megahed</span></div>
+  <div class="ld-tag" aria-hidden="true">Flutter · Full-stack · iOS &amp; Android</div>
+  <div class="ld-bar" aria-hidden="true"><i></i></div>
+  <div class="ld-pct" aria-hidden="true"><span id="ldPct">0</span>%</div>
 </div>
+<script>
+(function(){var el=document.getElementById('ldPct');if(!el)return;var s=performance.now(),d=2000;
+function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(t);}requestAnimationFrame(t);})();
+</script>
 
 <!-- NAVBAR -->
 <nav id="navbar">
@@ -2562,75 +2841,51 @@
 </section>
 
 <!-- EXPERIENCE -->
-<section id="experience" style="background:linear-gradient(180deg,transparent,var(--accent-dim),transparent);">
+<section id="experience" class="xp">
   <div class="container">
-  <div class="reveal fade-up" style="margin-bottom:3.5rem;">
+  <div class="xp-head reveal fade-up">
     <p class="section-label">// work experience</p>
-    <h2 class="section-title">Professional<br>Experience</h2>
+    <h2 class="section-title">Professional<br><span class="grad-text">Experience</span></h2>
     <div class="divider"></div>
     <p class="section-sub">Client delivery and an award-winning internship — real-world work under professional conditions, not just side projects.</p>
   </div>
-  <div class="timeline" style="max-width:780px;">
-    <div class="timeline-item reveal fade-up">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
-        <div>
-          <div class="tl-year">Oct 2026 — Present</div>
-          <div class="tl-title">Freelance Flutter Developer</div>
-          <div class="tl-sub">La Tansa (<span lang="ar" dir="rtl">لا تنسى</span>) · Client Project · Remote</div>
+  <div class="xp-rail">
+    <article class="xp-item reveal fade-up" style="--h:32">
+      <div class="xp-node" aria-hidden="true"><span>LT</span></div>
+      <div class="xp-card">
+        <div class="xp-top">
+          <div>
+            <span class="xp-date">Oct 2026 — Present</span>
+            <h3 class="xp-role">Freelance Flutter Developer</h3>
+            <div class="xp-org">La Tansa (<bdi lang="ar">لا تنسى</bdi>) · Client project · Remote</div>
+          </div>
+          <span class="badge-status badge-progress">◆ CLIENT · IN PROGRESS</span>
         </div>
-        <span class="badge-status badge-progress">◆ Client · In progress</span>
+        <div class="xp-metrics"><div><b>2,534</b><span>Automated tests</span></div><div><b>13</b><span>Languages</span></div><div><b>18</b><span>Gated stages</span></div><div><b>2</b><span>Platforms shipped</span></div></div>
+        <ul class="xp-bullets"><li>Building a 13-language memory &amp; reminders app — notes, voice, documents, search and Q&amp;A over saved items, reminders and prayer times — in 18 stages, each gated by <code>flutter analyze</code> and the full test suite.</li><li>Shipping iOS from a Windows PC through Codemagic → TestFlight with automatic signing for the app and widget extension; fixed ITMS-90683 / ITMS-90068 and verified on a real iPhone 14 Pro Max.</li><li>Built native home &amp; lock-screen widgets (Kotlin RemoteViews · WidgetKit/SwiftUI) and on-device prayer times with Adhan for 34,006 offline cities.</li><li>Clean Architecture + MVVM (Cubit, use cases, repositories, injectable/get_it) across mock/dev/staging/prod; GoRouter StatefulShellRoute.</li></ul>
+        <div class="xp-foot"><div class="xp-tags"><span>Flutter</span><span>Cubit · MVVM</span><span>Kotlin</span><span>WidgetKit</span><span>Codemagic</span><span>TestFlight</span><span>i18n</span></div><a class="xp-link" href="#sp-tansa-title">See the La Tansa case study →</a></div>
       </div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem;">
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Building a 13-language personal memory &amp; reminders app for a client — notes, voice, documents, search and Q&amp;A over saved items, reminders and prayer times — delivered in 18 stages, each gated by <code>flutter analyze</code> and the full suite of 2,534 automated tests.
-        </li>
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Ship iOS builds from a Windows PC through Codemagic → TestFlight (App Store Connect API key, automatic signing for the app and widget extension, auto build numbers); resolved ITMS-90683 / ITMS-90068 and tested on a real iPhone 14 Pro Max.
-        </li>
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Built native home-screen and lock-screen widgets (Kotlin RemoteViews · WidgetKit/SwiftUI) synced through App Group JSON snapshots, plus on-device prayer times and Adhan for an offline database of 34,006 cities.
-        </li>
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Clean Architecture + MVVM (Cubit, use cases, repositories, injectable/get_it) across four environments (mock/dev/staging/prod); GoRouter StatefulShellRoute with per-tab stacks.
-        </li>
-      </ul>
-      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem;">
-        <span class="tag">Flutter</span><span class="tag">Cubit · MVVM</span><span class="tag">Kotlin</span><span class="tag">WidgetKit/SwiftUI</span><span class="tag">Codemagic</span><span class="tag">TestFlight</span><span class="tag">i18n · 13 langs</span>
-      </div>
-    </div>
-    <div class="timeline-item reveal fade-up">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem;">
-        <div>
-          <div class="tl-year">2026</div>
-          <div class="tl-title">Mobile App Development Intern</div>
-          <div class="tl-sub">Uneeq Interns · App Development Track</div>
+    </article>
+    <article class="xp-item reveal fade-up" style="--h:48">
+      <div class="xp-node" aria-hidden="true"><span>U</span></div>
+      <div class="xp-card">
+        <div class="xp-top">
+          <div>
+            <span class="xp-date">May 2026</span>
+            <h3 class="xp-role">Mobile App Development Intern</h3>
+            <div class="xp-org">Uneeq Interns · App Development Track</div>
+          </div>
+          <span class="badge-status badge-award">🏆 BEST INTERN — MAY 2026</span>
         </div>
-        <span class="badge-status badge-award">
-          🏆 Best Intern — May 2026
-        </span>
+        <div class="xp-metrics"><div><b>2</b><span>Apps shipped</span></div><div><b>#1</b><span>Intern of the month</span></div><div><b>AI</b><span>Groq · LLaMA 3.3</span></div><div><b>2</b><span>Platforms tested</span></div></div>
+        <ul class="xp-bullets"><li>Designed and shipped two production Flutter apps (QuizMaster, AI To-Do) from concept to delivery, turning a documented requirements spec and Stitch designs into features.</li><li>Integrated Firebase, REST APIs and the Groq AI API (LLaMA 3.3 70B) for real-time sync and AI-generated task summaries, with error handling for unreliable networks.</li><li>Ran manual QA across Android versions and iOS simulators in an Agile, Git-based workflow — earning Best Intern of the Month.</li></ul>
+        <div class="xp-foot"><div class="xp-tags"><span>Flutter</span><span>Firebase</span><span>Groq AI</span><span>Speech-to-Text</span><span>Provider</span><span>Agile</span></div><a class="xp-link" href="#sp-quiz-title">See QuizMaster &amp; AI To-Do →</a></div>
       </div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem;">
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Designed and shipped two production Flutter apps (QuizMaster, AI To-Do App) from concept to delivery, testing across Android and iOS simulators/devices; translated a documented requirements spec and Stitch-based UI designs into production features.
-        </li>
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Integrated Firebase, REST APIs, and the Groq AI API (LLaMA 3.3 70B) for real-time data sync and AI-generated task summaries, including request/response error handling for unreliable network conditions.
-        </li>
-        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;color:var(--text-secondary);">
-          <span style="color:var(--neon);flex-shrink:0;margin-top:.1rem;">▸</span>
-          Conducted manual QA across multiple Android OS versions/devices using Agile workflows and Git-based version control — earning Best Intern of the Month recognition among the cohort.
-        </li>
-      </ul>
-      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem;">
-        <span class="tag">Flutter</span><span class="tag">Firebase</span><span class="tag">Groq AI</span><span class="tag">Speech-to-Text</span><span class="tag">Clean Architecture</span><span class="tag">Agile</span>
-      </div>
-    </div>
+    </article>
+    <a class="xp-next reveal fade-up" href="#contact">
+      <div class="xp-node xp-node--ghost" aria-hidden="true"><span>+</span></div>
+      <div class="xp-card xp-card--ghost"><span class="xp-date">Next chapter</span><b>Your team?</b><p>Open to remote and hybrid Flutter roles and freelance projects. Let's talk →</p></div>
+    </a>
   </div>
   </div>
 </section>
@@ -4550,106 +4805,97 @@
 </div>
 
 <!-- CONTENT CREATION -->
-<section id="content">
+<section id="content" class="ed">
   <div class="container">
-  <div class="content-grid">
-    <div class="reveal slide-left">
+  <div class="ed-grid">
+    <div class="ed-copy reveal slide-left">
       <p class="section-label">// content creation</p>
-      <h2 class="section-title">Technical<br>Educator</h2>
+      <h2 class="section-title">Technical<br><span class="grad-text">Educator</span></h2>
       <div class="divider"></div>
-      <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;">
-        Under the brand <strong style="color:var(--accent);">Fixha | حلها</strong>, I create practical Flutter content that bridges the gap between theory and real-world development — helping beginners move faster.
-      </p>
-      <div class="counter-row">
-        <div class="counter-box reveal fade-up">
-          <div class="counter-val" data-target="1000" id="c1">0</div>
-          <div class="counter-label">Total Followers</div>
-        </div>
-        <div class="counter-box reveal fade-up" style="transition-delay:.2s">
-          <div class="counter-val" data-target="2" id="c2">0</div>
-          <div class="counter-label">Platforms</div>
-        </div>
+      <div class="ed-brand"><span class="ed-logo">F</span><div><b>Fixha | <bdi lang="ar">حلها</bdi></b><small>@fixha_tech · YouTube &amp; TikTok</small></div></div>
+      <p class="ed-lead">Practical Flutter content that bridges theory and real-world development — in Arabic and English — so beginners move faster.</p>
+      <div class="ed-counters">
+        <div class="ed-count reveal fade-up"><b class="counter-val" data-target="1000" id="c1">0</b><span>Total followers</span></div>
+        <div class="ed-count reveal fade-up" style="transition-delay:.15s"><b class="counter-val" data-target="2" id="c2">0</b><span>Platforms</span></div>
+        <div class="ed-count reveal fade-up" style="transition-delay:.3s"><b>AR · EN</b><span>Languages</span></div>
       </div>
+      <div class="ed-topics" aria-label="Topics I teach"><span>BLoC / Cubit</span><span>Clean Architecture</span><span>Firebase</span><span>REST &amp; Dio</span><span>Full project builds</span><span>Quick tips</span></div>
+      <blockquote class="ed-quote">“Teaching Flutter concepts in Arabic &amp; English — making world-class mobile development accessible to everyone, one tutorial at a time.”</blockquote>
     </div>
-    <div class="reveal slide-right">
-      <div class="platform-cards">
-        <div class="platform-card">
-          <div class="platform-icon yt">📺</div>
-          <div>
-            <div class="platform-name">YouTube</div>
-            <div class="platform-desc">In-depth Flutter tutorials, architecture guides & full project builds</div>
-          </div>
+
+    <div class="ed-visual reveal slide-right">
+      <a class="ed-player" href="https://youtube.com/@fixha_tech" target="_blank" rel="noopener noreferrer" aria-label="Open the Fixha YouTube channel">
+        <div class="ed-screen" aria-hidden="true">
+          <pre><i>class</i> <b>CounterCubit</b> <i>extends</i> Cubit&lt;<b>int</b>&gt; {
+  CounterCubit() : <i>super</i>(0);
+  <i>void</i> increment() =&gt; emit(state + 1);
+}</pre>
+          <span class="ed-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="ed-live">● NEW · Flutter BLoC in 10 min</span>
+          <div class="ed-progress"><i></i></div>
         </div>
-        <div class="platform-card">
-          <div class="platform-icon tt">🎵</div>
-          <div>
-            <div class="platform-name">TikTok</div>
-            <div class="platform-desc">Quick tips, code snippets & Flutter concepts in bite-sized format</div>
-          </div>
+        <div class="ed-meta"><span class="ed-yt"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></span><div><b>In-depth tutorials &amp; full builds</b><small>YouTube · architecture guides, real projects</small></div><span class="ed-go">Watch ↗</span></div>
+      </a>
+      <a class="ed-tiktok" href="https://www.tiktok.com/@fixha_tech" target="_blank" rel="noopener noreferrer" aria-label="Open the Fixha TikTok account">
+        <div class="ed-tt-screen" aria-hidden="true">
+          <span class="ed-tt-tip">Flutter tip #1</span>
+          <b>Use <code>const</code> constructors</b>
+          <small>fewer rebuilds · smoother UI</small>
+          <div class="ed-tt-side"><i>♥</i><i>💬</i><i>↗</i></div>
         </div>
-        <div style="padding:1.4rem;border-radius:var(--radius-md);background:var(--surface-card);border:1px solid var(--border-01);">
-          <div style="font-size:.8rem;color:var(--text-secondary);margin-bottom:.5rem;">Brand Mission</div>
-          <p style="font-size:.9rem;line-height:1.7;color:var(--text-secondary);">
-            "Teaching Flutter concepts in Arabic & English — making world-class mobile development accessible to everyone, one tutorial at a time."
-          </p>
-        </div>
-      </div>
+        <div class="ed-meta ed-meta--sm"><span class="ed-tt"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.13a8.27 8.27 0 004.84 1.55V7.23a4.85 4.85 0 01-1.07-.54z"/></svg></span><div><b>Bite-sized tips</b><small>TikTok</small></div></div>
+      </a>
     </div>
   </div>
   </div>
 </section>
 
 <!-- EDUCATION & CERTS -->
-<section id="education">
+<section id="education" class="eu">
   <div class="container">
-  <div class="reveal fade-up" style="margin-bottom:3.5rem;">
+  <div class="reveal fade-up eu-head">
     <p class="section-label">// background</p>
-    <h2 class="section-title">Education &<br>Certifications</h2>
+    <h2 class="section-title">Education &amp;<br><span class="grad-text">Certifications</span></h2>
     <div class="divider"></div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;">
-    <div class="reveal slide-left">
-      <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.1rem;margin-bottom:1.5rem;color:var(--text-secondary);">Academic</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="tl-year">2024 → 2028 (Expected)</div>
-          <div class="tl-title">Misr University for Science & Technology</div>
-          <div class="tl-sub">B.Eng — Computer & Software Engineering</div>
-          <span class="tl-gpa">⭐ GPA: 3.45</span>
+  <div class="eu-grid">
+    <article class="eu-uni reveal slide-left">
+      <div class="eu-uni-in">
+        <div class="eu-cap" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/><path d="M22 10v6"/></svg></div>
+        <span class="eu-kicker">Academic</span>
+        <h3>Misr University for Science &amp; Technology</h3>
+        <p class="eu-deg">B.Eng — Computer &amp; Software Engineering</p>
+        <div class="eu-row">
+          <div class="eu-gpa" role="img" aria-label="GPA 3.45 out of 4.0"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50"/><circle class="eu-gpa-fill" cx="60" cy="60" r="50"/></svg><div><b>3.45</b><span>/ 4.0 GPA</span></div></div>
+          <div class="eu-path">
+            <div class="eu-path-top"><span>2024</span><span>Expected 2028</span></div>
+            <div class="eu-path-bar" aria-hidden="true"><i></i><em></em></div>
+            <p>Studying alongside shipping real apps — a live Play Store app, a client project and a production backend.</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="reveal slide-right">
-      <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.1rem;margin-bottom:1.5rem;color:var(--text-secondary);">Certifications</h3>
-      <div class="certs-grid" style="grid-template-columns:1fr;">
-        <div class="cert-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;">
-          <div class="cert-icon" style="font-size:1.5rem;margin:0;flex-shrink:0;">🎓</div>
-          <div>
-            <div class="cert-title">Flutter Diploma</div>
-            <div class="cert-org">Route Academy</div>
-          </div>
-        </div>
-        <div class="cert-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;">
-          <div class="cert-icon" style="font-size:1.5rem;margin:0;flex-shrink:0;">🏆</div>
-          <div>
-            <div class="cert-title">SprintUp Flutter Bootcamp</div>
-            <div class="cert-org">Microsoft & Sprints</div>
-          </div>
-        </div>
-        <div class="cert-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;">
-          <div class="cert-icon" style="font-size:1.5rem;margin:0;flex-shrink:0;">💻</div>
-          <div>
-            <div class="cert-title">Front-End Web Development</div>
-            <div class="cert-org">WE (Telecom Egypt)</div>
-          </div>
-        </div>
-        <div class="cert-card" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;border-color:rgba(161,127,224,0.3);">
-          <div class="cert-icon" style="font-size:1.5rem;margin:0;flex-shrink:0;">⚙️</div>
-          <div>
-            <div class="cert-title" style="color:var(--status-progress);">Node.js / Backend Development</div>
-            <div class="cert-org" style="color:var(--status-progress);opacity:.8;">In Progress</div>
-          </div>
-        </div>
+    </article>
+    <div class="eu-certs">
+      <span class="eu-kicker">Certifications</span>
+      <div class="cr-card reveal fade-up" style="--h:205">
+        <div class="cr-medal" aria-hidden="true">🎓</div>
+        <div class="cr-txt"><b>Flutter Development Diploma</b><span>Route Academy</span></div>
+        <span class="cr-st">Completed</span>
+      </div>
+      <div class="cr-card reveal fade-up" style="--h:45">
+        <div class="cr-medal" aria-hidden="true">🏆</div>
+        <div class="cr-txt"><b>SprintUp Mobile (Flutter) Bootcamp</b><span>Sprints &amp; Microsoft</span></div>
+        <span class="cr-st">Completed</span>
+      </div>
+      <div class="cr-card reveal fade-up" style="--h:160">
+        <div class="cr-medal" aria-hidden="true">💻</div>
+        <div class="cr-txt"><b>Front-End Web Development</b><span>WE (Telecom Egypt)</span></div>
+        <span class="cr-st">Completed</span>
+      </div>
+      <div class="cr-card reveal fade-up" style="--h:270">
+        <div class="cr-medal" aria-hidden="true">⚙️</div>
+        <div class="cr-txt"><b>Node.js / Backend Development</b><span>Self-paced · applied in MedCare &amp; UNSAID</span></div>
+        <span class="cr-st cr-st--prog">In progress</span>
       </div>
     </div>
   </div>
@@ -4657,74 +4903,61 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="ct">
+  <div class="ct-glow" aria-hidden="true"></div>
   <div class="container">
-  <div class="reveal fade-up" style="margin-bottom:3.5rem;text-align:center;">
-    <p class="section-label" style="text-align:center;">// get in touch</p>
-    <h2 class="section-title">Let's Work Together</h2>
+  <div class="ct-head reveal fade-up">
+    <p class="section-label">// get in touch</p>
+    <h2 class="section-title">Let's Work <span class="grad-text">Together</span></h2>
     <div class="divider" style="margin:1rem auto;"></div>
-    <p class="section-sub" style="margin:0 auto;text-align:center;">Have a project idea? Want to collaborate? Or just want to say hi — my inbox is always open.</p>
+    <p class="section-sub">Have a project idea, a role to fill, or just want to say hi — my inbox is always open.</p>
+    <div class="ct-status"><span class="ct-dot"></span>Available for remote / hybrid roles &amp; freelance · <span id="ctClock">Cairo</span></div>
   </div>
-  <div class="contact-grid">
-    <div class="reveal slide-left">
-      <!-- Contact info -->
-      <div class="contact-items">
-        <div class="contact-item">
-          <div class="contact-icon">📍</div>
-          <div>
-            <div class="contact-label">Location</div>
-            <div class="contact-val">Giza, Egypt (Open to Remote/Hybrid)</div>
-          </div>
-        </div>
-        <a href="tel:+2001553015505" class="contact-item">
-          <div class="contact-icon">📞</div>
-          <div>
-            <div class="contact-label">Phone</div>
-            <div class="contact-val">+20 01553015505</div>
-          </div>
-          <button class="copy-btn" onclick="copyToClipboard(event,'+20 01553015505')">Copy</button>
-        </a>
-        <a href="mailto:am2040724@gmail.com" class="contact-item">
-          <div class="contact-icon">✉️</div>
-          <div>
-            <div class="contact-label">Email</div>
-            <div class="contact-val">am2040724@gmail.com</div>
-          </div>
-          <button class="copy-btn" onclick="copyToClipboard(event,'am2040724@gmail.com')">Copy</button>
-        </a>
+  <div class="ct-grid">
+    <div class="ct-side reveal slide-left">
+      <a href="mailto:am2040724@gmail.com" class="ct-method ct-method--big">
+        <span class="ct-m-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+        <div><small>Email</small><b>am2040724@gmail.com</b></div>
+        <button class="copy-btn" onclick="copyToClipboard(event,'am2040724@gmail.com')">Copy</button>
+      </a>
+      <a href="tel:+2001553015505" class="ct-method">
+        <span class="ct-m-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+        <div><small>Phone</small><b>+20 01553015505</b></div>
+        <button class="copy-btn" onclick="copyToClipboard(event,'+20 01553015505')">Copy</button>
+      </a>
+      <div class="ct-method ct-method--static">
+        <span class="ct-m-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <div><small>Location</small><b>Giza, Egypt · open to remote</b></div>
       </div>
-
-      <!-- ── CONTACT FORM ── -->
-      <div style="margin-top:1.8rem;">
-        <!-- EmailJS is configured and active -->
-
-        <div style="display:flex;flex-direction:column;gap:.85rem;">
+      <div class="ct-socials-t">Find me online</div>
+      <div class="ct-socials">
+        <a href="https://github.com/ahmedmostafa361" target="_blank" rel="noopener noreferrer" class="ct-soc" style="--h:220"><span class="ct-soc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></span><div><b>GitHub</b><small>ahmedmostafa361</small></div><i aria-hidden="true">↗</i></a>
+        <a href="https://www.linkedin.com/in/ahmed-mostafa-041690375" target="_blank" rel="noopener noreferrer" class="ct-soc" style="--h:205"><span class="ct-soc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span><div><b>LinkedIn</b><small>Ahmed Mostafa</small></div><i aria-hidden="true">↗</i></a>
+        <a href="https://youtube.com/@fixha_tech" target="_blank" rel="noopener noreferrer" class="ct-soc" style="--h:0"><span class="ct-soc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></span><div><b>YouTube</b><small>@fixha_tech</small></div><i aria-hidden="true">↗</i></a>
+        <a href="https://www.tiktok.com/@fixha_tech" target="_blank" rel="noopener noreferrer" class="ct-soc" style="--h:330"><span class="ct-soc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.13a8.27 8.27 0 004.84 1.55V7.23a4.85 4.85 0 01-1.07-.54z"/></svg></span><div><b>TikTok</b><small>@fixha_tech</small></div><i aria-hidden="true">↗</i></a>
+      </div>
+    </div>
+    <div class="ct-formwrap reveal slide-right">
+      <div class="ct-form">
+        <div class="ct-form-head"><b>Send a message</b><small>Goes straight to my inbox</small></div>
+        <div class="ct-fields">
           <div>
-            <label for="cf-name" style="display:block;font-size:.78rem;color:var(--text-secondary);margin-bottom:.4rem;font-weight:500;">Your Name</label>
-            <input id="cf-name" type="text" placeholder="John Doe" autocomplete="name"
-              style="width:100%;padding:.85rem 1.1rem;border-radius:var(--radius-sm);background:var(--surface-01);border:1px solid var(--border-01);color:var(--text-primary);font-size:.9rem;font-family:var(--font-body);outline:none;transition:border-color .2s ease;"
-              onfocus="this.style.borderColor='var(--accent-border)'"
-              onblur="this.style.borderColor='var(--border-01)'" />
+            <label for="cf-name" class="ct-label">Your Name</label>
+            <input id="cf-name" type="text" placeholder="John Doe" autocomplete="name" />
             <div id="cf-name-err" style="display:none;color:var(--status-danger);font-size:.75rem;margin-top:.3rem;"></div>
           </div>
           <div>
-            <label for="cf-email" style="display:block;font-size:.78rem;color:var(--text-secondary);margin-bottom:.4rem;font-weight:500;">Your Email</label>
-            <input id="cf-email" type="email" placeholder="john@example.com" autocomplete="email"
-              style="width:100%;padding:.85rem 1.1rem;border-radius:var(--radius-sm);background:var(--surface-01);border:1px solid var(--border-01);color:var(--text-primary);font-size:.9rem;font-family:var(--font-body);outline:none;transition:border-color .2s ease;"
-              onfocus="this.style.borderColor='var(--accent-border)'"
-              onblur="this.style.borderColor='var(--border-01)'" />
+            <label for="cf-email" class="ct-label">Your Email</label>
+            <input id="cf-email" type="email" placeholder="john@example.com" autocomplete="email" />
             <div id="cf-email-err" style="display:none;color:var(--status-danger);font-size:.75rem;margin-top:.3rem;"></div>
           </div>
           <div>
-            <label for="cf-message" style="display:block;font-size:.78rem;color:var(--text-secondary);margin-bottom:.4rem;font-weight:500;">Message</label>
-            <textarea id="cf-message" placeholder="Tell me about your project..." rows="4"
-              style="width:100%;padding:.85rem 1.1rem;border-radius:var(--radius-sm);background:var(--surface-01);border:1px solid var(--border-01);color:var(--text-primary);font-size:.9rem;font-family:var(--font-body);outline:none;resize:vertical;min-height:110px;transition:border-color .2s ease;"
-              onfocus="this.style.borderColor='var(--accent-border)'"
-              onblur="this.style.borderColor='var(--border-01)'"></textarea>
+            <label for="cf-message" class="ct-label">Message</label>
+            <textarea id="cf-message" placeholder="Tell me about your project..." rows="4"></textarea>
             <div id="cf-msg-err" style="display:none;color:var(--status-danger);font-size:.75rem;margin-top:.3rem;"></div>
           </div>
           <!-- Submit button -->
-          <button id="cf-submit" onclick="submitContactForm()" class="btn btn-primary" style="width:100%;justify-content:center;">
+          <button id="cf-submit" onclick="submitContactForm()" class="btn btn-primary ct-send">
             <svg id="cf-submit-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             <span id="cf-submit-label">Send Message</span>
           </button>
@@ -4736,35 +4969,6 @@
             ⚠️ Failed to send. Please try emailing me directly at <a href="mailto:am2040724@gmail.com" style="color:var(--status-danger);text-decoration:underline;">am2040724@gmail.com</a>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="reveal slide-right">
-      <div class="socials-title">Find me online</div>
-      <div class="socials-grid">
-        <a href="https://github.com/ahmedmostafa361" target="_blank" rel="noopener noreferrer" class="social-btn">
-          <span class="social-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          </span>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/ahmed-mostafa-041690375" target="_blank" rel="noopener noreferrer" class="social-btn">
-          <span class="social-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </span>
-          LinkedIn
-        </a>
-        <a href="https://youtube.com/@fixha_tech" target="_blank" rel="noopener noreferrer" class="social-btn">
-          <span class="social-icon" style="color:var(--text-secondary);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
-          </span>
-          YouTube
-        </a>
-        <a href="https://www.tiktok.com/@fixha_tech" target="_blank" rel="noopener noreferrer" class="social-btn">
-          <span class="social-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.13a8.27 8.27 0 004.84 1.55V7.23a4.85 4.85 0 01-1.07-.54z"/></svg>
-          </span>
-          TikTok
-        </a>
       </div>
     </div>
   </div>
@@ -5272,6 +5476,31 @@ document.querySelectorAll('.video-facade').forEach(el=>{
   const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ run(e.target); obs.unobserve(e.target); } }), {threshold:.6});
   nums.forEach(n => { n.textContent = '0' + (n.dataset.suffix || ''); obs.observe(n); });
 })();
+
+// ── EDUCATION progress + CONTACT live Cairo clock ──
+(function(){
+  const gpa = document.querySelector('.eu-gpa');
+  const bar = document.querySelector('.eu-path-bar');
+  // degree progress: Sep 2024 → Jun 2028
+  const start = new Date('2024-09-01').getTime(), end = new Date('2028-06-30').getTime();
+  const pct = Math.max(0, Math.min(100, (Date.now() - start) / (end - start) * 100));
+  const show = () => {
+    if(gpa) gpa.classList.add('is-in');
+    if(bar){ bar.querySelector('i').style.width = pct + '%'; bar.querySelector('em').style.left = pct + '%'; }
+  };
+  if('IntersectionObserver' in window && gpa){
+    const o = new IntersectionObserver(es => { if(es.some(e => e.isIntersecting)){ show(); o.disconnect(); } }, {threshold:.4});
+    o.observe(gpa);
+  } else show();
+
+  const clock = document.getElementById('ctClock');
+  if(clock){
+    const fmt = new Intl.DateTimeFormat('en-GB', {hour:'2-digit', minute:'2-digit', timeZone:'Africa/Cairo'});
+    const tick = () => { clock.textContent = 'Cairo ' + fmt.format(new Date()); };
+    tick(); setInterval(tick, 30000);
+  }
+})();
+
 </script>
 
 <!-- PRINT CV CONTENT (hidden in browser, shown only in @media print) -->
