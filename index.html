@@ -2819,7 +2819,7 @@ function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.po
       <h3>Native, CI &amp; Delivery</h3>
       <p>Getting apps onto real phones: native widgets, signing, store builds and pipelines — even iOS from a Windows PC.</p>
       <div class="sk-pipe" aria-hidden="true"><span style="--i:0">Code</span><span style="--i:1">Tests</span><span style="--i:2">Codemagic</span><span style="--i:3">Signing</span><span style="--i:4">TestFlight</span><span style="--i:5">Play Console</span></div>
-      <div class="sk-chips"><span>Kotlin · RemoteViews</span><span>WidgetKit · SwiftUI</span><span>App Groups · deep links</span><span>Codemagic → TestFlight</span><span>App Store Connect</span><span>Play Console · AAB</span><span>Exact alarms · DND bypass</span><span>GitHub Actions</span></div>
+      <div class="sk-chips"><span>Kotlin · RemoteViews</span><span>WidgetKit · SwiftUI</span><span>App Groups · deep links</span><span>Codemagic → TestFlight</span><span>App Store Connect</span><span>Play Console · AAB</span><span>Exact alarms · DND bypass</span><span>GitHub Actions</span><span>Vercel serverless</span><span>MongoDB Atlas</span></div>
       <div class="sk-proof">Proven in <a href="#sp-tansa-title">La Tansa</a><a href="#sp-siratic-title">Siratic</a><a href="#sp-resto-title">Restaurant</a></div>
     </article>
     <article class="sk-card sk-card--tw reveal fade-up" data-sk="mobile" style="--h:300">
@@ -3263,19 +3263,19 @@ function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.po
         <div class="sp-content">
           <div class="sp-topline">
             <span class="sp-new"><span class="sp-new-dot" aria-hidden="true"></span>New · Backend API</span>
-            <span class="badge-status badge-neutral">NODE.JS · MONGODB · REDIS</span>
+            <span class="badge-status badge-live">● LIVE API · VERCEL</span>
           </div>
           <h3 class="sp-title" id="sp-unsaid-title">
             <span class="sp-title-main">UNSAID</span>
-            <span class="sp-title-sub">Anonymous messaging API</span>
+            <span class="sp-title-sub">Anonymous messaging API · v2</span>
           </h3>
-          <p class="sp-tagline">The REST backend for an NGL-style anonymous messaging app — <strong>60 endpoints</strong> across auth, user and message modules. The receiver can ask who sent a message; only if the sender <strong>accepts</strong> does a private two-person conversation open. Until then, the sender's ID never leaves the database.</p>
+          <p class="sp-tagline">The REST backend for an NGL-style anonymous messaging app — <strong>60 endpoints</strong> across auth, user and message modules. The receiver can ask who sent a message; only if the sender <strong>accepts</strong> does a private two-person conversation open. Until then, the sender's ID never leaves the database. Now <strong>live on Vercel</strong> with MongoDB Atlas, Upstash Redis and a GitHub Actions CI/CD pipeline.</p>
 
           <div class="sp-stats">
             <div class="sp-stat"><span class="sp-stat-num" data-count="60">60</span><span class="sp-stat-label">Endpoints</span></div>
             <div class="sp-stat"><span class="sp-stat-num" data-count="171">171</span><span class="sp-stat-label">End-to-end checks</span></div>
-            <div class="sp-stat"><span class="sp-stat-num" data-count="15" data-suffix=" min">15 min</span><span class="sp-stat-label">Access-token life</span></div>
-            <div class="sp-stat"><span class="sp-stat-num" data-count="30" data-suffix=" days">30 days</span><span class="sp-stat-label">Account restore</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="12">12</span><span class="sp-stat-label">Bugs fixed · 2 security</span></div>
+            <div class="sp-stat"><span class="sp-stat-num" data-count="6">6</span><span class="sp-stat-label">New collections</span></div>
           </div>
 
           <ul class="sp-features">
@@ -3300,8 +3300,16 @@ function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.po
               <div><strong>Moderation &amp; privacy</strong><span class="sp-txt">Block users — even anonymous senders, without revealing them — report messages, accept or refuse guest messages, publish a message with a public reply, and soft-delete with a 30-day restore.</span></div>
             </li>
             <li>
-              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>
-              <div><strong>Hardened, then proven</strong><span class="sp-txt">Redis rate limiting, idempotency keys and versioned caching; Multer uploads checked by file signature; helmet, credentialed CORS, stable error codes. Fixed inherited bugs — a sender leak in the inbox, exposed password hashes, 41-day tokens — and verified it all with 171 end-to-end checks against real MongoDB and Redis.</span></div>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <div><strong>Hardened by default</strong><span class="sp-txt">Redis rate limiting, idempotency keys and versioned caching of public profiles; uploads saved under random names with magic-number checks; helmet, credentialed CORS and a global error handler with stable codes.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V8m0 0-3 3m3-3 3 3"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></span>
+              <div><strong>Live on Vercel with CI/CD</strong><span class="sp-txt">A serverless function (fra1) reusing one MongoDB Atlas connection, Upstash Redis over REST, and emails sent after the response with <code>waitUntil</code>. GitHub Actions runs CI on every push; CD deploys the exact commit and smoke-tests the live API.</span></div>
+            </li>
+            <li>
+              <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="8" height="14" rx="4"/><path d="M12 6V3M8 10H4M20 10h-4M8 15H4M20 15h-4"/></svg></span>
+              <div><strong>12 bugs fixed, then proven</strong><span class="sp-txt">Including a sender leak in the inbox, a public endpoint exposing password hashes and tokens that lasted 41 days instead of 1 hour — all covered by 171 end-to-end checks against real MongoDB and Redis.</span></div>
             </li>
           </ul>
 
@@ -3316,13 +3324,27 @@ function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.po
               <li><span style="--i:5">Redis · Upstash</span></li>
             </ol>
           </div>
+          <div class="sp-flow">
+            <span class="sp-flow-label">Ship pipeline</span>
+            <ol>
+              <li><span style="--i:0">git push</span></li>
+              <li><span style="--i:1">GitHub Actions CI</span></li>
+              <li><span style="--i:2">Mongo + Redis smoke tests</span></li>
+              <li><span style="--i:3">Vercel · fra1</span></li>
+              <li><span style="--i:4">Live smoke test ✓</span></li>
+            </ol>
+          </div>
 
           <div class="project-tags">
-            <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span><span class="tag">Mongoose</span><span class="tag">Redis (Upstash)</span><span class="tag">Zod</span><span class="tag">JWT rotation</span><span class="tag">argon2</span><span class="tag">Multer</span><span class="tag">Nodemailer/Mailjet</span><span class="tag">helmet</span><span class="tag">Postman</span>
+            <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span><span class="tag">Mongoose</span><span class="tag">Redis (Upstash)</span><span class="tag">Zod</span><span class="tag">JWT rotation</span><span class="tag">argon2</span><span class="tag">Multer</span><span class="tag">Nodemailer/Mailjet</span><span class="tag">helmet</span><span class="tag">Postman</span><span class="tag">Vercel</span><span class="tag">MongoDB Atlas</span><span class="tag">GitHub Actions</span>
           </div>
 
           <div class="sp-links">
-            <a href="https://github.com/ahmedmostafa361/unSaid-app" target="_blank" rel="noopener noreferrer" class="sp-btn">
+            <a href="https://un-said-app.vercel.app/health" target="_blank" rel="noopener noreferrer" class="sp-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg>
+              Live API · health check
+            </a>
+            <a href="https://github.com/ahmedmostafa361/unSaid-app" target="_blank" rel="noopener noreferrer" class="sp-btn sp-btn--ghost">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
               View code on GitHub
             </a>
@@ -3337,7 +3359,7 @@ function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.po
 
             <div class="sp-float mc-chip us-chip--a">
               <span class="mc-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-              <div><small>Redis lockout</small><b>5 fails → 5-min lock</b></div>
+              <div><small>Live on Vercel</small><b>Atlas · Upstash · CI/CD</b></div>
             </div>
 
             <div class="us-stack">
@@ -3382,7 +3404,7 @@ function t(n){var p=Math.min((n-s)/d,1);el.textContent=Math.round(100*(1-Math.po
               <div><small>2-step OTP</small><b>HMAC-hashed · 5 tries</b></div>
             </div>
           </div>
-          <figcaption class="sp-caption">Illustrative mock-up · not live traffic</figcaption>
+          <figcaption class="sp-caption">Illustrative mock-up · real API live at un-said-app.vercel.app/api</figcaption>
         </figure>
       </div>
     </article>
@@ -5530,7 +5552,7 @@ document.querySelectorAll('.video-facade').forEach(el=>{
       <div class="pcv-skill-row"><span class="pcv-skill-label">Languages & Platforms:</span> Flutter, Dart (Null Safety), JavaScript, Android SDK, iOS (Simulator/Device)</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Networking & Backend:</span> REST APIs, Dio, http, Retrofit, JWT/Bearer Auth, Firebase Auth, Cloud Firestore, Hive, SharedPreferences</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Backend:</span> Node.js, TypeScript, JavaScript, Express, PostgreSQL with Prisma, MongoDB with Mongoose, MySQL, Redis (Upstash: caching, rate limiting, idempotency), REST API design, Zod validation, Keyset Pagination, JWT with refresh-token rotation, 2-step verification (email OTP), bcrypt/argon2, Access Control, Multer file uploads, Nodemailer/Mailjet, Postman</div>
-      <div class="pcv-skill-row"><span class="pcv-skill-label">Native &amp; Delivery:</span> Kotlin (Android widgets), WidgetKit/SwiftUI, Codemagic → TestFlight, GoRouter, i18n (13 languages / ARB)</div>
+      <div class="pcv-skill-row"><span class="pcv-skill-label">Native &amp; Delivery:</span> Kotlin (Android widgets), WidgetKit/SwiftUI, Codemagic → TestFlight, GoRouter, i18n (13 languages / ARB), Vercel Serverless Deployment, MongoDB Atlas</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Testing:</span> flutter_test, bloc_test, Mocktail, integration tests, GitHub Actions CI</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Payments:</span> Stripe (Payment Intents, native Payment Sheet, webhook signature verification), PCI-compliant tokenization, 3D Secure</div>
       <div class="pcv-skill-row"><span class="pcv-skill-label">Version Control:</span> Git, GitHub, feature-branch workflows, pull requests, merge conflict resolution</div>
@@ -5580,12 +5602,12 @@ document.querySelectorAll('.video-facade').forEach(el=>{
     <div class="pcv-item">
       <div class="pcv-item-header">
         <span class="pcv-item-title">UNSAID — Anonymous Messaging API (Node.js, Express, MongoDB, Redis) <span class="pcv-badge">BACKEND</span></span>
-        <span class="pcv-item-date">github.com/ahmedmostafa361/unSaid-app</span>
+        <span class="pcv-item-date">Live API: un-said-app.vercel.app/api · github.com/ahmedmostafa361/unSaid-app</span>
       </div>
       <ul class="pcv-bullets">
         <li>Built a 60-endpoint REST API for anonymous messaging with an identity-reveal workflow (request → accept/reject → private two-person conversation), with sender IDs hidden from every query until acceptance.</li>
         <li>Implemented a Redis-based 5-minute account lock after 5 failed logins, email 2-step verification, hashed purpose-bound OTPs, and rotating refresh tokens with per-device sessions and reuse detection.</li>
-        <li>Added blocking, reporting, rate limiting, idempotency and caching with Redis, plus validated file uploads; verified with 171 end-to-end checks and documented in Postman.</li>
+        <li>Added blocking, reporting, rate limiting, idempotency and caching with Redis, plus validated file uploads; verified with 171 end-to-end checks and documented in Postman; deployed on Vercel with GitHub Actions CI/CD.</li>
       </ul>
     </div>
     <div class="pcv-item">
